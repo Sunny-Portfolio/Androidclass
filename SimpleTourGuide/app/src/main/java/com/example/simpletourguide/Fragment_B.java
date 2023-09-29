@@ -1,15 +1,18 @@
 package com.example.simpletourguide;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -77,7 +80,11 @@ public class Fragment_B extends Fragment {
     }
 
     public void update_text(int position) {
-        cityDetails_text.setText("Item " + position + " is clicked");
+        Resources res = getResources();
+        String [] cities_details = res.getStringArray(R.array.string_array_city_descriptions);
+
+        cityDetails_text.setText(cities_details[position]);
+        Log.d("TAG", "In Update_text --->>> Item " + position + " is selected!");
     }
 
     @Override
