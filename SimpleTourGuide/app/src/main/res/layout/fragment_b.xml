@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#8670C3"
-        android:text="@string/welcome_msg" />
+        android:text="@string/welcome_msg"
+        android:textSize="24sp" />
 
 </FrameLayout>
