@@ -7,10 +7,10 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/fragment_B"
+        android:id="@+id/textView_citiesDetails"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#8670C3"
-        android:text="@string/welcomeMsg" />
+        android:text="@string/welcome_msg" />
 
 </FrameLayout>
