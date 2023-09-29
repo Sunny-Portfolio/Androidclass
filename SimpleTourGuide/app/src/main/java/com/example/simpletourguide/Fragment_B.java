@@ -1,12 +1,16 @@
 package com.example.simpletourguide;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +27,9 @@ public class Fragment_B extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView cityDetails_text;
+    private Fragment_B.OnFragmentInteractionListener mListener;
+
 
     public Fragment_B() {
         // Required empty public constructor
@@ -61,4 +68,32 @@ public class Fragment_B extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_b, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        cityDetails_text = (TextView) getActivity().findViewById(R.id.textView_citiesDetails);
+
+    }
+
+    public void update_text(int position) {
+        cityDetails_text.setText("Item " + position + " is clicked");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Fragment_B.OnFragmentInteractionListener) {
+            mListener = (Fragment_B.OnFragmentInteractionListener)  context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(int position);
+
+    }
+
 }
