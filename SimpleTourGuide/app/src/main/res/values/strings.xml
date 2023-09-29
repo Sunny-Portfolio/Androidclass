@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SimpleTourGuide</string>
+
+    <string name="welcomeMsg">Welcome to COMP2160 Fragment Assignment 3</string>
+    <string-array name="string_array_cities">
+        <item>Bali</item>
+        <item>Hanoi</item>
+        <item>Okinawa</item>
+        <item>Bangkok</item>
+        <item>Manila</item>
+        <item>Istanbul</item>
+        <item>Ubud</item>
+        <item>Cebu</item>
+    </string-array>
+</resources>
