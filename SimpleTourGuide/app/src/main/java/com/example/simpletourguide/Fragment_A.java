@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.SavedStateHandle;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,7 +71,6 @@ public class Fragment_A extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -119,6 +119,14 @@ public class Fragment_A extends Fragment {
         void onFragmentInteraction(int position);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+//        outState.putString("testkey", test1);
 
+        // Call superclass to save any view hierarchy.
+        super.onSaveInstanceState(outState);
+        Log.d("SaveState", "onSaveInstanceState: Fragment_A");
+
+    }
 
 }

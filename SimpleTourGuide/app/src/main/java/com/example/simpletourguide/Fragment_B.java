@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,9 @@ public class Fragment_B extends Fragment {
     private String mParam1;
     private String mParam2;
     private TextView cityDetails_text;
+    static final String STATE_cityDetails = "selectedDetail";
+    private int selectedPos;
+    private String selectedCityDetails;
     private Fragment_B.OnFragmentInteractionListener mListener;
 
 
@@ -59,6 +63,24 @@ public class Fragment_B extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        // Recover the instance state.
+//        if (savedInstanceState != null) {
+////            cityDetails_text.setText(savedInstanceState.getString(STATE_cityDetails));
+////            selectedPos = savedInstanceState.getInt(STATE_cityDetails);
+//            selectedCityDetails = savedInstanceState.getString(STATE_cityDetails);
+////            update_text(selectedPos);
+//
+//            Log.d("SaveState", "onCreate: Recovered saved instance state: detail is : "
+//                + selectedCityDetails);
+//
+//            cityDetails_text = (TextView) getActivity().findViewById(R.id.textView_citiesDetails);
+//
+//            cityDetails_text.setText(selectedCityDetails);
+//
+//        }
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -76,12 +98,37 @@ public class Fragment_B extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         cityDetails_text = (TextView) getActivity().findViewById(R.id.textView_citiesDetails);
+        Log.d("DB1", "onViewCreated: 0");
 
+        // Recover the instance state.
+        if (savedInstanceState != null) {
+//            cityDetails_text.setText(savedInstanceState.getString(STATE_cityDetails));
+//            selectedPos = savedInstanceState.getInt(STATE_cityDetails);
+            selectedCityDetails = savedInstanceState.getString(STATE_cityDetails);
+//            update_text(selectedPos);
+
+            Log.d("SaveState", "onViewCreated: Recovered saved instance state: detail is : "
+                + selectedCityDetails);
+
+//            cityDetails_text = (TextView) getActivity().findViewById(R.id.textView_citiesDetails);
+            Log.d("SaveState", "onViewCreated: 1");
+            cityDetails_text.setText(selectedCityDetails);
+            Log.d("SaveState", "onViewCreated: 2");
+
+
+        }
+
+        cityDetails_text.setMovementMethod(new ScrollingMovementMethod());
     }
 
     public void update_text(int position) {
+        selectedPos = position;
+        Log.d("db1", "update_text: 1");
         Resources res = getResources();
+        Log.d("db1", "update_text: 2");
+
         String [] cities_details = res.getStringArray(R.array.string_array_city_descriptions);
+        Log.d("db1", "update_text: 3 " + cities_details[position]);
 
         cityDetails_text.setText(cities_details[position]);
         Log.d("TAG", "In Update_text --->>> Item " + position + " is selected!");
@@ -100,7 +147,31 @@ public class Fragment_B extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(int position);
+    }
 
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState) {
+////        cityDetails_text.setText(savedInstanceState.getString(STATE_cityDetails));
+//
+//        Log.d("SaveState", "onRestoreInstanceState: 1");
+//        selectedCityDetails = savedInstanceState.getString(STATE_cityDetails);
+//
+//        Log.d("SaveState", "onRestoreInstanceState: 2");
+//        cityDetails_text = (TextView) getActivity().findViewById(R.id.textView_citiesDetails);
+//        Log.d("SaveState", "onRestoreInstanceState: 3");
+//
+//        cityDetails_text.setText(selectedCityDetails);
+//        Log.d("SaveState", "onRestoreInstanceState: 4");
+//    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_cityDetails, String.valueOf(cityDetails_text.getText()));
+//        outState.putInt(STATE_cityDetails, selectedPos);
+        Log.d("SaveState", "onSaveInstanceState: Text is: " + String.valueOf(cityDetails_text.getText()));
+
+        // Call superclass to save any view hierarchy.
+        super.onSaveInstanceState(outState);
     }
 
 }
