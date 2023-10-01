@@ -92,14 +92,10 @@ public class Fragment_A extends Fragment {
         listView_cities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Log.d("TAG", "In Fragment --->>> Item " + position + " is selected!");
                 if (mListener != null) {
                     mListener.onFragmentInteraction(position);
-                    Log.d("TAG", "In mListener --->>> Item " + position + " is selected!");
-
                 }
             }
-
         });
 
     }
@@ -117,16 +113,6 @@ public class Fragment_A extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(int position);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-//        outState.putString("testkey", test1);
-
-        // Call superclass to save any view hierarchy.
-        super.onSaveInstanceState(outState);
-        Log.d("SaveState", "onSaveInstanceState: Fragment_A");
-
     }
 
 }
