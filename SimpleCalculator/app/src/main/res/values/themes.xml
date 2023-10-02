@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SimpleCalculator" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.SimpleCalculator" parent="Base.Theme.SimpleCalculator" />
+
+    <style name="commonButton_theme" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/lighterPink</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:textSize">30dp</item>
+    </style>
+
+    <style name="digitButtons_theme" parent="commonButton_theme">
+        <item name="backgroundTint">@color/darkerBlue</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <style name="operatorButtons_theme" parent="commonButton_theme">
+        <item name="backgroundTint">@color/darkerPink</item>
+        <item name="android:textColor">@color/brightBlue</item>
+        <item name="cornerRadius">36dp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">SimpleCalculator</string>
+
+    <string name="digit_text_0">0</string>
+    <string name="digit_text_1">1</string>
+    <string name="digit_text_2">2</string>
+    <string name="digit_text_3">3</string>
+    <string name="digit_text_4">4</string>
+    <string name="digit_text_5">5</string>
+    <string name="digit_text_6">6</string>
+    <string name="digit_text_7">7</string>
+    <string name="digit_text_8">8</string>
+    <string name="digit_text_9">9</string>
+
+    <string name="oper_text_1">MS</string>
+    <string name="oper_text_2">MR</string>
+    <string name="oper_text_3">M+</string>
+    <string name="oper_text_4">M-</string>
+    <string name="oper_text_5">AC</string>
+    <string name="oper_text_6">C</string>
+    <string name="oper_text_7">MC</string>
+    <string name="oper_text_8">/</string>
+    <string name="oper_text_9">X</string>
+    <string name="oper_text_10">-</string>
+    <string name="oper_text_11">+</string>
+    <string name="oper_text_12">=</string>
+    <string name="oper_text_13">BK</string>
+    <string name="oper_text_14">.</string>
+
+
+
+    <string name="test1">ttt</string>
+</resources>

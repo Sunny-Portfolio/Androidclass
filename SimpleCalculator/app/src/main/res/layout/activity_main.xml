@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:layout_margin="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_primary"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:textAlignment="textEnd"
+            android:textSize="64dp"
+            android:gravity="center"
+            android:text="50*15" />
+
+
+        <TextView
+            android:id="@+id/textView_secondary"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAlignment="textEnd"
+            android:textSize="32dp"
+            android:gravity="center"
+            android:text="54/85" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn1"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn2"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn3"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn4"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_4" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn5"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn6"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn7"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_7" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn8"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_8" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn7"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_7" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn8"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn9"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_9" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn9"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_9" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn4"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn5"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn6"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn10"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn1"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn2"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn3"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn11"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_11" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/digi_btn0"
+            style="@style/digitButtons_theme"
+            android:text="@string/digit_text_0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn14"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_14" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn13"
+            style="@style/operatorButtons_theme"
+            app:icon="@drawable/icon_backspace" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn12"
+            style="@style/operatorButtons_theme"
+            android:text="@string/oper_text_12" />
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
