@@ -65,12 +65,14 @@ public class Fragment_B extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+//        Log.d("ddd", "onCreate: ");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        Log.d("ddd", "onCreateView: ");
         return inflater.inflate(R.layout.fragment_b, container, false);
     }
 
@@ -86,6 +88,7 @@ public class Fragment_B extends Fragment {
         }
         // Allow scrolling on bottom textview
         cityDetails_text.setMovementMethod(new ScrollingMovementMethod());
+//        Log.d("ddd", "onViewCreated: ");
     }
 
     public void update_text(int position) {
@@ -103,6 +106,7 @@ public class Fragment_B extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+//        Log.d("ddd", "onAttach: ");
     }
 
     public interface OnFragmentInteractionListener {
@@ -116,6 +120,50 @@ public class Fragment_B extends Fragment {
 
         // Call superclass to save any view hierarchy.
         super.onSaveInstanceState(outState);
+//        Log.d("ddd", "onSaveInstanceState: ");
     }
+
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        Log.d("ddd", "onViewStateRestored: ");
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        Log.d("ddd", "onStart: ");
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.d("ddd", "onResume: ");
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        Log.d("ddd", "onPause: ");
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        Log.d("ddd", "onStop: ");
+//    }
+//
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        Log.d("ddd", "onDestroyView: ");
+//    }
+//
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        Log.d("ddd", "onDestroy: ");
+//    }
+
 
 }
