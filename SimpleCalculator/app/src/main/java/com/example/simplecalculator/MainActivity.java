@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener button_Listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Toast.makeText(getApplicationContext(), "Button is: ", Toast.LENGTH_SHORT).show();
             MaterialButton btn = (MaterialButton) view;
             String btn_text = btn.getText().toString();
 
@@ -129,46 +128,34 @@ public class MainActivity extends AppCompatActivity {
                 // more complicated than it is
                 operation_parentheses();
             } else if (currentEntry.isEmpty()) {
-                // Set operators. When new entry, only show + - . and numbers. Not * /
-                if (btn_text.equals("-")) {
-                    setOperator(btn_text);
-                    appendText(btn_text);
-                } else if (btn_text.equals("+")) {
-                    setOperator(btn_text);
-                    appendText(btn_text);
-                } else if (btn_text.equals("*")) {
-                    setOperator(btn_text);
-                } else if (btn_text.equals("/")) {
-                    setOperator(btn_text);
-                } else if (btn_text.equals(".")) {
-                    appendText(btn_text);
-                } else if (StringUtils.isNumeric(btn_text)) {
-                    appendText(btn_text);
-                }
+                processFirstEntry(btn_text);
             } else if (!currentEntry.isEmpty()) {
                 // When entry is not empty, append entry accordingly
 
-                // When preceding operator is + -, do the following actions
-                if (currentOperator.equals("+") || currentOperator.equals("-")) {
-                    if (isOperators(btn_text)) {
-                        currentEntry = previousEntry;
-                        setOperator(btn_text);
-                        appendText(btn_text);
-                    } else if (!btn_text.equals(")")) {
-                        appendText(btn_text);
-                    }
-                }
-
-                // When preceding operator is * /, do the following actions
-                if (currentOperator.equals("*") || currentOperator.equals("/")) {
-                    if (isOperators(btn_text) && !btn_text.equals("-")) {
-                        currentEntry = previousEntry;
-                        setOperator(btn_text);
-                        appendText(btn_text);
-                    } else if (!btn_text.equals(")")) {
-                        appendText(btn_text);
-                    }
-                }
+//                // When preceding operator is + -, do the following actions
+//                if (currentOperator.equals("+") || currentOperator.equals("-")) {
+//                    if (isOperators(btn_text)) {
+//                        currentEntry = previousEntry;
+//                        setOperator(btn_text);
+//                        appendText(btn_text);
+//                    } else if (!btn_text.equals(")")) {
+//                        appendText(btn_text);
+//                    }
+//                }
+//
+//                // When preceding operator is * /, do the following actions
+//                if (currentOperator.equals("*") || currentOperator.equals("/")) {
+//                    if (isOperators(btn_text) && !btn_text.equals("-")) {
+//                        currentEntry = previousEntry;
+//                        setOperator(btn_text);
+//                        appendText(btn_text);
+//                        Log.d("ddd", "onClick: 1.1: btn= " + btn_text + "display: " + currentEntry);
+//
+//                    } else if (!btn_text.equals(")")) {
+//                        appendText(btn_text);
+//                        Log.d("ddd", "onClick: 2: btn= " + btn_text + "display: " + currentEntry);
+//                    }
+//                }
 
             }
 
@@ -176,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
 
     private boolean isOperators(String btn_text) {
         return btn_text.equals("+") || btn_text.equals("-") || btn_text.equals("*") || btn_text.equals("/");
@@ -194,12 +183,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setOperator(String btn_text) {
         currentOperator = btn_text;
-        appendText(btn_text);
+        Log.d("ddd", "setOperator: " + currentOperator);
     }
 
     private void appendText(String btn_text) {
         previousEntry = currentEntry;
         currentEntry += btn_text;
+        Log.d("ddd", "appendText: " + currentEntry);
         primaryScreen.setText(currentEntry);
     }
 
@@ -230,5 +220,27 @@ public class MainActivity extends AppCompatActivity {
         primaryScreen.setText(currentEntry);
     }
 
+    // Set operators. When new entry, only show + - . and numbers. Not * /
+    private void processFirstEntry(String btn_text) {
+        if (btn_text.equals("-")) {
+            setOperator(btn_text);
+            appendText(btn_text);
+        } else if (btn_text.equals("+")) {
+            setOperator(btn_text);
+            appendText(btn_text);
+//        } else if (btn_text.equals("*")) {
+//            setOperator(btn_text);
+//
+//        } else if (btn_text.equals("/")) {
+//            setOperator(btn_text);
+
+        } else if (btn_text.equals(".")) {
+            appendText(btn_text);
+
+        } else if (StringUtils.isNumeric(btn_text)) {
+            appendText(btn_text);
+        }
+
+    }
 
 }
