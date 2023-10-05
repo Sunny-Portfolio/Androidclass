@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import org.apache.commons.lang3.StringUtils;
+
 
 import org.w3c.dom.Text;
 
@@ -24,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
 
     String currentEntry = "";
     String previousEntry = "";
+    String currentOperator = "";
+    String lastOperator = "";
+    String secondLastOperator = "";
+    boolean openParentheses = false;
+
     double result;
 
 
@@ -106,29 +113,121 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             Toast.makeText(getApplicationContext(), "Button is: ", Toast.LENGTH_SHORT).show();
             MaterialButton btn = (MaterialButton) view;
+            String btn_text = btn.getText().toString();
 
-            switch (btn.getText().toString()) {
-                case "AC" : operation_AC();
-                            break;
-                case "C" :  operation_C();
-                            break;
+            // Change special characters to programming operators
+            if (btn_text.equals("÷"))
+                btn_text = "/";
+            else if (btn_text.equals("×"))
+                btn_text = "*";
 
-                default :   currentEntry = previousEntry + btn.getText().toString();
-                            previousEntry = currentEntry;
-                            primaryScreen.setText(currentEntry);
+            // Processing each user onClick entry
+            if (btn_text.equals("AC")) {
+                operation_AC();
+            } else if (btn_text.equals("( )")) {
+                // TODO: 10/5/23 this will need to relocate and rewrite
+                // more complicated than it is
+                operation_parentheses();
+            } else if (currentEntry.isEmpty()) {
+                // Set operators. When new entry, only show + - . and numbers. Not * /
+                if (btn_text.equals("-")) {
+                    setOperator(btn_text);
+                    appendText(btn_text);
+                } else if (btn_text.equals("+")) {
+                    setOperator(btn_text);
+                    appendText(btn_text);
+                } else if (btn_text.equals("*")) {
+                    setOperator(btn_text);
+                } else if (btn_text.equals("/")) {
+                    setOperator(btn_text);
+                } else if (btn_text.equals(".")) {
+                    appendText(btn_text);
+                } else if (StringUtils.isNumeric(btn_text)) {
+                    appendText(btn_text);
+                }
+            } else if (!currentEntry.isEmpty()) {
+                // When entry is not empty, append entry accordingly
+
+                // When preceding operator is + -, do the following actions
+                if (currentOperator.equals("+") || currentOperator.equals("-")) {
+                    if (isOperators(btn_text)) {
+                        currentEntry = previousEntry;
+                        setOperator(btn_text);
+                        appendText(btn_text);
+                    } else if (!btn_text.equals(")")) {
+                        appendText(btn_text);
+                    }
+                }
+
+                // When preceding operator is * /, do the following actions
+                if (currentOperator.equals("*") || currentOperator.equals("/")) {
+                    if (isOperators(btn_text) && !btn_text.equals("-")) {
+                        currentEntry = previousEntry;
+                        setOperator(btn_text);
+                        appendText(btn_text);
+                    } else if (!btn_text.equals(")")) {
+                        appendText(btn_text);
+                    }
+                }
+
             }
+
 
 
         }
     };
 
-    public void operation_AC() {
-        currentEntry = "";
-        previousEntry = "";
+    private boolean isOperators(String btn_text) {
+        return btn_text.equals("+") || btn_text.equals("-") || btn_text.equals("*") || btn_text.equals("/");
     }
 
-    public void operation_C() {
+    private void operation_parentheses() {
+        if (openParentheses) {
+            appendText(")");
+            openParentheses = false;
+        } else {
+            appendText("(");
+            openParentheses = true;
+        }
+
+    }
+
+    private void setOperator(String btn_text) {
+        currentOperator = btn_text;
+        appendText(btn_text);
+    }
+
+    private void appendText(String btn_text) {
+        previousEntry = currentEntry;
+        currentEntry += btn_text;
+        primaryScreen.setText(currentEntry);
+    }
+
+    private void operation_addition() {
+    }
+
+    private void operation_subtraction() {
+    }
+
+    private void operation_multiplication() {
+
+    }
+
+    private void operation_division() {
+
+    }
+
+    private void operation_AC() {
+        currentEntry = "";
+        previousEntry = "";
+        primaryScreen.setText(currentEntry);
+    }
+
+    private void operation_C() {
+        // TODO: 10/2/23 Set the preliminary result to primaryScreen. maybe not needed.
+
         currentEntry = previousEntry;
+        primaryScreen.setText(currentEntry);
     }
 
 
