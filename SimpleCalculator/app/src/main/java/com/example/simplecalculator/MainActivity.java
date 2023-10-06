@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     String currentOperator = "";
     String lastOperator = "";
     String secondLastOperator = "";
-    boolean openParentheses = false;
+    int openParentheses = 0;
 
     double result;
 
@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Initialize all buttons with listener
     private void setupButton(MaterialButton btn, int id) {
         btn = findViewById(id);
         btn.setOnClickListener(button_Listener);
@@ -120,65 +121,105 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("×"))
                 btn_text = "*";
 
+            Log.d("TAG", "onClick: 1 + btn = " + btn_text);
+            Log.d("TAG", "onClick: 1 + btn = " + btn.getIcon());
+
             // Processing each user onClick entry
             if (btn_text.equals("AC")) {
                 operation_AC();
-            } else if (btn_text.equals("( )")) {
-                // TODO: 10/5/23 this will need to relocate and rewrite
-                // more complicated than it is
-                operation_parentheses();
+            } else if (btn_text.equals("MS")) {
+
+            } else if (btn_text.equals("MR")) {
+
+            } else if (btn_text.equals("M+")) {
+
+            } else if (btn_text.equals("M-")) {
+
+            } else if (btn_text.equals("MC")) {
+
+            } else if (btn.getId() == R.id.oper_btn13) {
+                // This condition is the backspace operation
+                // TODO: 10/6/23 will need to keep popping
+                operation_backspace();
             } else if (currentEntry.isEmpty()) {
+                // Process first entry
                 processFirstEntry(btn_text);
             } else if (!currentEntry.isEmpty()) {
                 // When entry is not empty, append entry accordingly
 
-//                // When preceding operator is + -, do the following actions
-//                if (currentOperator.equals("+") || currentOperator.equals("-")) {
-//                    if (isOperators(btn_text)) {
-//                        currentEntry = previousEntry;
-//                        setOperator(btn_text);
-//                        appendText(btn_text);
-//                    } else if (!btn_text.equals(")")) {
-//                        appendText(btn_text);
-//                    }
-//                }
-//
-//                // When preceding operator is * /, do the following actions
-//                if (currentOperator.equals("*") || currentOperator.equals("/")) {
-//                    if (isOperators(btn_text) && !btn_text.equals("-")) {
-//                        currentEntry = previousEntry;
-//                        setOperator(btn_text);
-//                        appendText(btn_text);
-//                        Log.d("ddd", "onClick: 1.1: btn= " + btn_text + "display: " + currentEntry);
-//
-//                    } else if (!btn_text.equals(")")) {
-//                        appendText(btn_text);
-//                        Log.d("ddd", "onClick: 2: btn= " + btn_text + "display: " + currentEntry);
-//                    }
-//                }
+               // Take care of which bracket to use
+                if (btn_text.equals("( )")) {
+                    // TODO: 10/5/23 this will need to relocate and rewrite
+                    // more complicated than it is
+                    btn_text = operation_parentheses();
+                }
+
+                // TODO: 10/6/23 /-/ into //    -- -+
+                // if 2ndlast is operator && last is + - then following must be num or dot
+                // When preceding operator is + - do the following actions
+                if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
+                    if (isOperators(btn_text)) {
+                        currentEntry = previousEntry;
+                        setOperator(btn_text);
+                        appendText(btn_text);
+                    } else if (!btn_text.equals(")")) {
+                        appendText(btn_text);
+                    }
+                }
+
+                // TODO: 10/6/23 // ** becomes a problem 
+                // When preceding operator is * / do the following actions
+                if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
+                    if (isOperators(btn_text) && !btn_text.equals("-")) {
+                        currentEntry = previousEntry;
+                        setOperator(btn_text);
+                        appendText(btn_text);
+                    } else if (!btn_text.equals(")")) {
+                        appendText(btn_text);
+                    }
+                }
+
+                // When preceding operator is ( do the following actions
+                if (currentEntry.endsWith("("))
+                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text))
+                        appendText(btn_text);
+
 
             }
-
-
-
         }
     };
 
+    private void operation_backspace() {
+        //currentEntry = previousEntry;
+//        primaryScreen.setText(currentEntry);
+        Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
+        if (currentEntry.length() == 1)
+            operation_AC();
+        else {
+            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
+            currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
+            primaryScreen.setText(currentEntry);
+        }
+    }
 
 
     private boolean isOperators(String btn_text) {
         return btn_text.equals("+") || btn_text.equals("-") || btn_text.equals("*") || btn_text.equals("/");
     }
 
-    private void operation_parentheses() {
-        if (openParentheses) {
-            appendText(")");
-            openParentheses = false;
+    private String operation_parentheses() {
+        if (openParentheses > 0) {
+            if (currentEntry.endsWith("(")) {
+                openParentheses++;
+                return "(";
+            } else if (currentEntry.endsWith(")")) {
+                openParentheses--;
+                return ")";
+            }
         } else {
-            appendText("(");
-            openParentheses = true;
+            openParentheses++;
         }
-
+        return "(";
     }
 
     private void setOperator(String btn_text) {
@@ -193,35 +234,18 @@ public class MainActivity extends AppCompatActivity {
         primaryScreen.setText(currentEntry);
     }
 
-    private void operation_addition() {
-    }
-
-    private void operation_subtraction() {
-    }
-
-    private void operation_multiplication() {
-
-    }
-
-    private void operation_division() {
-
-    }
-
     private void operation_AC() {
         currentEntry = "";
         previousEntry = "";
-        primaryScreen.setText(currentEntry);
-    }
-
-    private void operation_C() {
-        // TODO: 10/2/23 Set the preliminary result to primaryScreen. maybe not needed.
-
-        currentEntry = previousEntry;
+        currentOperator = "";
+        openParentheses = 0;
         primaryScreen.setText(currentEntry);
     }
 
     // Set operators. When new entry, only show + - . and numbers. Not * /
     private void processFirstEntry(String btn_text) {
+        Log.d("TAG", "onClick: 2 + btn = " + btn_text);
+
         if (btn_text.equals("-")) {
             setOperator(btn_text);
             appendText(btn_text);
@@ -236,7 +260,8 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (btn_text.equals(".")) {
             appendText(btn_text);
-
+        } else if (btn_text.equals("( )")) {
+            appendText(operation_parentheses());
         } else if (StringUtils.isNumeric(btn_text)) {
             appendText(btn_text);
         }
