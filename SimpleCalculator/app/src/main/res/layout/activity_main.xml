@@ -207,7 +207,8 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn13"
             style="@style/operatorButtons_theme"
-            app:icon="@drawable/icon_backspace" />
+            app:icon="@drawable/icon_backspace"
+            app:iconSize="40dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn12"
