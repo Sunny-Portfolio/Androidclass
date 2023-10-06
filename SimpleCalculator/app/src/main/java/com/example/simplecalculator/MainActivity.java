@@ -138,11 +138,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (btn_text.equals("MC")) {
 
             } else if (btn.getId() == R.id.oper_btn13) {
-                // This condition is the backspace operation
-                // TODO: 10/6/23 will need to keep popping
+                // This condition take cares of the backspace
                 operation_backspace();
             } else if (currentEntry.isEmpty()) {
-                // Process first entry
+                // When entry is empty, append entry accordingly
                 processFirstEntry(btn_text);
             } else if (!currentEntry.isEmpty()) {
                 // When entry is not empty, append entry accordingly
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 // When preceding operator is + - do the following actions
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
                     if (isOperators(btn_text)) {
-                        currentEntry = previousEntry;
+                        setOldEntry();
                         setOperator(btn_text);
                         appendText(btn_text);
                     } else if (!btn_text.equals(")")) {
@@ -188,6 +187,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    // This method set entry1 = entry2
+    // So when append new entry, entry1 should be previousEntry, and entry2 be currentEntry
+
+    private void setOldEntry() {
+        if (currentEntry.length() == 1) {
+            currentEntry = previousEntry;
+            previousEntry = "";
+        } else {
+            currentEntry = previousEntry;
+            previousEntry = currentEntry.substring(0,currentEntry.length()-1);
+        }
+    }
 
     private void operation_backspace() {
         //currentEntry = previousEntry;
