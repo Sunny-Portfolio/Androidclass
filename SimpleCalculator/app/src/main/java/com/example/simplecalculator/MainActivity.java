@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     String lastOperator = "";
     String secondLastOperator = "";
     int openParentheses = 0;
+    boolean openDecimal = false;
 
     double result;
 
@@ -182,6 +183,17 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("TAG", "onClick: Just append it");
                         appendText(btn_text);
                     }
+
+                } else if (currentEntry.endsWith(".")) {
+
+                } else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+                    Log.d("TAG", "onClick: num \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+                    if (btn_text.equals("(")) {
+                        setOperator("*");
+                        appendText("*");
+                        appendText(btn_text);
+                    }
+                    appendText(btn_text);
                 }
 
                 // When preceding operator is ( do the following actions
