@@ -167,6 +167,8 @@ public class MainActivity extends AppCompatActivity {
 //                        appendText(btn_text);
                     } else if (!btn_text.equals(")")) {
                         Log.d("TAG", "onClick: Just append it");
+                        if (btn_text.equals("."))
+                            setDecimal();
                         appendText(btn_text);
                     }
                 }
@@ -181,23 +183,51 @@ public class MainActivity extends AppCompatActivity {
 //                        appendText(btn_text);
                     } else if (!btn_text.equals(")")) {
                         Log.d("TAG", "onClick: Just append it");
+                        if (btn_text.equals("."))
+                            setDecimal();
                         appendText(btn_text);
                     }
 
                 } else if (currentEntry.endsWith(".")) {
-
+                    if (btn_text.equals(")") || isOperators(btn_text)) {
+                        setOldEntry(btn_text);
+                    } else if (btn_text.equals("(")) {
+                        toOldEntry(btn_text);
+                        setOperator("*");
+                        // Javascript can process 23(23)
+//                        appendText("*");
+                        appendText(btn_text);
+                    } else if (StringUtils.isNumeric(btn_text) && openDecimal) {
+//                        setDecimal();
+                        appendText(btn_text);
+                    } else if (btn_text.equals(".") && openDecimal) {
+                    } else
+                        appendText(btn_text);
                 } else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-                    Log.d("TAG", "onClick: num \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+                    Log.d("TAG", "onClick: num1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
                     if (btn_text.equals("(")) {
                         setOperator("*");
-                        appendText("*");
+                        // Javascript can process 23(23)
+//                        appendText("*");
                         appendText(btn_text);
-                    }
-                    appendText(btn_text);
+                        setDecimal();
+                    } else if (btn_text.equals(".") && !openDecimal) {
+                        setDecimal();
+                        appendText(btn_text);
+                        Log.d("TAG", "onClick: num2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
+                    } else if (btn_text.equals(".") && openDecimal) {
+                        Log.d("TAG", "onClick: num3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
+                    } else if (!StringUtils.isNumeric(btn_text)){
+                        setDecimal();
+                        appendText(btn_text);
+                    } else
+                        appendText(btn_text);
+                    Log.d("TAG", "onClick: num4 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
+
                 }
 
                 // When preceding operator is ( do the following actions
-                if (currentEntry.endsWith("("))
+                else if (currentEntry.endsWith("("))
                     if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text))
                         appendText(btn_text);
 
@@ -210,6 +240,12 @@ public class MainActivity extends AppCompatActivity {
     // So when append new entry, entry1 should be previousEntry, and entry2 be currentEntry
 
     private void setOldEntry(String btn_text) {
+        toOldEntry(btn_text);
+        setOperator(currentEntry.substring(currentEntry.length()-1));
+        primaryScreen.setText(currentEntry);
+    }
+
+    private void toOldEntry (String btn_text) {
         Log.d("TAG", "setOldEntry: 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
         if (currentEntry.length() >= 2) {
             Log.d("TAG", "setOldEntry: 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
@@ -227,8 +263,6 @@ public class MainActivity extends AppCompatActivity {
             previousEntry = currentEntry.substring(0,currentEntry.length()-1);
             Log.d("TAG", "setOldEntry: 7 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
         }
-        setOperator(currentEntry.substring(currentEntry.length()-1));
-        primaryScreen.setText(currentEntry);
     }
 
     private void operation_backspace() {
@@ -269,6 +303,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ddd", "setOperator: " + currentOperator);
     }
 
+    private void setDecimal () {
+        if (openDecimal)
+            openDecimal = false;
+        else
+            openDecimal = true;
+    }
+
     private void appendText(String btn_text) {
         previousEntry = currentEntry;
         currentEntry += btn_text;
@@ -281,6 +322,7 @@ public class MainActivity extends AppCompatActivity {
         previousEntry = "";
         currentOperator = "";
         openParentheses = 0;
+        openDecimal = false;
         primaryScreen.setText(currentEntry);
     }
 
