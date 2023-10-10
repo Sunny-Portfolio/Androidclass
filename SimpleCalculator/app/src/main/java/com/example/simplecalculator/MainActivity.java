@@ -121,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("×"))
                 btn_text = "*";
 
-            Log.d("TAG", "onClick: 1 + btn = " + btn_text);
-            Log.d("TAG", "onClick: 1 + btn = " + btn.getIcon());
+            Log.d("TAG", "######## onClick: Begins........ btn = " + btn_text);
 
             // Processing each user onClick entry
             if (btn_text.equals("AC")) {
@@ -157,23 +156,30 @@ public class MainActivity extends AppCompatActivity {
                 // if 2ndlast is operator && last is + - then following must be num or dot
                 // When preceding operator is + - do the following actions
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
+                    Log.d("TAG", "onClick: +- 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+
                     if (isOperators(btn_text)) {
-                        setOldEntry();
-                        setOperator(btn_text);
-                        appendText(btn_text);
+                        // Replace the operator
+                        setOldEntry(btn_text);
+                        Log.d("TAG", "onClick: +- 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+//                        setOperator(btn_text);
+//                        appendText(btn_text);
                     } else if (!btn_text.equals(")")) {
+                        Log.d("TAG", "onClick: Just append it");
                         appendText(btn_text);
                     }
                 }
 
                 // TODO: 10/6/23 // ** becomes a problem 
                 // When preceding operator is * / do the following actions
-                if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
+                else if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
                     if (isOperators(btn_text) && !btn_text.equals("-")) {
-                        currentEntry = previousEntry;
-                        setOperator(btn_text);
-                        appendText(btn_text);
+                        setOldEntry(btn_text);
+                        Log.d("TAG", "onClick: */ \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+//                        setOperator(btn_text);
+//                        appendText(btn_text);
                     } else if (!btn_text.equals(")")) {
+                        Log.d("TAG", "onClick: Just append it");
                         appendText(btn_text);
                     }
                 }
@@ -191,14 +197,26 @@ public class MainActivity extends AppCompatActivity {
     // This method set entry1 = entry2
     // So when append new entry, entry1 should be previousEntry, and entry2 be currentEntry
 
-    private void setOldEntry() {
-        if (currentEntry.length() == 1) {
+    private void setOldEntry(String btn_text) {
+        Log.d("TAG", "setOldEntry: 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
+        if (currentEntry.length() >= 2) {
+            Log.d("TAG", "setOldEntry: 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
             currentEntry = previousEntry;
             previousEntry = "";
+            Log.d("TAG", "setOldEntry: 3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
+        } else if (currentEntry.length() == 1) {
+            Log.d("TAG", "setOldEntry: 4 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
+            currentEntry = btn_text;
+            previousEntry = "";
+            Log.d("TAG", "setOldEntry: 5 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
         } else {
+            Log.d("TAG", "setOldEntry: 6 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
             currentEntry = previousEntry;
             previousEntry = currentEntry.substring(0,currentEntry.length()-1);
+            Log.d("TAG", "setOldEntry: 7 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
         }
+        setOperator(currentEntry.substring(currentEntry.length()-1));
+        primaryScreen.setText(currentEntry);
     }
 
     private void operation_backspace() {
@@ -256,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Set operators. When new entry, only show + - . and numbers. Not * /
     private void processFirstEntry(String btn_text) {
-        Log.d("TAG", "onClick: 2 + btn = " + btn_text);
 
         if (btn_text.equals("-")) {
             setOperator(btn_text);
