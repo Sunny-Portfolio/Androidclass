@@ -163,8 +163,8 @@ public class MainActivity extends AppCompatActivity {
                         // Replace the operator
                         setOldEntry(btn_text);
                         Log.d("TAG", "onClick: +- 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
-//                        setOperator(btn_text);
-//                        appendText(btn_text);
+                        setOperator(btn_text);
+                        appendText(btn_text);
                     } else if (!btn_text.equals(")")) {
                         Log.d("TAG", "onClick: Just append it");
                         if (btn_text.equals("."))
@@ -229,9 +229,20 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // When preceding operator is ( do the following actions
-                else if (currentEntry.endsWith("("))
+                else if (currentEntry.endsWith("(")) {
                     if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text))
                         appendText(btn_text);
+                }
+
+                // When preceding operator is ) do the following actions
+                else if (currentEntry.endsWith(")")) {
+                    if (StringUtils.isNumeric(btn_text)) {
+                        setOperator("*");
+                        appendText(btn_text);
+                        setDecimal();
+                    } else
+                        appendText(btn_text);
+                }
 
 
             }
@@ -271,7 +282,9 @@ public class MainActivity extends AppCompatActivity {
         //currentEntry = previousEntry;
 //        primaryScreen.setText(currentEntry);
         Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
-        if (currentEntry.length() == 1)
+        if (currentEntry.length() == 0) {
+            return;
+        } else if (currentEntry.length() == 1)
             operation_AC();
         else {
             previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
@@ -345,8 +358,9 @@ public class MainActivity extends AppCompatActivity {
 //        } else if (btn_text.equals("/")) {
 //            setOperator(btn_text);
 
-        } else if (btn_text.equals(".")) {
+        } else if (btn_text.equals(".") && !openDecimal) {
             appendText(btn_text);
+            openDecimal = true;
         } else if (btn_text.equals("( )")) {
             appendText(operation_parentheses());
         } else if (StringUtils.isNumeric(btn_text)) {
