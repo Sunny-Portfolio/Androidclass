@@ -203,7 +203,9 @@ public class MainActivity extends AppCompatActivity {
                     } else if (btn_text.equals(".") && openDecimal) {
                     } else
                         appendText(btn_text);
-                } else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+                }
+
+                else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
                     Log.d("TAG", "onClick: num1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
                     if (btn_text.equals("(")) {
                         setOperator("*");
@@ -217,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("TAG", "onClick: num2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
                     } else if (btn_text.equals(".") && openDecimal) {
                         Log.d("TAG", "onClick: num3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
-                    } else if (!StringUtils.isNumeric(btn_text)){
+                    } else if (!StringUtils.isNumeric(btn_text) && openDecimal){
                         setDecimal();
                         appendText(btn_text);
                     } else
@@ -284,18 +286,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String operation_parentheses() {
+        Log.d("TAG", "operation_parentheses 1: count : " + openParentheses);
         if (openParentheses > 0) {
             if (currentEntry.endsWith("(")) {
                 openParentheses++;
                 return "(";
-            } else if (currentEntry.endsWith(")")) {
+            } else {
                 openParentheses--;
+                Log.d("TAG", "operation_parentheses 2: count : " + openParentheses);
                 return ")";
             }
         } else {
             openParentheses++;
+            return "(";
         }
-        return "(";
     }
 
     private void setOperator(String btn_text) {
