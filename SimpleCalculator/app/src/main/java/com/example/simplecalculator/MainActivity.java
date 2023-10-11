@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
                     Log.d("TAG", "onClick: +- 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
 
-                    if (isOperators(previousEntry.substring(previousEntry.length()-1))) {
+                    if (isOperators(previousEntry.substring(previousEntry.length()-1)) && isOperators(btn_text)) {
                         if (btn_text.equals("+") || btn_text.equals("*") || btn_text.equals("/"))
                             setOldEntry(btn_text);
                     }
