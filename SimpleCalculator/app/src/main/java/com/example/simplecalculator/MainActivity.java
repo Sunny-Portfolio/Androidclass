@@ -204,9 +204,13 @@ public class MainActivity extends AppCompatActivity {
                 else if (currentEntry.endsWith(".")) {
                     if (btn_text.equals(")") || isOperators(btn_text)) {
                         setOldEntry(btn_text);
+                        if (openDecimal)
+                            setDecimal();
                     } else if (btn_text.equals("(")) {
                         toOldEntry(btn_text);
                         setOperator("*");
+                        if (openDecimal)
+                            setDecimal();
                         // Javascript can process 23(23)
 //                        appendText("*");
                         appendText(btn_text);
@@ -300,12 +304,22 @@ public class MainActivity extends AppCompatActivity {
     private void operation_backspace() {
         //currentEntry = previousEntry;
 //        primaryScreen.setText(currentEntry);
+
+        String lastChar = currentEntry.substring(currentEntry.length()-1);
+
         Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
         if (currentEntry.length() == 0) {
             return;
         } else if (currentEntry.length() == 1)
             operation_AC();
         else {
+            if (lastChar.equals("(")) {
+                openParentheses--;
+            } else if (lastChar.equals(")")) {
+                openParentheses++;
+            } else if (lastChar.equals(".")) {
+                openDecimal = false;
+            }
             previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
             currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
             primaryScreen.setText(currentEntry);
@@ -320,18 +334,20 @@ public class MainActivity extends AppCompatActivity {
     private String operation_parentheses() {
         Log.d("TAG", "operation_parentheses 1: count : " + openParentheses);
         if (openParentheses > 0) {
-            if (currentEntry.endsWith("(")) {
+            if (currentEntry.endsWith("(") || isOperators(currentEntry.substring(currentEntry.length()-1))) {
                 openParentheses++;
-                return "(";
-            } else {
-                openParentheses--;
                 Log.d("TAG", "operation_parentheses 2: count : " + openParentheses);
+                return "(";
+            } else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1)) || currentEntry.endsWith(")")) {
+                openParentheses--;
+                Log.d("TAG", "operation_parentheses 3: count : " + openParentheses);
                 return ")";
             }
         } else {
             openParentheses++;
             return "(";
         }
+        return ")";
     }
 
     private void setOperator(String btn_text) {
