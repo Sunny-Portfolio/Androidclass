@@ -124,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("TAG", "######## onClick: Begins........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal);
 
+            // Take care of which bracket to use
+            if (btn_text.equals("( )")) {
+                btn_text = operation_parentheses();
+            }
+
             // Processing each user onClick entry
             if (btn_text.equals("AC")) {
                 operation_AC();
@@ -151,12 +156,7 @@ public class MainActivity extends AppCompatActivity {
             // When entry is not empty, append entry accordingly
             else if (!currentEntry.isEmpty()) {
 
-               // Take care of which bracket to use
-                if (btn_text.equals("( )")) {
-                    // TODO: 10/5/23 this will need to relocate and rewrite
-                    // more complicated than it is
-                    btn_text = operation_parentheses();
-                }
+
 
                 // TODO: 10/6/23 /-/ into //    -- -+
                 // if 2ndlast is operator && last is + - then following must be num or dot
@@ -183,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // TODO: 10/6/23 // ** becomes a problem 
                 // When preceding operator is * / do the following actions
                 else if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
                     if (isOperators(btn_text) && !btn_text.equals("-")) {
@@ -226,7 +225,8 @@ public class MainActivity extends AppCompatActivity {
                         // Javascript can process 23(23)
 //                        appendText("*");
                         appendText(btn_text);
-                        setDecimal();
+                        if (openDecimal)
+                            setDecimal();
                     } else if (btn_text.equals(".") && !openDecimal) {
                         setDecimal();
                         appendText(btn_text);
@@ -245,8 +245,8 @@ public class MainActivity extends AppCompatActivity {
                 // When preceding operator is ( do the following actions
                 else if (currentEntry.endsWith("(")) {
                     if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text))
-//                        processFirstEntry(btn_text);
-                        appendText(btn_text);
+                        processFirstEntry(btn_text);
+//                        appendText(btn_text);
                 }
 
                 // When preceding operator is ) do the following actions
@@ -254,7 +254,8 @@ public class MainActivity extends AppCompatActivity {
                     if (StringUtils.isNumeric(btn_text)) {
                         setOperator("*");
                         appendText(btn_text);
-                        setDecimal();
+                        if (openDecimal)
+                            setDecimal();
                     } else
                         appendText(btn_text);
                 }
@@ -379,8 +380,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (btn_text.equals(".") && !openDecimal) {
             appendText(btn_text);
             openDecimal = true;
-        } else if (btn_text.equals("( )")) {
-            appendText(operation_parentheses());
+        } else if (btn_text.equals("(")) {
+            appendText(btn_text);
         } else if (StringUtils.isNumeric(btn_text)) {
             appendText(btn_text);
         }
