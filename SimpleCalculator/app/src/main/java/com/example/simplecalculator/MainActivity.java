@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import org.apache.commons.lang3.StringUtils;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
 
 import org.w3c.dom.Text;
@@ -142,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (btn_text.equals("MC")) {
 
+            } else if (btn_text.equals("=")) {
+                secondaryScreen.setText(getResult());
             } else if (btn.getId() == R.id.oper_btn13) {
                 // This condition take cares of the backspace
                 operation_backspace();
@@ -270,6 +274,18 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    private String getResult() {
+        try {
+            Context context = Context.enter();
+            context.setOptimizationLevel(-1);
+            Scriptable script = context.initStandardObjects();
+
+            return context.evaluateString(script, currentEntry, "Javascript", 1, null).toString();
+        } catch (Exception e) {
+            return "Error Format";
+        }
+    }
 
     // This method set entry1 = entry2
     // So when append new entry, entry1 should be previousEntry, and entry2 be currentEntry

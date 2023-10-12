@@ -42,6 +42,8 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 //    implementation("org.apache.commons:commons-lang3:3.13.0")
+    // https://mvnrepository.com/artifact/org.mozilla/rhino
+    implementation("org.mozilla:rhino:1.7.14")
 
 
 }
