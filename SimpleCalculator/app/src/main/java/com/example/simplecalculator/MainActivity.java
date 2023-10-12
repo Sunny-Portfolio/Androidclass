@@ -292,26 +292,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Fix equation into an expression that can be read by Javascript.
+    // In this case, adding * between numbers and brackets. Also closing opened brackets.
     private void fixExpression(String str) {
         expression = "";
         Log.d("exp", "fixExpression: A.... " + expression);
+        expression += str.charAt(0);
         for (int i = 1; i < str.length(); i++) {
             if (StringUtils.isNumeric(String.valueOf(str.charAt(i-1))) && str.charAt(i) == '(') {
-                expression += str.charAt(i-1) + "*" + str.charAt(i);
+                expression += "*" + str.charAt(i);
                 Log.d("exp", "fixExpression: B.... 1st = " + str.charAt(i-1) + " 2nd = " + str.charAt(i) + " expression: " + expression);
             } else if (str.charAt(i-1) == ')' && StringUtils.isNumeric(String.valueOf(str.charAt(i)))) {
                 expression += "*" + str.charAt(i);
-                Log.d("exp", "fixExpression: B.... 1st = " + str.charAt(i-1) + " 2nd = " + str.charAt(i) + " expression: " + expression);
+                Log.d("exp", "fixExpression: C.... 1st = " + str.charAt(i-1) + " 2nd = " + str.charAt(i) + " expression: " + expression);
             } else {
                 expression += str.charAt(i);
-                Log.d("exp", "fixExpression: C.... " + expression);
+                Log.d("exp", "fixExpression: D.... " + expression);
             }
         }
 
+        // Close all the opened parentheses
         for (int i = 0; i < openParentheses; i++) {
             expression += ")";
         }
-        Log.d("exp", "fixExpression: D.... " + expression);
+        Log.d("exp", "fixExpression: E.... " + expression);
     }
 
     // This method set entry1 = entry2
