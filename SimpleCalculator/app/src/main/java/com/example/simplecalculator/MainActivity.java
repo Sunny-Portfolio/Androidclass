@@ -391,7 +391,8 @@ public class MainActivity extends AppCompatActivity {
         currentOperator = "";
         openParentheses = 0;
         openDecimal = false;
-        primaryScreen.setText(currentEntry);
+        primaryScreen.setText("");
+        secondaryScreen.setText("");
     }
 
     // Set operators. When new entry, only show + - . and numbers. Not * /
