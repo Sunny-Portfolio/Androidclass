@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     String secondLastOperator = "";
     int openParentheses = 0;
     boolean openDecimal = false;
-
-    double result;
+    String expression = "";
+    String result;
 
 
     @Override
@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (btn_text.equals("MC")) {
 
             } else if (btn_text.equals("=")) {
+                fixExpression(currentEntry);
                 secondaryScreen.setText(getResult());
             } else if (btn.getId() == R.id.oper_btn13) {
                 // This condition take cares of the backspace
@@ -275,16 +276,42 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Calculate the expression using Mozilla Rhino JavaScript engine
     private String getResult() {
         try {
             Context context = Context.enter();
             context.setOptimizationLevel(-1);
             Scriptable script = context.initStandardObjects();
 
-            return context.evaluateString(script, currentEntry, "Javascript", 1, null).toString();
+            Log.d("exp", "getResult: 1 " + expression);
+            result = context.evaluateString(script, expression, "Javascript", 1, null).toString();
+            return result;
         } catch (Exception e) {
+            Log.d("exp", "getResult: 2 " + expression);
             return "Error Format";
         }
+    }
+
+    private void fixExpression(String str) {
+        expression = "";
+        Log.d("exp", "fixExpression: A.... " + expression);
+        for (int i = 1; i < str.length(); i++) {
+            if (StringUtils.isNumeric(String.valueOf(str.charAt(i-1))) && str.charAt(i) == '(') {
+                expression += str.charAt(i-1) + "*" + str.charAt(i);
+                Log.d("exp", "fixExpression: B.... 1st = " + str.charAt(i-1) + " 2nd = " + str.charAt(i) + " expression: " + expression);
+            } else if (str.charAt(i-1) == ')' && StringUtils.isNumeric(String.valueOf(str.charAt(i)))) {
+                expression += "*" + str.charAt(i);
+                Log.d("exp", "fixExpression: B.... 1st = " + str.charAt(i-1) + " 2nd = " + str.charAt(i) + " expression: " + expression);
+            } else {
+                expression += str.charAt(i);
+                Log.d("exp", "fixExpression: C.... " + expression);
+            }
+        }
+
+        for (int i = 0; i < openParentheses; i++) {
+            expression += ")";
+        }
+        Log.d("exp", "fixExpression: D.... " + expression);
     }
 
     // This method set entry1 = entry2
