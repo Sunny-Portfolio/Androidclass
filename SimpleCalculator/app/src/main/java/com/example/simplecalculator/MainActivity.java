@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Processing each user onClick entry
+            // This is one big if else statement so it doesn't go via all condition cases
             if (btn_text.equals("AC")) {
                 operation_AC();
             } else if (btn_text.equals("MS")) {
@@ -147,20 +148,44 @@ public class MainActivity extends AppCompatActivity {
             } else if (btn_text.equals("=")) {
                 fixExpression(currentEntry);
                 secondaryScreen.setText(getResult());
-            } else if (btn.getId() == R.id.oper_btn13) {
-                // This condition take cares of the backspace
+            }
+
+            // This condition take cares of the backspace operation
+            else if (btn.getId() == R.id.oper_btn13) {
                 operation_backspace();
-            } else if (currentEntry.isEmpty()) {
+            }
+
+            // If the current entry is empty, use the following logic
+            else if (currentEntry.isEmpty()) {
                 // When entry is empty, append entry accordingly
                 processFirstEntry(btn_text);
-            } else if (currentEntry.length() == 1 && isOperators(btn_text)) {
-                Log.d("TAG", "onClick: here");
-                return;
+            }
+
+            // If the current entry is length 1, use the following logic
+            else if (currentEntry.length() == 1){
+                if (StringUtils.isNumeric(currentEntry)) {
+                    appendText(btn_text);
+                } else if (currentEntry.equals("-")) {
+                    if (!isOperators(btn_text)){
+                        appendText(btn_text);
+                    }
+                } else if (currentEntry.equals(".")) {
+                    if (StringUtils.isNumeric(btn_text)){
+                        appendText(btn_text);
+                    }
+                } else if (currentEntry.equals("(")) {
+                    if (isOperators(btn_text)) {
+                        processFirstEntry(btn_text);
+                    } else {
+                        appendText(btn_text);
+                    }
+                }
+                if (!currentEntry.equals(".") && btn_text.equals("."))
+                    setDecimal();
             }
 
             // When entry is not empty, append entry accordingly
             else if (!currentEntry.isEmpty()) {
-
 
 
                 // TODO: 10/6/23 /-/ into //    -- -+
@@ -170,16 +195,22 @@ public class MainActivity extends AppCompatActivity {
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
                     Log.d("TAG", "onClick: +- 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
 
-                    if (isOperators(previousEntry.substring(previousEntry.length()-1)) && isOperators(btn_text)) {
-                        if (btn_text.equals("+") || btn_text.equals("*") || btn_text.equals("/"))
+                    if (currentEntry.length() >= 2 && isOperators(previousEntry.substring(previousEntry.length()-1)) && isOperators(btn_text)) {
+                        if (btn_text.equals("+") || btn_text.equals("*") || btn_text.equals("/")) {
+                            Log.d("TAG", "onClick: +- 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
                             setOldEntry(btn_text);
+                        }
                     }
+                    // Replace the operator if + or - is followed by an operator
+                    // After open bracket only allows negative sign
+                    // e.g. 8- 8+ 8(-
                     else if (isOperators(btn_text)) {
-                        // Replace the operator
-                        setOldEntry(btn_text);
-                        Log.d("TAG", "onClick: +- 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
-                        setOperator(btn_text);
-                        appendText(btn_text);
+                        Log.d("TAG", "onClick: +- 3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+                        if (!previousEntry.endsWith("(")) {
+                            setOldEntry(btn_text);
+                            setOperator(btn_text);
+                            appendText(btn_text);
+                        }
                     } else if (!btn_text.equals(")")) {
                         Log.d("TAG", "onClick: Just append it");
                         if (btn_text.equals("."))
