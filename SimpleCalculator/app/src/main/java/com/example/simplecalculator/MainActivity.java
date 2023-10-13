@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     int openParentheses = 0;
     boolean openDecimal = false;
     String expression = "";
+    String memoryStored = "";
 
 
     @Override
@@ -135,20 +136,47 @@ public class MainActivity extends AppCompatActivity {
             if (btn_text.equals("AC")) {
                 operation_AC();
             } else if (btn_text.equals("MS")) {
-
+                if (!secondaryScreen.getText().equals("Format Error")) {
+                    memoryStored = secondaryScreen.getText().toString();
+                }
             } else if (btn_text.equals("MR")) {
-
-            } else if (btn_text.equals("M+")) {
-
-            } else if (btn_text.equals("M-")) {
-
-            } else if (btn_text.equals("MC")) {
-
-            } else if (btn_text.equals("=")) {
-                fixExpression(currentEntry);
-                currentEntry = getResult();
+                currentEntry = memoryStored;
                 primaryScreen.setText(currentEntry);
                 secondaryScreen.setText("");
+            } else if (btn_text.equals("M+")) {
+                String str = "";
+                if (!secondaryScreen.getText().equals("Format Error")) {
+                    if (memoryStored.equals("")) {
+                        memoryStored = secondaryScreen.getText().toString();
+                    } else {
+                        str = memoryStored + "+" + secondaryScreen.getText().toString();
+                        fixExpression(str);
+                        memoryStored = getResult();
+                    }
+                }
+            } else if (btn_text.equals("M-")) {
+                String str = "";
+                if (!secondaryScreen.getText().equals("Format Error")) {
+                    if (memoryStored.equals("")) {
+                        memoryStored = secondaryScreen.getText().toString();
+                    } else {
+                        str = memoryStored + "-" + secondaryScreen.getText().toString();
+                        fixExpression(str);
+                        memoryStored = getResult();
+                    }
+                }
+            } else if (btn_text.equals("MC")) {
+                memoryStored = "";
+            } else if (btn_text.equals("=")) {
+                fixExpression(currentEntry);
+                String result = getResult();
+                if (result.equals("Format Error")) {
+                    secondaryScreen.setText(result);
+                } else {
+                    currentEntry = result;
+                    primaryScreen.setText(currentEntry);
+                    secondaryScreen.setText("");
+                }
             }
 
             // This condition take cares of the backspace operation
@@ -341,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                 return String.valueOf(result);
         } catch (Exception e) {
             Log.d("exp", "getResult: 2 " + expression);
-            return "Error Format";
+            return "Format Error";
         }
     }
 
