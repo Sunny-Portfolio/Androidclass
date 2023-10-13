@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 if (!secondaryScreen.getText().equals("Format Error")) {
                     memoryStored = secondaryScreen.getText().toString();
                 }
+                Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
             } else if (btn_text.equals("MR")) {
                 currentEntry = memoryStored;
                 primaryScreen.setText(currentEntry);
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         fixExpression(str);
                         memoryStored = getResult();
                     }
+                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
                 }
             } else if (btn_text.equals("M-")) {
                 String str = "";
@@ -164,9 +166,11 @@ public class MainActivity extends AppCompatActivity {
                         fixExpression(str);
                         memoryStored = getResult();
                     }
+                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
                 }
             } else if (btn_text.equals("MC")) {
                 memoryStored = "";
+                Toast.makeText(MainActivity.this, "Memory Cleared", Toast.LENGTH_SHORT).show();
             } else if (btn_text.equals("=")) {
                 fixExpression(currentEntry);
                 String result = getResult();
