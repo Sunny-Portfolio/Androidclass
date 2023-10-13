@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     int openParentheses = 0;
     boolean openDecimal = false;
     String expression = "";
-    String result;
 
 
     @Override
@@ -147,12 +146,21 @@ public class MainActivity extends AppCompatActivity {
 
             } else if (btn_text.equals("=")) {
                 fixExpression(currentEntry);
-                secondaryScreen.setText(getResult());
+                currentEntry = getResult();
+                primaryScreen.setText(currentEntry);
+                secondaryScreen.setText("");
             }
 
             // This condition take cares of the backspace operation
             else if (btn.getId() == R.id.oper_btn13) {
                 operation_backspace();
+
+                // Show initial result of the current expression
+                if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+                    fixExpression(currentEntry);
+                    secondaryScreen.setText(getResult());
+                }
+
             }
 
             // If the current entry is empty, use the following logic
@@ -300,6 +308,13 @@ public class MainActivity extends AppCompatActivity {
                         appendText(btn_text);
                 }
 
+                // Show initial result of the current expression
+                if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+//                    if (!secondaryScreen.getText().toString().equals("")) {
+                        fixExpression(currentEntry);
+                        secondaryScreen.setText(getResult());
+//                    }
+                }
 
             }
             Log.d("TAG", "######## onClick: Finish........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal);
@@ -309,14 +324,21 @@ public class MainActivity extends AppCompatActivity {
 
     // Calculate the expression using Mozilla Rhino JavaScript engine
     private String getResult() {
+        double result;
         try {
             Context context = Context.enter();
             context.setOptimizationLevel(-1);
             Scriptable script = context.initStandardObjects();
 
             Log.d("exp", "getResult: 1 " + expression);
-            result = context.evaluateString(script, expression, "Javascript", 1, null).toString();
-            return result;
+            result = (double) context.evaluateString(script, expression, "Javascript", 1, null);
+
+            // Original result comes back as double even if it is whole number. e.g. 53.0
+            // This will get rid of the .0 at the end
+            if (result % 1 == 0)
+                return String.valueOf((int)result);
+            else
+                return String.valueOf(result);
         } catch (Exception e) {
             Log.d("exp", "getResult: 2 " + expression);
             return "Error Format";
