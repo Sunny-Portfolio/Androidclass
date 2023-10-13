@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     boolean openDecimal = false;
     String expression = "";
     String memoryStored = "";
+    boolean zeroSuppression = false;
 
 
     @Override
@@ -124,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("×"))
                 btn_text = "*";
 
-            Log.d("TAG", "######## onClick: Begins........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal);
+            Log.d("TAG", "######## onClick: Begins........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
 
             // Take care of which bracket to use
             if (btn_text.equals("( )")) {
@@ -135,18 +137,25 @@ public class MainActivity extends AppCompatActivity {
             // This is one big if else statement so it doesn't go via all condition cases
             if (btn_text.equals("AC")) {
                 operation_AC();
-            } else if (btn_text.equals("MS")) {
-                if (!secondaryScreen.getText().equals("Format Error")) {
+            }
+
+            else if (btn_text.equals("MS")) {
+                if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
                     memoryStored = secondaryScreen.getText().toString();
-                }
-                Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
-            } else if (btn_text.equals("MR")) {
+                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(MainActivity.this, "Memory: is empty" , Toast.LENGTH_SHORT).show();
+            }
+
+            else if (btn_text.equals("MR")) {
                 currentEntry = memoryStored;
                 primaryScreen.setText(currentEntry);
                 secondaryScreen.setText("");
-            } else if (btn_text.equals("M+")) {
+            }
+
+            else if (btn_text.equals("M+")) {
                 String str;
-                if (!secondaryScreen.getText().equals("Format Error")) {
+                if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
                     if (memoryStored.equals("")) {
                         memoryStored = secondaryScreen.getText().toString();
                     } else {
@@ -155,10 +164,15 @@ public class MainActivity extends AppCompatActivity {
                         memoryStored = getResult();
                     }
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
-                }
-            } else if (btn_text.equals("M-")) {
+                } else
+                    Toast.makeText(MainActivity.this, "Memory: is empty" , Toast.LENGTH_SHORT).show();
+            }
+
+            else if (btn_text.equals("M-")) {
                 String str;
-                if (!secondaryScreen.getText().equals("Format Error")) {
+                if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
+                    Log.d("TAG", "onClick 222: creatabel????");
+
                     if (memoryStored.equals("")) {
                         memoryStored = secondaryScreen.getText().toString();
                     } else {
@@ -167,14 +181,21 @@ public class MainActivity extends AppCompatActivity {
                         memoryStored = getResult();
                     }
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
-                }
-            } else if (btn_text.equals("MC")) {
+                } else
+                    Toast.makeText(MainActivity.this, "Memory: is empty" , Toast.LENGTH_SHORT).show();
+            }
+
+            else if (btn_text.equals("MC")) {
                 memoryStored = "";
                 Toast.makeText(MainActivity.this, "Memory Cleared", Toast.LENGTH_SHORT).show();
-            } else if (btn_text.equals("=")) {
+            }
+
+            else if (btn_text.equals("=")) {
                 fixExpression(currentEntry);
                 String result = getResult();
-                if (result.equals("Format Error")) {
+//                if (result.equals("Format Error")) {
+                if (!NumberUtils.isCreatable(result)) {
+                    Log.d("TAG", "onClick: creatabel????");
                     secondaryScreen.setText(result);
                 } else {
                     currentEntry = result;
@@ -197,31 +218,55 @@ public class MainActivity extends AppCompatActivity {
 
             // If the current entry is empty, use the following logic
             else if (currentEntry.isEmpty()) {
+                Log.d("ZERO", "is empty: 1 \t" + "zero = " + zeroSuppression);
+
                 // When entry is empty, append entry accordingly
                 processFirstEntry(btn_text);
             }
 
             // If the current entry is length 1, use the following logic
             else if (currentEntry.length() == 1){
+                Log.d("ZERO", "1 entry: 1 \t" + "zero = " + zeroSuppression);
+
                 if (StringUtils.isNumeric(currentEntry)) {
-                    appendText(btn_text);
+                    if (currentEntry.equals("0") && zeroSuppression && StringUtils.isNumeric(btn_text)) {
+                        if (!btn_text.equals("0")) {
+                            // Replace the leading zero if user entered a non zero number
+                            operation_backspace();
+                            appendText(btn_text);
+                            Log.d("ZERO", "1 entry: 2 \t" + "zero = " + zeroSuppression);
+
+                        }
+                    } else
+                        appendText(btn_text);
                 } else if (currentEntry.equals("-")) {
                     if (!isOperators(btn_text)){
+                        Log.d("ZERO", "1 entry: 3 \t" + "zero = " + zeroSuppression);
+
                         appendText(btn_text);
                     }
                 } else if (currentEntry.equals(".")) {
-                    if (StringUtils.isNumeric(btn_text)){
+                    if (StringUtils.isNumeric(btn_text)) {
+                        Log.d("ZERO", "1 entry: 4 \t" + "zero = " + zeroSuppression);
+
                         appendText(btn_text);
                     }
                 } else if (currentEntry.equals("(")) {
                     if (isOperators(btn_text)) {
+                        Log.d("ZERO", "1 entry: 1 \t" + "zero = " + zeroSuppression);
+
                         processFirstEntry(btn_text);
                     } else {
                         appendText(btn_text);
                     }
                 }
+
+                // Take care of decimal and zero suppression
                 if (!currentEntry.equals(".") && btn_text.equals("."))
                     setDecimal();
+
+
+                Log.d("ZERO", "onClick: 1 entry \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal + "\t Zero = " + zeroSuppression);
             }
 
             // When entry is not empty, append entry accordingly
@@ -349,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-            Log.d("TAG", "######## onClick: Finish........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal);
+            Log.d("TAG", "######## onClick: Finish........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
 
         }
     };
@@ -373,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
                 return String.valueOf(result);
         } catch (Exception e) {
             Log.d("exp", "getResult: 2 " + expression);
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
             return "Format Error";
         }
     }
@@ -449,6 +495,8 @@ public class MainActivity extends AppCompatActivity {
                 openParentheses++;
             } else if (lastChar.equals(".")) {
                 openDecimal = false;
+            } else if (lastChar.equals("0") && zeroSuppression == true) {
+                zeroSuppression = false;
             }
             previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
             currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
@@ -493,10 +541,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void appendText(String btn_text) {
-        previousEntry = currentEntry;
-        currentEntry += btn_text;
-        Log.d("ddd", "appendText: " + currentEntry);
-        primaryScreen.setText(currentEntry);
+        String lastChar;
+        if (currentEntry.length() > 1)
+            lastChar = currentEntry.substring(currentEntry.length()-1);
+        else
+            lastChar = currentEntry;
+
+        Log.d("ZERO", "appendText: 1 \t" + currentEntry + "\tzero = " + zeroSuppression);
+        if (!StringUtils.isNumeric(lastChar) && btn_text.equals("0")) {
+            // todo add zero
+            previousEntry = currentEntry;
+            currentEntry += btn_text;
+            Log.d("ZERO", "appendText: 2 \t" + currentEntry + "\tzero = " + zeroSuppression);
+            primaryScreen.setText(currentEntry);
+
+            if (openDecimal) {
+                zeroSuppression = false;
+            } else {
+                zeroSuppression = true;
+            }
+        } else if (lastChar.equals("0") && !StringUtils.isNumeric(btn_text)) {
+            // todo add other
+            previousEntry = currentEntry;
+            currentEntry += btn_text;
+            Log.d("ZERO", "appendText: 3 \t" + currentEntry + "\tzero = " + zeroSuppression);
+            primaryScreen.setText(currentEntry);
+
+            zeroSuppression = false;
+        }
+        else if (!zeroSuppression) {
+            previousEntry = currentEntry;
+            currentEntry += btn_text;
+            Log.d("ZERO", "appendText: 4 \t" + currentEntry + "\tzero = " + zeroSuppression);
+            primaryScreen.setText(currentEntry);
+        }
+        Log.d("ZERO", "appendText: 5 \t" + currentEntry + "\tzero = " + zeroSuppression);
+
     }
 
     private void operation_AC() {
@@ -507,6 +587,7 @@ public class MainActivity extends AppCompatActivity {
         openDecimal = false;
         primaryScreen.setText("");
         secondaryScreen.setText("");
+        zeroSuppression = false;
     }
 
     // Set operators. When new entry, only show + - . and numbers. Not * /
@@ -531,6 +612,8 @@ public class MainActivity extends AppCompatActivity {
             appendText(btn_text);
         } else if (StringUtils.isNumeric(btn_text)) {
             appendText(btn_text);
+            if (btn_text.equals("0"))
+                zeroSuppression = true;
         }
 
     }
