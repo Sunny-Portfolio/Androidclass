@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                 primaryScreen.setText(currentEntry);
                 secondaryScreen.setText("");
             } else if (btn_text.equals("M+")) {
-                String str = "";
+                String str;
                 if (!secondaryScreen.getText().equals("Format Error")) {
                     if (memoryStored.equals("")) {
                         memoryStored = secondaryScreen.getText().toString();
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
                 }
             } else if (btn_text.equals("M-")) {
-                String str = "";
+                String str;
                 if (!secondaryScreen.getText().equals("Format Error")) {
                     if (memoryStored.equals("")) {
                         memoryStored = secondaryScreen.getText().toString();
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // TODO: 10/6/23 /-/ into //    -- -+
-                // if 2ndlast is operator && last is + - then following must be num or dot
+                // if 2nd last is operator && last is + - then following must be num or dot
                 // When preceding operator is + - do the following actions
                 Log.d("TAG", "onClick: dd " + currentEntry.endsWith("-"));
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
@@ -439,7 +439,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
         if (currentEntry.length() == 0) {
-            return;
         } else if (currentEntry.length() == 1)
             operation_AC();
         else {
