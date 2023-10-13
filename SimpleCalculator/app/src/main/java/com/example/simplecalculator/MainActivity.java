@@ -379,11 +379,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // This method take cares of the backspace operation
+    // It will also set the number of opened parentheses or decimal point if you cancelled one
     private void operation_backspace() {
-        //currentEntry = previousEntry;
-//        primaryScreen.setText(currentEntry);
-
-        String lastChar = currentEntry.substring(currentEntry.length()-1);
 
         Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
         if (currentEntry.length() == 0) {
@@ -391,6 +389,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (currentEntry.length() == 1)
             operation_AC();
         else {
+            String lastChar = currentEntry.substring(currentEntry.length()-1);
             if (lastChar.equals("(")) {
                 openParentheses--;
             } else if (lastChar.equals(")")) {
