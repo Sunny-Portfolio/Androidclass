@@ -11,7 +11,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textColor">@color/lighterPink</item>
+        <item name="android:textColor">@drawable/digit_btn_color</item>
         <item name="android:layout_margin">2dp</item>
         <item name="android:textSize">26sp</item>
     </style>
@@ -23,7 +23,8 @@
 
     <style name="operatorButtons_theme" parent="commonButton_theme">
         <item name="backgroundTint">@color/darkerPink</item>
-        <item name="android:textColor">@color/brightBlue</item>
+
+        <item name="android:textColor">@drawable/oper_btn_color</item>
         <item name="cornerRadius">36dp</item>
     </style>
 

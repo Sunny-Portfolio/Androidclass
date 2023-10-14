@@ -1,6 +1,7 @@
 package com.example.simplecalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -119,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             MaterialButton btn = (MaterialButton) view;
             String btn_text = btn.getText().toString();
+//            btn.setBackgroundColor(getResources().getColor(R.color.black));
+//            btn.setBackgroundColor(getResources().getColor(R.color.white));
+
 
             // Change special characters to programming operators
             if (btn_text.equals("÷"))
@@ -418,14 +422,19 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("exp", "getResult: 1 " + expression);
             result = context.evaluateString(script, expression, "Javascript", 1, null).toString();
+            Log.d("exp", "getResult: 1.1 " + result + "\t %1 = " + Double.parseDouble(result) % 1);
 
             // Original result comes back as double even if it is whole number. e.g. 53.0
             // This will get rid of the .0 at the end
             // todo will need to rewrite. use apache isnumeric instead to check double or maybe regex
             if (Double.parseDouble(result) % 1 == 0) {
-                return result.substring(0, result.length()-2);
-            } else
-                return result;
+                if (result.endsWith(".0")) {
+                    return result.substring(0, result.length() - 2);
+                }
+            }
+            Log.d("exp", "getResult: 1.2 " + result);
+            return result;
+
 //            if (result % 1 == 0)
 //                return String.valueOf((int)result);
 //            else
@@ -461,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < openParentheses; i++) {
             expression += ")";
         }
-        expression += ").toFixed(10)*100/100";
+        expression += ").toFixed(10)*1000/1000";
         Log.d("exp", "fixExpression: E.... " + expression);
     }
 

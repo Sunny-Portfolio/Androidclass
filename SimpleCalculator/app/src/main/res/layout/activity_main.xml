@@ -124,6 +124,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/digi_btn9"
             style="@style/digitButtons_theme"
+            android:hapticFeedbackEnabled="false"
             android:text="@string/digit_text_9" />
 
         <com.google.android.material.button.MaterialButton
