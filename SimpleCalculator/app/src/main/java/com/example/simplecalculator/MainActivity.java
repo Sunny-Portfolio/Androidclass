@@ -143,11 +143,17 @@ public class MainActivity extends AppCompatActivity {
                 if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
                     memoryStored = secondaryScreen.getText().toString();
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
+                } else if (memoryStored.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(MainActivity.this, "Memory: is empty" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
             }
 
             else if (btn_text.equals("MR")) {
+                operation_AC();
+                // todo need to find a way to test if its double. right now its string to int error
+//                if (memoryStored % 1 != 0)
+//                    openDecimal = true;
                 currentEntry = memoryStored;
                 primaryScreen.setText(currentEntry);
                 secondaryScreen.setText("");
@@ -164,8 +170,10 @@ public class MainActivity extends AppCompatActivity {
                         memoryStored = getResult();
                     }
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
+                } else if (memoryStored.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(MainActivity.this, "Memory: is empty" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
             }
 
             else if (btn_text.equals("M-")) {
@@ -181,8 +189,10 @@ public class MainActivity extends AppCompatActivity {
                         memoryStored = getResult();
                     }
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
+                } else if (memoryStored.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
                 } else
-                    Toast.makeText(MainActivity.this, "Memory: is empty" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
             }
 
             else if (btn_text.equals("MC")) {
@@ -401,21 +411,23 @@ public class MainActivity extends AppCompatActivity {
 
     // Calculate the expression using Mozilla Rhino JavaScript engine
     private String getResult() {
-        double result;
+        String result;
         try {
             Context context = Context.enter();
             context.setOptimizationLevel(-1);
             Scriptable script = context.initStandardObjects();
 
             Log.d("exp", "getResult: 1 " + expression);
-            result = (double) context.evaluateString(script, expression, "Javascript", 1, null);
+            result = context.evaluateString(script, expression, "Javascript", 1, null).toString();
 
             // Original result comes back as double even if it is whole number. e.g. 53.0
             // This will get rid of the .0 at the end
-            if (result % 1 == 0)
-                return String.valueOf((int)result);
-            else
-                return String.valueOf(result);
+            // todo will need to rewrite. use apache isnumeric instead to check double or maybe regex
+//            if (result % 1 == 0)
+//                return String.valueOf((int)result);
+//            else
+//                return String.valueOf(result);
+            return result;
         } catch (Exception e) {
             Log.d("exp", "getResult: 2 " + expression);
             Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
