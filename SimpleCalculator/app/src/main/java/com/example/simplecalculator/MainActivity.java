@@ -151,9 +151,8 @@ public class MainActivity extends AppCompatActivity {
 
             else if (btn_text.equals("MR")) {
                 operation_AC();
-                // todo need to find a way to test if its double. right now its string to int error
-//                if (memoryStored % 1 != 0)
-//                    openDecimal = true;
+                if (Double.parseDouble(memoryStored) % 1 != 0)
+                    openDecimal = true;
                 currentEntry = memoryStored;
                 primaryScreen.setText(currentEntry);
                 secondaryScreen.setText("");
@@ -423,14 +422,18 @@ public class MainActivity extends AppCompatActivity {
             // Original result comes back as double even if it is whole number. e.g. 53.0
             // This will get rid of the .0 at the end
             // todo will need to rewrite. use apache isnumeric instead to check double or maybe regex
+            if (Double.parseDouble(result) % 1 == 0) {
+                return result.substring(0, result.length()-2);
+            } else
+                return result;
 //            if (result % 1 == 0)
 //                return String.valueOf((int)result);
 //            else
 //                return String.valueOf(result);
-            return result;
+//            return result;
         } catch (Exception e) {
             Log.d("exp", "getResult: 2 " + expression);
-            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Enter correctly", Toast.LENGTH_LONG).show();
             return "Format Error";
         }
     }
@@ -440,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
     private void fixExpression(String str) {
         expression = "";
         Log.d("exp", "fixExpression: A.... " + expression);
-        expression += str.charAt(0);
+        expression += "(" + str.charAt(0);
         for (int i = 1; i < str.length(); i++) {
             if (StringUtils.isNumeric(String.valueOf(str.charAt(i-1))) && str.charAt(i) == '(') {
                 expression += "*" + str.charAt(i);
@@ -458,6 +461,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < openParentheses; i++) {
             expression += ")";
         }
+        expression += ").toFixed(10)*100/100";
         Log.d("exp", "fixExpression: E.... " + expression);
     }
 
