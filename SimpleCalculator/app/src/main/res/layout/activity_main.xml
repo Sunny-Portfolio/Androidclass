@@ -40,6 +40,7 @@
             android:autoSizeMaxTextSize="32sp"
             android:autoSizeStepGranularity="2sp"
             android:maxLength="20"
+            android:textColor="@color/lighterBlack"
             />
     </LinearLayout>
 
