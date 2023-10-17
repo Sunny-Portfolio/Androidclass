@@ -31,13 +31,14 @@ public class MainActivity extends AppCompatActivity {
     String currentEntry = "";
     String previousEntry = "";
     String currentOperator = "";
-    String lastOperator = "";
-    String secondLastOperator = "";
+//    String lastOperator = "";
+//    String secondLastOperator = "";
     int openParentheses = 0;
     boolean openDecimal = false;
     String expression = "";
     String memoryStored = "";
     boolean zeroSuppression = false;
+    private final int expressionMax = 72;
 
 
     @Override
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // setup the two display areas, and all buttons
         primaryScreen = (TextView) findViewById(R.id.textView_primary);
         secondaryScreen = (TextView) findViewById(R.id.textView_secondary);
 
@@ -109,19 +111,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Initialize all buttons with listener
+    /*
+    Initialize all buttons with listener
+     */
     private void setupButton(MaterialButton btn, int id) {
         btn = findViewById(id);
         btn.setOnClickListener(button_Listener);
     }
 
+     /*
+     OnClickListener for all the buttons, and override onClick() to determine actions for each press
+      */
     View.OnClickListener button_Listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             MaterialButton btn = (MaterialButton) view;
             String btn_text = btn.getText().toString();
-//            btn.setBackgroundColor(getResources().getColor(R.color.black));
-//            btn.setBackgroundColor(getResources().getColor(R.color.white));
 
 
             // Change special characters to programming operators
@@ -137,8 +142,14 @@ public class MainActivity extends AppCompatActivity {
                 btn_text = operation_parentheses();
             }
 
-            // Processing each user onClick entry
-            // This is one big if else statement so it doesn't go via all condition cases
+             /*
+             Processing each user onClick entry
+             This is one big if else statement so it doesn't go via all condition cases
+             It first process all the function buttons such as memory functions
+             Then it take cares of cases if current expression is empty
+             Then it take cares of cases if current expression is of length 1
+             Then it take cares of cases if current expression is of length > 1 and < 72
+             */
             if (btn_text.equals("AC")) {
                 operation_AC();
             }
@@ -154,12 +165,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if (btn_text.equals("MR")) {
-                operation_AC();
-                if (Double.parseDouble(memoryStored) % 1 != 0)
-                    openDecimal = true;
-                currentEntry = memoryStored;
-                primaryScreen.setText(currentEntry);
-                secondaryScreen.setText("");
+                if (!memoryStored.equals("")) {
+                    operation_AC();
+                    if (Double.parseDouble(memoryStored) % 1 != 0)
+                        openDecimal = true;
+                    currentEntry = memoryStored;
+                    primaryScreen.setText(currentEntry);
+                    secondaryScreen.setText("");
+                } else {
+                    Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
+                }
             }
 
             else if (btn_text.equals("M+")) {
@@ -229,7 +244,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            // If the current entry is empty, use the following logic
+             /*
+             If the current entry is empty, use the following logic
+              */
             else if (currentEntry.isEmpty()) {
                 Log.d("ZERO", "is empty: 1 \t" + "zero = " + zeroSuppression);
 
@@ -237,14 +254,17 @@ public class MainActivity extends AppCompatActivity {
                 processFirstEntry(btn_text);
             }
 
-            // If the current entry is length 1, use the following logic
-            else if (currentEntry.length() == 1){
+             /*
+             If the current entry is length 1, use the following logic
+              */
+            else if (currentEntry.length() == 1) {
                 Log.d("ZERO", "1 entry: 1 \t" + "zero = " + zeroSuppression);
 
+                // Leading zero suppression
                 if (StringUtils.isNumeric(currentEntry)) {
                     if (currentEntry.equals("0") && zeroSuppression && StringUtils.isNumeric(btn_text)) {
+                        // Replace the leading zero if user entered a non zero number
                         if (!btn_text.equals("0")) {
-                            // Replace the leading zero if user entered a non zero number
                             operation_backspace();
                             appendText(btn_text);
                             Log.d("ZERO", "1 entry: 2 \t" + "zero = " + zeroSuppression);
@@ -274,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // Take care of decimal and zero suppression
+                // Take care of decimal and decimal dot suppression
                 if (!currentEntry.equals(".") && btn_text.equals("."))
                     setDecimal();
 
@@ -282,13 +302,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("ZERO", "onClick: 1 entry \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal + "\t Zero = " + zeroSuppression);
             }
 
-            // When entry is not empty, append entry accordingly
-            else if (!currentEntry.isEmpty()) {
+             /*
+             If the current entry is not empty; larger than 1 and less than 72; use the following logic
+              */
+            else if (!currentEntry.isEmpty() && currentEntry.length() < expressionMax) {
+                Log.d("TAG", "******************* onClick: count char:  " + currentEntry.length());
 
-
-                // TODO: 10/6/23 /-/ into //    -- -+
-                // if 2nd last is operator && last is + - then following must be num or dot
-                // When preceding operator is + - do the following actions
+                 /*
+                 When preceding character is + - do the following actions
+                  */
                 Log.d("TAG", "onClick: dd " + currentEntry.endsWith("-"));
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
                     Log.d("TAG", "onClick: +- 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
@@ -299,9 +321,11 @@ public class MainActivity extends AppCompatActivity {
                             setOldEntry(btn_text);
                         }
                     }
+
                     // Replace the operator if + or - is followed by an operator
+                    // e.g. 8+* becomes 8*
                     // After open bracket only allows negative sign
-                    // e.g. 8- 8+ 8(-
+                    // e.g. 8(-
                     else if (isOperators(btn_text)) {
                         Log.d("TAG", "onClick: +- 3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
                         if (!previousEntry.endsWith("(")) {
@@ -317,7 +341,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // When preceding operator is * / do the following actions
+                /*
+                When preceding character is * / do the following actions
+                 */
                 else if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
                     if (isOperators(btn_text) && !btn_text.equals("-")) {
                         toOldEntry(btn_text);
@@ -334,7 +360,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-
+                /*
+                When preceding character is a dot, do the following actions
+                 */
                 else if (currentEntry.endsWith(".")) {
                     if (btn_text.equals(")") || isOperators(btn_text)) {
                         setOldEntry(btn_text);
@@ -345,22 +373,24 @@ public class MainActivity extends AppCompatActivity {
                         setOperator("*");
                         if (openDecimal)
                             setDecimal();
-                        // Javascript can process 23(23)
 //                        appendText("*");
                         appendText(btn_text);
                     } else if (StringUtils.isNumeric(btn_text) && openDecimal) {
 //                        setDecimal();
                         appendText(btn_text);
                     } else if (btn_text.equals(".") && openDecimal) {
+                        // Suppress dot entry
                     } else
                         appendText(btn_text);
                 }
 
+                /*
+                When preceding character is numeric number, do the following actions
+                 */
                 else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
                     Log.d("TAG", "onClick: num1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
                     if (btn_text.equals("(")) {
                         setOperator("*");
-                        // Javascript can process 23(23)
 //                        appendText("*");
                         appendText(btn_text);
                         if (openDecimal)
@@ -370,6 +400,7 @@ public class MainActivity extends AppCompatActivity {
                         appendText(btn_text);
                         Log.d("TAG", "onClick: num2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
                     } else if (btn_text.equals(".") && openDecimal) {
+                        // Suppress dot entry
                         Log.d("TAG", "onClick: num3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\tDecimal = " + openDecimal);
                     } else if (!StringUtils.isNumeric(btn_text) && openDecimal){
                         setDecimal();
@@ -380,14 +411,18 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                // When preceding operator is ( do the following actions
+                /*
+                When preceding character is ( do the following actions
+                 */
                 else if (currentEntry.endsWith("(")) {
                     if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text))
                         processFirstEntry(btn_text);
 //                        appendText(btn_text);
                 }
 
-                // When preceding operator is ) do the following actions
+                /*
+                When preceding character is ) do the following actions
+                 */
                 else if (currentEntry.endsWith(")")) {
                     if (StringUtils.isNumeric(btn_text)) {
                         setOperator("*");
@@ -398,7 +433,9 @@ public class MainActivity extends AppCompatActivity {
                         appendText(btn_text);
                 }
 
-                // Show initial result of the current expression
+                /*
+                Show initial result of the current expression to secondary screen
+                 */
                 if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
 //                    if (!secondaryScreen.getText().toString().equals("")) {
                         fixExpression(currentEntry);
@@ -406,13 +443,17 @@ public class MainActivity extends AppCompatActivity {
 //                    }
                 }
 
+            } else {
+                Toast.makeText(MainActivity.this, "You have reach max characters allowed", Toast.LENGTH_SHORT).show();
             }
             Log.d("TAG", "######## onClick: Finish........ btn = " + btn_text + "\tcurrent = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
 
         }
     };
 
-    // Calculate the expression using Mozilla Rhino JavaScript engine
+    /*
+    Process the expression using Mozilla Rhino JavaScript engine, and get calculated result.
+     */
     private String getResult() {
         String result;
         try {
@@ -426,7 +467,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Original result comes back as double even if it is whole number. e.g. 53.0
             // This will get rid of the .0 at the end
-            // todo will need to rewrite. use apache isnumeric instead to check double or maybe regex
             if (Double.parseDouble(result) % 1 == 0) {
                 if (result.endsWith(".0")) {
                     return result.substring(0, result.length() - 2);
@@ -442,13 +482,21 @@ public class MainActivity extends AppCompatActivity {
 //            return result;
         } catch (Exception e) {
             Log.d("exp", "getResult: 2 " + expression);
-            Toast.makeText(this, "Enter correctly", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Please enter correctly", Toast.LENGTH_LONG).show();
             return "Format Error";
         }
     }
 
-    // Fix equation into an expression that can be read by Javascript.
-    // In this case, adding * between numbers and brackets. Also closing opened brackets.
+     /*
+     Fix equation into an expression that can be processed by Javascript.
+     In this case, adding * between numbers and brackets.
+     This method will also close all opened brackets.
+
+     Note: There is a well documented problem with JavaScript arithmetic calculations.
+     E.g. 0.1 + 0.2 will equals to 0.30000000000000004 in JS
+     I have used a quick fix by sending the expression to toFixed(10), then multiply it by 1000
+     then divide it by 1000. This may not fix all arithmetic error.
+      */
     private void fixExpression(String str) {
         expression = "";
         Log.d("exp", "fixExpression: A.... " + expression);
@@ -474,15 +522,21 @@ public class MainActivity extends AppCompatActivity {
         Log.d("exp", "fixExpression: E.... " + expression);
     }
 
-    // This method set entry1 = entry2
-    // So when append new entry, entry1 should be previousEntry, and entry2 be currentEntry
 
+    /*
+    This method shifts the equation to one character back,
+    then set the primary screen with the updated equation.
+     */
     private void setOldEntry(String btn_text) {
         toOldEntry(btn_text);
         setOperator(currentEntry.substring(currentEntry.length()-1));
         primaryScreen.setText(currentEntry);
     }
 
+    /*
+    This method is used by setOldEntry() to perform the shift character operation.
+    It may also be used by by other methods or conditions to shift one character back.
+     */
     private void toOldEntry (String btn_text) {
         Log.d("TAG", "setOldEntry: 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
         if (currentEntry.length() >= 2) {
@@ -504,8 +558,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // This method take cares of the backspace operation
-    // It will also set the number of opened parentheses or decimal point if you cancelled one
+     /*
+     This method take cares of the backspace operation
+     It will also update the number of opened parentheses if you deleted one
+     as well as update zero or dot suppression count
+      */
     private void operation_backspace() {
 
         Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
@@ -529,11 +586,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /*
+    This method determines if the current button input is a operator
+     */
     private boolean isOperators(String btn_text) {
         return btn_text.equals("+") || btn_text.equals("-") || btn_text.equals("*") || btn_text.equals("/");
     }
 
+    /*
+    This method determines which parentheses to input.
+    So it returns either ( or )
+    It also updates the counts for opened parentheses.
+     */
     private String operation_parentheses() {
         Log.d("TAG", "operation_parentheses 1: count : " + openParentheses);
         if (openParentheses > 0) {
@@ -558,6 +622,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ddd", "setOperator: " + currentOperator);
     }
 
+    /*
+    This method is a switch for decimal dot count
+    It is used for decimal dot suppression
+     */
     private void setDecimal () {
         if (openDecimal)
             openDecimal = false;
@@ -565,14 +633,21 @@ public class MainActivity extends AppCompatActivity {
             openDecimal = true;
     }
 
+    /*
+    This method takes care of most of the new button entry, append it to the equation,
+    then display it on the screen.
+     */
     private void appendText(String btn_text) {
         String lastChar;
+        // Assign the last character of the current equation. Used for zero suppression.
         if (currentEntry.length() > 1)
             lastChar = currentEntry.substring(currentEntry.length()-1);
         else
             lastChar = currentEntry;
 
         Log.d("ZERO", "appendText: 1 \t" + currentEntry + "\tzero = " + zeroSuppression);
+        // If last character is not a number, then safely append 0 to the equation.
+        // When the current equation is a decimal number, then don't suppress zero
         if (!StringUtils.isNumeric(lastChar) && btn_text.equals("0")) {
             // todo add zero
             previousEntry = currentEntry;
@@ -585,7 +660,10 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 zeroSuppression = true;
             }
-        } else if (lastChar.equals("0") && !StringUtils.isNumeric(btn_text)) {
+        }
+
+        // If last character is 0, then append non numeric character and reset zero suppression
+        else if (lastChar.equals("0") && !StringUtils.isNumeric(btn_text)) {
             // todo add other
             previousEntry = currentEntry;
             currentEntry += btn_text;
@@ -594,6 +672,8 @@ public class MainActivity extends AppCompatActivity {
 
             zeroSuppression = false;
         }
+
+        // For all other entry, append if there is no zero suppression.
         else if (!zeroSuppression) {
             previousEntry = currentEntry;
             currentEntry += btn_text;
@@ -604,6 +684,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    Operation for All Clear (AC) function
+     */
     private void operation_AC() {
         currentEntry = "";
         previousEntry = "";
@@ -615,7 +698,12 @@ public class MainActivity extends AppCompatActivity {
         zeroSuppression = false;
     }
 
-    // Set operators. When new entry, only show + - . and numbers. Not * /
+    /*
+    This method take cares of the first entry of the equation,
+    as well as first entry after open bracket (
+    When new entry, it will only allow dot, numbers, ( and -
+    It will not allow * / +
+     */
     private void processFirstEntry(String btn_text) {
 
         if (btn_text.equals("-")) {
