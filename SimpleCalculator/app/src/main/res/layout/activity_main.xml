@@ -225,6 +225,40 @@
             android:id="@+id/oper_btn12"
             style="@style/operatorButtons_theme"
             android:text="@string/oper_text_12" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn15"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn16"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn17"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn18"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn19"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn20"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn21"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/oper_btn22"
+            style="@style/operatorButtons_theme"
+            android:visibility="gone"/>
     </LinearLayout>
 
 

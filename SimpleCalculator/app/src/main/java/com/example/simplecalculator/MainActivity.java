@@ -1,12 +1,15 @@
 package com.example.simplecalculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         setupButton(button_8, R.id.digi_btn8);
         setupButton(button_9, R.id.digi_btn9);
 
+
         setupButton(button_Deg, R.id.oper_btn15);
         setupButton(button_Sin, R.id.oper_btn16);
         setupButton(button_Cos, R.id.oper_btn17);
@@ -122,9 +126,10 @@ public class MainActivity extends AppCompatActivity {
         setupButton(button_E, R.id.oper_btn22);
 
 
-
-
     }
+
+
+
 
     /*
     Initialize all buttons with listener
@@ -238,20 +243,28 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if (btn_text.equals("=")) {
-                fixExpression(currentEntry);
-                String result = getResult();
+                if (!currentEntry.isEmpty()) {
+                    fixExpression(currentEntry);
+                    String result = getResult();
 
-                // Using Apache Commons Lang 3 to figure out what the result is
-                // The use here is to filter error msg from showing on primary screen
-                if (!NumberUtils.isCreatable(result)) {
-                    Log.d("TAG", "onClick: creatabel????");
-                    secondaryScreen.setTextColor(Color.parseColor("#A31621"));
-                    secondaryScreen.setText(result);
-                } else {
-                    currentEntry = result;
-                    primaryScreen.setText(currentEntry);
-                    secondaryScreen.setText("");
+
+                    Log.d("TAG", "onClick: equal 1 ");
+                    // Using Apache Commons Lang 3 to figure out what the result is
+                    // The use here is to filter error msg from showing on primary screen
+                    if (!NumberUtils.isCreatable(result)) {
+                        Log.d("TAG", "onClick: creatabel????");
+                        secondaryScreen.setTextColor(Color.parseColor("#A31621"));
+                        secondaryScreen.setText(result);
+                    } else {
+                        Log.d("TAG", "onClick: equal 2 ");
+
+                        currentEntry = result;
+                        primaryScreen.setText(currentEntry);
+                        secondaryScreen.setText("");
+                    }
+                    Log.d("TAG", "onClick: equal 3 ");
                 }
+
             }
 
             // This condition take cares of the backspace operation
@@ -522,6 +535,7 @@ public class MainActivity extends AppCompatActivity {
     private void fixExpression(String str) {
         expression = "";
         Log.d("exp", "fixExpression: A.... " + expression);
+
         expression += "(" + str.charAt(0);
         for (int i = 1; i < str.length(); i++) {
             if (StringUtils.isNumeric(String.valueOf(str.charAt(i-1))) && str.charAt(i) == '(') {

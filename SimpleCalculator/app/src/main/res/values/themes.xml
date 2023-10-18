@@ -27,7 +27,7 @@
 
     <style name="digitButtons_theme" parent="commonButton_theme">
 <!--        <item name="backgroundTint">@color/darkerBlue</item>-->
-        <item name="backgroundTint">@color/teal</item>
+        <item name="backgroundTint">@color/darkerBlue</item>
         <item name="cornerRadius">20dp</item>
 
     </style>
