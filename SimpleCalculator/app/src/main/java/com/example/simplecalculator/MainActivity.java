@@ -757,12 +757,14 @@ public class MainActivity extends AppCompatActivity {
         } else if (btn_text.equals(".") && !openDecimal) {
             appendText(btn_text);
             openDecimal = true;
-        } else if (btn_text.equals("(")) {
+        } else if (btn_text.equals("(") || btn_text.equals("π") || btn_text.equals("√")|| btn_text.equals("e")) {
             appendText(btn_text);
+        } else if (btn_text.equals("sin") || btn_text.equals("cin") ||btn_text.equals("tan")) {
+            appendText(btn_text + "(");
         } else if (StringUtils.isNumeric(btn_text)) {
-            appendText(btn_text);
-            if (btn_text.equals("0"))
-                zeroSuppression = true;
+                appendText(btn_text);
+                if (btn_text.equals("0"))
+                    zeroSuppression = true;
         }
 
     }
