@@ -357,6 +357,8 @@ public class MainActivity extends AppCompatActivity {
                 if (currentEntry.endsWith("+") || currentEntry.endsWith("-")) {
                     Log.d("TAG", "onClick: +- 1 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
 
+                    // Replace the operator if + or - is followed by an operator
+                    // e.g. 8+* becomes 8*
                     if (currentEntry.length() >= 2 && isOperators(previousEntry.substring(previousEntry.length()-1)) && isOperators(btn_text)) {
                         if (btn_text.equals("+") || btn_text.equals("*") || btn_text.equals("/")) {
                             Log.d("TAG", "onClick: +- 2 \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
@@ -364,13 +366,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
 
-                    // Replace the operator if + or - is followed by an operator
-                    // e.g. 8+* becomes 8*
-                    // After open bracket only allows negative sign
-                    // e.g. 8(-
+                    // After ( √ ^ only allows negative sign
+                    // e.g. 8(-     8^-     8√-
                     else if (isOperators(btn_text)) {
                         Log.d("TAG", "onClick: +- 3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
-                        if (!previousEntry.endsWith("(")) {
+                        if (!previousEntry.endsWith("(") && !previousEntry.endsWith("√") && !previousEntry.endsWith("^")) {
                             setOldEntry(btn_text);
                             setOperator(btn_text);
                             appendText(btn_text);
@@ -473,6 +473,45 @@ public class MainActivity extends AppCompatActivity {
                             setDecimal();
                     } else
                         appendText(btn_text);
+                }
+
+                /*
+                When preceding character is π or e or √ do the following actions
+                 */
+                else if (currentEntry.endsWith("π") || currentEntry.endsWith("e")) {
+                    appendText(btn_text);
+                    if (btn_text.equals("."))
+                        setDecimal();
+                }
+
+                /*
+                When preceding character is ^ do the following actions
+                 */
+                else if (currentEntry.endsWith("^")) {
+                    if (isOperators(btn_text)) {
+                        // replace previous except -
+                        // don't append if ^ followed by ^
+                        if (btn_text.equals("-")) {
+                            appendText(btn_text);
+                        } else if (!btn_text.equals("^")) {
+                            operation_backspace();
+                            appendText(btn_text);
+                        }
+                    } else if (btn_text.equals(")")) {
+                        appendText(btn_text);
+                    } else
+                        appendText(btn_text);
+
+                    if (btn_text.equals("."))
+                        setDecimal();
+                }
+
+                else if (currentEntry.endsWith("√")) {
+                    Log.d("TAG", "onClick: sqrt 1");
+                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text)) {
+                        Log.d("TAG", "onClick: sqrt 2");
+                        processFirstEntry(btn_text);
+                    }
                 }
 
                 showInitialResult();
