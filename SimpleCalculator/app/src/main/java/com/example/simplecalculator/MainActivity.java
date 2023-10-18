@@ -327,6 +327,9 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         appendText(btn_text);
                     }
+                } else {
+                    // todo this is added for landscape mode
+                    appendText(btn_text);
                 }
 
                 // Take care of decimal and decimal dot suppression
@@ -761,6 +764,7 @@ public class MainActivity extends AppCompatActivity {
             appendText(btn_text);
         } else if (btn_text.equals("sin") || btn_text.equals("cos") ||btn_text.equals("tan")) {
             appendText(btn_text + "(");
+            openParentheses++;
         } else if (StringUtils.isNumeric(btn_text)) {
                 appendText(btn_text);
                 if (btn_text.equals("0"))
