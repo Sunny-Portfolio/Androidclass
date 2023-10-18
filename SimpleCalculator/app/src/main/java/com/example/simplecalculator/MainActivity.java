@@ -3,6 +3,8 @@ package com.example.simplecalculator;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -243,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                 // The use here is to filter error msg from showing on primary screen
                 if (!NumberUtils.isCreatable(result)) {
                     Log.d("TAG", "onClick: creatabel????");
+                    secondaryScreen.setTextColor(Color.parseColor("#A31621"));
                     secondaryScreen.setText(result);
                 } else {
                     currentEntry = result;
@@ -456,10 +459,10 @@ public class MainActivity extends AppCompatActivity {
                 Show initial result of the current expression to secondary screen
                  */
                 if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-//                    if (!secondaryScreen.getText().toString().equals("")) {
-                        fixExpression(currentEntry);
-                        secondaryScreen.setText(getResult());
-//                    }
+                    secondaryScreen.setTextColor(Color.parseColor("#828282"));
+                    fixExpression(currentEntry);
+                    secondaryScreen.setText(getResult());
+
                 }
 
             } else {
