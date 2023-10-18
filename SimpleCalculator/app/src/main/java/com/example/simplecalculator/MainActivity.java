@@ -267,15 +267,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-            // This condition take cares of the backspace operation
+            /*
+            This condition take cares of the backspace operation
+             */
             else if (btn.getId() == R.id.oper_btn13) {
                 operation_backspace();
 
                 // Show initial result of the current expression
-                if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-                    fixExpression(currentEntry);
-                    secondaryScreen.setText(getResult());
-                }
+                showInitialResult();
 
             }
 
@@ -476,24 +475,7 @@ public class MainActivity extends AppCompatActivity {
                         appendText(btn_text);
                 }
 
-                /*
-                Show initial result of the current expression to secondary screen
-                 */
-                if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-                    fixExpression(currentEntry);
-                    String result = getResult();
-
-                    // Using Apache Commons Lang 3 to figure out what the result is
-                    // The use here is to filter error msg from showing on primary screen
-                    if (!NumberUtils.isCreatable(result)) {
-                        secondaryScreen.setTextColor(Color.parseColor("#A31621"));
-                        secondaryScreen.setText(result);
-                    } else {
-                        secondaryScreen.setTextColor(Color.parseColor("#828282"));
-                        secondaryScreen.setText(result);
-                    }
-
-                }
+                showInitialResult();
 
             } else {
                 Toast.makeText(MainActivity.this, "You have reach max characters allowed", Toast.LENGTH_SHORT).show();
@@ -502,6 +484,28 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    /*
+    Show initial result of the current expression to secondary screen
+     */
+    private void showInitialResult() {
+
+        if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+            fixExpression(currentEntry);
+            String result = getResult();
+
+            // Using Apache Commons Lang 3 to figure out what the result is
+            // The use here is to filter error msg from showing on primary screen
+            if (!NumberUtils.isCreatable(result)) {
+                secondaryScreen.setTextColor(Color.parseColor("#A31621"));
+                secondaryScreen.setText(result);
+            } else {
+                secondaryScreen.setTextColor(Color.parseColor("#828282"));
+                secondaryScreen.setText(result);
+            }
+        }
+    }
+
 
     /*
     Process the expression using Mozilla Rhino JavaScript engine, and get calculated result.
