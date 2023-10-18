@@ -6,8 +6,17 @@
     <color name="darkerBlue">#214A59</color>
     <color name="brightBlue">#23B5D3</color>
     <color name="dullBlue">#75ABBC</color>
+
     <color name="darkerPink">#C4B2BC</color>
     <color name="lighterPink">#DBCBD8</color>
     <color name="lighterBlack">#828282</color>
+
+    <color name="teal">#1F7A8C</color>
+    <color name="columibaBlue">#BFDBF7</color>
+    <color name="errorRed">#A31621</color>
+    <color name="indigoBlue">#053C5E</color>
+
+
+
 
 </resources>
