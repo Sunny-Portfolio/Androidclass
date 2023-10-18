@@ -227,6 +227,9 @@
             android:text="@string/oper_text_12" />
 
 
+<!--        These are the extra buttons for landscape mode-->
+<!--        They are set to "gone" visibility-->
+<!--        Need to have these buttons here so MainActivity don't point to null-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn15"
             style="@style/operatorButtons_theme"

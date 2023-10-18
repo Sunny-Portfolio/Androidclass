@@ -7,32 +7,32 @@
 
     <style name="Theme.SimpleCalculator" parent="Base.Theme.SimpleCalculator" />
 
+    <!-- Set the base attributions for all buttons -->
     <style name="commonButton_theme" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColor">@drawable/digit_btn_color</item>
-        <!--        <item name="android:layout_margin">1dp</item>-->
         <item name="android:layout_marginHorizontal">5dp</item>
         <item name="android:layout_marginVertical">1dp</item>
+        <item name="textAllCaps">false</item>
 
-        <!--        <item name="android:textSize">26sp</item>-->
-
+        <!-- These will auto resize button text-->
         <item name="android:autoSizeTextType">uniform</item>
         <item name="android:autoSizeMinTextSize">14sp</item>
         <item name="android:autoSizeMaxTextSize">20sp</item>
         <item name="android:autoSizeStepGranularity">1sp</item>
-        <item name="textAllCaps">false</item>
     </style>
 
+    <!-- Set the specific attributions for digit buttons -->
     <style name="digitButtons_theme" parent="commonButton_theme">
         <item name="backgroundTint">@color/darkerBlue</item>
         <item name="cornerRadius">16dp</item>
     </style>
 
+    <!-- Set the specific attributions for operator and other function buttons -->
     <style name="operatorButtons_theme" parent="commonButton_theme">
         <item name="backgroundTint">@color/darkerPink</item>
-
         <item name="android:textColor">@drawable/oper_btn_color</item>
         <item name="cornerRadius">32dp</item>
     </style>
