@@ -58,13 +58,13 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn15"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_15" />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn19"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_19" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn1"
@@ -109,13 +109,13 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn16"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_16" />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn20"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_20" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn2"
             style="@style/operatorButtons_theme"
@@ -155,13 +155,13 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn17"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_17" />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn21"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_21" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn3"
             style="@style/operatorButtons_theme"
@@ -203,13 +203,13 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn18"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_18" />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/oper_btn7"
+            android:id="@+id/oper_btn22"
             style="@style/operatorButtons_theme"
-            android:text="@string/oper_text_7" />
+            android:text="@string/oper_text_22" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn4"
             style="@style/operatorButtons_theme"

@@ -27,6 +27,16 @@
     <string name="oper_text_13">BK</string>
     <string name="oper_text_14">.</string>
 
+    <string name="oper_text_15">DEG</string>
+    <string name="oper_text_16">sin</string>
+    <string name="oper_text_17">cos</string>
+    <string name="oper_text_18">tan</string>
+    <string name="oper_text_19">^</string>
+    <string name="oper_text_20">√</string>
+    <string name="oper_text_21">π</string>
+    <string name="oper_text_22">e</string>
+
+
 
 
     <string name="test1">ttt</string>

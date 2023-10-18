@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     MaterialButton button_0, button_1, button_2, button_3, button_4;
     MaterialButton button_5, button_6, button_7, button_8, button_9;
     MaterialButton button_Decimal, button_Back, button_Equals;
+    MaterialButton button_Deg, button_Sin, button_Cos, button_Tan;
+    MaterialButton button_Pow, button_Sqrt, button_Pi, button_E;
 
     String currentEntry = "";
     String previousEntry = "";
@@ -108,6 +110,17 @@ public class MainActivity extends AppCompatActivity {
         setupButton(button_8, R.id.digi_btn8);
         setupButton(button_9, R.id.digi_btn9);
 
+        setupButton(button_Deg, R.id.oper_btn15);
+        setupButton(button_Sin, R.id.oper_btn16);
+        setupButton(button_Cos, R.id.oper_btn17);
+        setupButton(button_Tan, R.id.oper_btn18);
+        setupButton(button_Pow, R.id.oper_btn19);
+        setupButton(button_Sqrt, R.id.oper_btn20);
+        setupButton(button_Pi, R.id.oper_btn21);
+        setupButton(button_E, R.id.oper_btn22);
+
+
+
 
     }
 
@@ -155,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
             }
 
             else if (btn_text.equals("MS")) {
+                // Using Apache Commons Lang 3 to make sure the value being saved is a number
+                // isCreatable() is true if it's a valid number including Hexadecimal, octal number
+                // scientific notation, signed number etc.
+                // Used on MS, M+ M-, and equal button
                 if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
                     memoryStored = secondaryScreen.getText().toString();
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
@@ -221,7 +238,9 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("=")) {
                 fixExpression(currentEntry);
                 String result = getResult();
-//                if (result.equals("Format Error")) {
+
+                // Using Apache Commons Lang 3 to figure out what the result is
+                // The use here is to filter error msg from showing on primary screen
                 if (!NumberUtils.isCreatable(result)) {
                     Log.d("TAG", "onClick: creatabel????");
                     secondaryScreen.setText(result);
