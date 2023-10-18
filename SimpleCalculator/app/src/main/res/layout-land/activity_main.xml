@@ -28,7 +28,7 @@
             android:autoSizeMaxTextSize="62sp"
             android:autoSizeStepGranularity="2sp"
             android:maxLength="72"
-            android:maxLines="3"
+            android:maxLines="2"
             />
 
 
@@ -229,7 +229,12 @@
             android:id="@+id/oper_btn13"
             style="@style/operatorButtons_theme"
             app:icon="@drawable/icon_backspace"
-            app:iconSize="40dp" />
+            app:iconGravity="textStart"
+            app:iconPadding="10dp"
+            app:iconSize="30dp" />
+
+
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn11"
