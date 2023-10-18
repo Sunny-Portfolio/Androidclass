@@ -329,7 +329,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
                     // todo this is added for landscape mode
-                    appendText(btn_text);
+                    if (btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
+                        appendText(btn_text + "(");
+                        openParentheses++;
+                    } else {
+                        appendText(btn_text);
+                    }
                 }
 
                 // Take care of decimal and decimal dot suppression
@@ -475,9 +480,18 @@ public class MainActivity extends AppCompatActivity {
                 Show initial result of the current expression to secondary screen
                  */
                 if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-                    secondaryScreen.setTextColor(Color.parseColor("#828282"));
                     fixExpression(currentEntry);
-                    secondaryScreen.setText(getResult());
+                    String result = getResult();
+
+                    // Using Apache Commons Lang 3 to figure out what the result is
+                    // The use here is to filter error msg from showing on primary screen
+                    if (!NumberUtils.isCreatable(result)) {
+                        secondaryScreen.setTextColor(Color.parseColor("#A31621"));
+                        secondaryScreen.setText(result);
+                    } else {
+                        secondaryScreen.setTextColor(Color.parseColor("#828282"));
+                        secondaryScreen.setText(result);
+                    }
 
                 }
 
@@ -683,6 +697,12 @@ public class MainActivity extends AppCompatActivity {
             lastChar = currentEntry.substring(currentEntry.length()-1);
         else
             lastChar = currentEntry;
+
+        // If the button is sin cos tan, then add a open bracket
+        if (btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
+            btn_text += "(";
+            openParentheses++;
+        }
 
         Log.d("ZERO", "appendText: 1 \t" + currentEntry + "\tzero = " + zeroSuppression);
         // If last character is not a number, then safely append 0 to the equation.
