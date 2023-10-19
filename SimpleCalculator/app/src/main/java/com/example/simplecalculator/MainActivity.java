@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         setupButton(button_Pi, R.id.oper_btn21);
         setupButton(button_E, R.id.oper_btn22);
 
-
+        setup_mXparser();
     }
 
 
@@ -141,6 +141,18 @@ public class MainActivity extends AppCompatActivity {
     private void setupButton(MaterialButton btn, int id) {
         btn = findViewById(id);
         btn.setOnClickListener(button_Listener);
+    }
+
+    /*
+    Setup mXparser settings
+     */
+    private void setup_mXparser() {
+        // Setup the correct mode for the calculator
+        if (!mXparser.checkIfImpliedMultiplicationMode()) {
+            mXparser.enableImpliedMultiplicationMode();
+        } else if (!mXparser.checkIfUnicodeBuiltinKeyWordsMode()) {
+            mXparser.enableUnicodeBuiltinKeyWordsMode();
+        }
     }
 
      /*
@@ -563,13 +575,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /*
+    getResult_V2 uses mXparser for expression evaluation to get results
+     */
     private String getResult_V2() {
+        double result = 0;
+        String resultString;
+
         Expression e = new Expression(expression);
         mXparser.consolePrintln("Result is: " + e.getExpressionString() + " = " + e.calculate());
-        return String.valueOf(e.calculate());
+
+        result = e.calculate();
+        resultString = String.valueOf(result);
+
+        // Removing .0 from the double whole number
+        if (result % 1 == 0) {
+            if (resultString.endsWith(".0")) {
+                return resultString.substring(0, resultString.length() - 2);
+            }
+        } else {
+            return resultString;
+        }
     }
 
+    /*
+    getResult_V3 uses exp4j for expression evaluation to get results
+    */
     private String getResult_V3() {
         net.objecthunter.exp4j.Expression e = new ExpressionBuilder(expression).build();
         return String.valueOf(e.evaluate());
@@ -650,19 +681,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fixExpression_V2(String str) {
-//        expression = "";
         expression = str;
-//        for (int i = 1; i < str.length(); i++) {
-//            if (StringUtils.isNumeric(String.valueOf(str.charAt(i-1))) && str.charAt(i) == '(') {
-//                expression += "*" + str.charAt(i);
-//            } else if (str.charAt(i-1) == ')' && StringUtils.isNumeric(String.valueOf(str.charAt(i)))) {
-//                expression += "*" + str.charAt(i);
-//            } else {
-//                expression += str.charAt(i);
-//            }
-//        }
 
-        // Close all the opened parentheses
         for (int i = 0; i < openParentheses; i++) {
             expression += ")";
         }
