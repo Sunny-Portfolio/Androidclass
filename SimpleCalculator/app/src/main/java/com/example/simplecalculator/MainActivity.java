@@ -58,8 +58,17 @@ public class MainActivity extends AppCompatActivity {
     boolean zeroSuppression = false;
     private final int expressionMax = 72;
 
-    PopupWindow poppy;
     AlertDialog.Builder builder;
+
+    // These are the state change variables
+    private static final String STATE_currentEntry = "STATE_currentEntry_key";
+    private static final String STATE_previousEntry = "STATE_previousEntry_key";
+    private static final String STATE_openParentheses = "STATE_openParentheses_key";
+    private static final String STATE_openDecimal = "STATE_openDecimal_key";
+    private static final String STATE_memoryStored = "STATE_memoryStored_key";
+    private static final String STATE_zeroSuppression = "STATE_zeroSuppression_key";
+    private static final String STATE_primaryScreen = "STATE_primaryScreen_key";
+    private static final String STATE_secondaryScreen ="STATE_secondaryScreen_key";
 
 
 
@@ -147,9 +156,63 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.d("TAG", "onSaveInstanceState: 1");
+        Log.d("TAG", "current = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
+
+        outState.putString(STATE_primaryScreen, String.valueOf(primaryScreen.getText()));
+        outState.putString(STATE_secondaryScreen, String.valueOf(secondaryScreen.getText()));
+        outState.putString(STATE_currentEntry, currentEntry);
+        outState.putString(STATE_previousEntry, previousEntry);
+        outState.putString(STATE_memoryStored, memoryStored);
+
+        outState.putInt(STATE_openParentheses, openParentheses);
+        outState.putBoolean(STATE_openDecimal, openDecimal);
+        outState.putBoolean(STATE_zeroSuppression, zeroSuppression);
+        Log.d("TAG", "onSaveInstanceState: 2");
+        Log.d("TAG", "STATE current = " + STATE_currentEntry + "\t previous = " + STATE_previousEntry + "\t brackets = " + STATE_openParentheses + "\tDecimal = " + STATE_openDecimal + "\tZero = " + STATE_zeroSuppression);
+
+        // Call superclass to save any view hierarchy.
+//        super.onSaveInstanceState(outState);
+    }
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d("TAG", "onRestoreInstanceState: 1");
+
+
+
+        // Recover the instance state.
+        if (savedInstanceState != null) {
+            Log.d("TAG", "onRestoreInstanceState: 2");
+
+            primaryScreen.setText(savedInstanceState.getString(STATE_primaryScreen));
+            secondaryScreen.setText(savedInstanceState.getString(STATE_secondaryScreen));
+
+            currentEntry = savedInstanceState.getString(STATE_currentEntry);
+            previousEntry = savedInstanceState.getString(STATE_previousEntry);
+            memoryStored = savedInstanceState.getString(STATE_memoryStored);
+
+            openParentheses = savedInstanceState.getInt(STATE_openParentheses);
+            openDecimal = savedInstanceState.getBoolean(STATE_openDecimal);
+            zeroSuppression = savedInstanceState.getBoolean(STATE_zeroSuppression);
+            Log.d("TAG", "current = " + STATE_currentEntry + "\t previous = " + STATE_previousEntry + "\t brackets = " + STATE_openParentheses + "\tDecimal = " + STATE_openDecimal + "\tZero = " + STATE_zeroSuppression);
+
+
+        }
+        Log.d("TAG", "current = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
+
+    }
+
     /*
-    This calls the dialog box
-     */
+            This calls the dialog box
+             */
     private void setPopup() {
         builder = new AlertDialog.Builder(this);
         //Setting message manually and performing action on button click
