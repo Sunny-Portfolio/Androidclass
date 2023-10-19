@@ -390,14 +390,14 @@ public class MainActivity extends AppCompatActivity {
 
                     // After ( √ ^ only allows negative sign
                     // e.g. 8(-     8^-     8√-
-                    else if (isOperators(btn_text)) {
+                    else if (isOperators(btn_text) || btn_text.equals("^")) {
                         Log.d("TAG", "onClick: +- 3 \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
                         if (!previousEntry.endsWith("(") && !previousEntry.endsWith("√") && !previousEntry.endsWith("^")) {
                             setOldEntry(btn_text);
                             setOperator(btn_text);
                             appendText(btn_text);
                         }
-                    } else if (!btn_text.equals(")") && !btn_text.equals("^")) {
+                    } else if (!btn_text.equals(")")) {
                         Log.d("TAG", "onClick: Just append it");
                         if (btn_text.equals("."))
                             setDecimal();
@@ -409,13 +409,14 @@ public class MainActivity extends AppCompatActivity {
                 When preceding character is * / do the following actions
                  */
                 else if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
-                    if (isOperators(btn_text) && !btn_text.equals("-")) {
-                        toOldEntry(btn_text);
-                        Log.d("TAG", "onClick: */ \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
-                        setOperator(btn_text);
-                        appendText(btn_text);
+                    if (isOperators(btn_text) || btn_text.equals("^")) {
+                        if (!btn_text.equals("-")) {
+                            toOldEntry(btn_text);
+                            Log.d("TAG", "onClick: */ \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+                            setOperator(btn_text);
+                            appendText(btn_text);
+                        }
                     } else if (!btn_text.equals(")")) {
-                        // todo add not * / + to above condition. Only allow - .
                         Log.d("TAG", "onClick: Just append it");
                         if (btn_text.equals("."))
                             setDecimal();
@@ -593,9 +594,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultString.endsWith(".0")) {
                 return resultString.substring(0, resultString.length() - 2);
             }
-        } else {
-            return resultString;
         }
+        return resultString;
     }
 
     /*
