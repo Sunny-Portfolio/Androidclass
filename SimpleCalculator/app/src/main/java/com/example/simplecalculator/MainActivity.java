@@ -57,10 +57,11 @@ public class MainActivity extends AppCompatActivity {
     String memoryStored = "";
     boolean zeroSuppression = false;
     private final int expressionMax = 72;
+    boolean isFirstRun = true;
 
     AlertDialog.Builder builder;
 
-    // These are the state change variables
+    // These are the keys for the state change saved variables
     private static final String STATE_currentEntry = "STATE_currentEntry_key";
     private static final String STATE_previousEntry = "STATE_previousEntry_key";
     private static final String STATE_openParentheses = "STATE_openParentheses_key";
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE_zeroSuppression = "STATE_zeroSuppression_key";
     private static final String STATE_primaryScreen = "STATE_primaryScreen_key";
     private static final String STATE_secondaryScreen ="STATE_secondaryScreen_key";
+    private static final String STATE_isFirstRun ="STATE_isFirstRun_key";
+
 
 
 
@@ -151,9 +154,12 @@ public class MainActivity extends AppCompatActivity {
 
         setup_mXparser();
 
-        setPopup();
+        if (savedInstanceState == null){
+            setPopup();
+        }
 
     }
+
 
 
 
@@ -173,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_openParentheses, openParentheses);
         outState.putBoolean(STATE_openDecimal, openDecimal);
         outState.putBoolean(STATE_zeroSuppression, zeroSuppression);
+        outState.putBoolean(STATE_isFirstRun, isFirstRun);
+
         Log.d("TAG", "onSaveInstanceState: 2");
         Log.d("TAG", "STATE current = " + STATE_currentEntry + "\t previous = " + STATE_previousEntry + "\t brackets = " + STATE_openParentheses + "\tDecimal = " + STATE_openDecimal + "\tZero = " + STATE_zeroSuppression);
 
@@ -202,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
             openParentheses = savedInstanceState.getInt(STATE_openParentheses);
             openDecimal = savedInstanceState.getBoolean(STATE_openDecimal);
             zeroSuppression = savedInstanceState.getBoolean(STATE_zeroSuppression);
+            isFirstRun = savedInstanceState.getBoolean((STATE_isFirstRun));
             Log.d("TAG", "current = " + STATE_currentEntry + "\t previous = " + STATE_previousEntry + "\t brackets = " + STATE_openParentheses + "\tDecimal = " + STATE_openDecimal + "\tZero = " + STATE_zeroSuppression);
 
 
@@ -211,8 +220,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*
-            This calls the dialog box
-             */
+    This calls the dialog box
+     */
     private void setPopup() {
         builder = new AlertDialog.Builder(this);
         //Setting message manually and performing action on button click
@@ -258,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         mXparser.consolePrintln("checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
     }
 
-    /*/
+    /*
     mXparser: set degree or radian fucntion
      */
     private void setDegRadMode_mXparser() {
