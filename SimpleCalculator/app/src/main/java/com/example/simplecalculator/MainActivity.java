@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity {
                     } else
                         appendText(btn_text);
                 } else if (currentEntry.equals("-")) {
-                    if (!isOperators(btn_text)){
+                    if (!isOperators(btn_text) && !btn_text.equals("^")){
                         Log.d("ZERO", "1 entry: 3 \t" + "zero = " + zeroSuppression);
 
                         appendText(btn_text);
@@ -330,18 +330,22 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         appendText(btn_text);
                     }
-                }
-                else if (currentEntry.endsWith("√")) {
-                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text)) {
+                } else if (currentEntry.endsWith("√")) {
+                    // TODO: 10/18/23 due to the decimal supression in the bottom of length 1 entry
+                    // TODO: added another setDecimal() becuase it double sets in processfirstentry()
+                    // TODO: and at the bottom here
+                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") ||
+                            StringUtils.isNumeric(btn_text) || btn_text.equals("e") || btn_text.equals("π") ||
+                            btn_text.equals("√") || btn_text.equals("sin") || btn_text.equals("cos") ||
+                            btn_text.equals("tan")) {
                         processFirstEntry(btn_text);
                     }
-                } else if (btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
-                        appendText(btn_text);
-                } else {
-                    appendText(btn_text);
+                    setDecimal();
+                } else if (currentEntry.endsWith("e") || currentEntry.endsWith("π")) {
+                     appendText(btn_text);
                 }
 
-
+                // Todo maybe move this to appendText() instead
                 // Take care of decimal and decimal dot suppression
                 if (!currentEntry.equals(".") && btn_text.equals("."))
                     setDecimal();
@@ -508,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } else if (btn_text.equals(")")) {
                         appendText(btn_text);
-                    } else
+                    } else if (!btn_text.equals("^"))
                         appendText(btn_text);
 
                     if (btn_text.equals("."))
@@ -517,7 +521,10 @@ public class MainActivity extends AppCompatActivity {
 
                 else if (currentEntry.endsWith("√")) {
                     Log.d("TAG", "onClick: sqrt 1");
-                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text)) {
+                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") ||
+                            StringUtils.isNumeric(btn_text) || btn_text.equals("e") || btn_text.equals("π") ||
+                            btn_text.equals("√") || btn_text.equals("sin") || btn_text.equals("cos") ||
+                            btn_text.equals("tan")) {
                         Log.d("TAG", "onClick: sqrt 2");
                         processFirstEntry(btn_text);
                     }
