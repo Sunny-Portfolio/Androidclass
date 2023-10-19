@@ -1,6 +1,7 @@
 package com.example.simplecalculator;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -11,10 +12,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+
 
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -23,6 +26,10 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mariuszgromada.math.mxparser.*;
+
+
+import android.content.DialogInterface;
+
 
 
 import org.w3c.dom.Text;
@@ -50,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     String memoryStored = "";
     boolean zeroSuppression = false;
     private final int expressionMax = 72;
+
+    PopupWindow poppy;
+    AlertDialog.Builder builder;
+
 
 
     @Override
@@ -130,9 +141,32 @@ public class MainActivity extends AppCompatActivity {
         setupButton(button_E, R.id.oper_btn22);
 
         setup_mXparser();
+
+        setPopup();
+
     }
 
 
+    /*
+    This calls the dialog box
+     */
+    private void setPopup() {
+        builder = new AlertDialog.Builder(this);
+        //Setting message manually and performing action on button click
+        builder.setMessage("Enjoy using this calculator : )")
+                .setCancelable(false)
+                .setNegativeButton("OK!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //  Action for 'NO' Button
+                        dialog.cancel();
+                    }
+                });
+        //Creating dialog box
+        AlertDialog alert = builder.create();
+        //Setting the title manually
+        alert.setTitle("Simple Calculator");
+        alert.show();
+    }
 
 
     /*
@@ -597,12 +631,12 @@ public class MainActivity extends AppCompatActivity {
     Show initial result of the current expression to secondary screen
      */
     private void showInitialResult() {
+        fixExpression_V2(currentEntry);
+        String result = getResult_V2();
+        String lastChar = currentEntry.substring(currentEntry.length()-1);
 
-        if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-//            fixExpression(currentEntry);
-//            String result = getResult();
-            fixExpression_V2(currentEntry);
-            String result = getResult_V2();
+//        if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+        if (!currentEntry.equals(result) && StringUtils.isNumeric(lastChar)) {
 
             // Using Apache Commons Lang 3 to figure out what the result is
             // The use here is to filter error msg from showing on primary screen
@@ -783,12 +817,20 @@ public class MainActivity extends AppCompatActivity {
                 openParentheses++;
             } else if (lastChar.equals(".")) {
                 openDecimal = false;
-            } else if (lastChar.equals("0") && zeroSuppression == true) {
+            } else if (lastChar.equals("0") && zeroSuppression) {
                 zeroSuppression = false;
             }
-            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
-            currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
+
+            // Depreciated
+//            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
+//            currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
+            currentEntry = previousEntry;
+            if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
+                previousEntry = previousEntry.substring(0,previousEntry.length()-4);
+            } else
+                previousEntry = previousEntry.substring(0,previousEntry.length()-1);
             primaryScreen.setText(currentEntry);
+
         }
     }
 
