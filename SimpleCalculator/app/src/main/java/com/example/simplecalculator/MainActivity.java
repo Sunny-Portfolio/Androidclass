@@ -633,10 +633,9 @@ public class MainActivity extends AppCompatActivity {
     private void showInitialResult() {
         fixExpression_V2(currentEntry);
         String result = getResult_V2();
-        String lastChar = currentEntry.substring(currentEntry.length()-1);
 
-//        if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-        if (!currentEntry.equals(result) && StringUtils.isNumeric(lastChar)) {
+        if (!currentEntry.equals(result) && currentEntry.length() > 1
+                && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
 
             // Using Apache Commons Lang 3 to figure out what the result is
             // The use here is to filter error msg from showing on primary screen
@@ -807,31 +806,45 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
         if (currentEntry.length() == 0) {
-        } else if (currentEntry.length() == 1)
+            Log.d("TAG", "operation_backspace: 4");
+
+        }
+        else if (currentEntry.length() == 1) {
+            Log.d("TAG", "operation_backspace: 5");
             operation_AC();
-        else {
-            String lastChar = currentEntry.substring(currentEntry.length()-1);
-            if (lastChar.equals("(")) {
+        } else {
+            currentEntry = previousEntry;
+
+            if (currentEntry.endsWith("(")) {
                 openParentheses--;
-            } else if (lastChar.equals(")")) {
+            } else if (currentEntry.endsWith(")")) {
                 openParentheses++;
-            } else if (lastChar.equals(".")) {
+            } else if (currentEntry.endsWith(".")) {
                 openDecimal = false;
-            } else if (lastChar.equals("0") && zeroSuppression) {
+            } else if (currentEntry.endsWith("0") && zeroSuppression) {
                 zeroSuppression = false;
             }
 
             // Depreciated
 //            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
 //            currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
-            currentEntry = previousEntry;
-            if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
+            else if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
+                Log.d("TAG", "operation_backspace: 2");
+
                 previousEntry = previousEntry.substring(0,previousEntry.length()-4);
-            } else
-                previousEntry = previousEntry.substring(0,previousEntry.length()-1);
+                Log.d("TAG", "operation_backspace: 3");
+
+            } else {
+                previousEntry = previousEntry.substring(0, previousEntry.length() - 1);
+            }
+            Log.d("TAG", "operation_backspace: 6");
+
             primaryScreen.setText(currentEntry);
+            Log.d("TAG", "operation_backspace: 7");
 
         }
+        Log.d("TAG", "operation_backspace: 8");
+
     }
 
     /*
