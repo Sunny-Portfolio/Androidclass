@@ -155,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (!mXparser.checkIfDegreesMode()) {
             mXparser.setDegreesMode();
         }
+
+        mXparser.consolePrintln("checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
+        mXparser.consolePrintln("checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
+        mXparser.consolePrintln("checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
     }
 
     /*/
@@ -309,8 +313,6 @@ public class MainActivity extends AppCompatActivity {
                     btn.setText("DEG");
                     setDegRadMode_mXparser();
                 }
-
-
             }
 
             /*
