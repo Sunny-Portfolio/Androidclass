@@ -326,15 +326,18 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         appendText(btn_text);
                     }
-                } else {
-                    // todo this is added for landscape mode
-                    if (btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
+                }
+                else if (currentEntry.endsWith("√")) {
+                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text)) {
+                        processFirstEntry(btn_text);
+                    }
+                } else if (btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
                         appendText(btn_text + "(");
                         openParentheses++;
-                    } else {
-                        appendText(btn_text);
-                    }
+                } else {
+                    appendText(btn_text);
                 }
+
 
                 // Take care of decimal and decimal dot suppression
                 if (!currentEntry.equals(".") && btn_text.equals("."))
