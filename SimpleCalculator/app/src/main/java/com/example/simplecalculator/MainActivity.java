@@ -803,7 +803,7 @@ public class MainActivity extends AppCompatActivity {
       */
     private void operation_backspace() {
 
-        Log.d("ddd", "operation_backspace: ++ " + currentEntry.length());
+        Log.d("ddd", "operation_backspace: ++ " + currentEntry.length() + "\tCurrent = " + currentEntry + "\tprevious = " + previousEntry);
         if (currentEntry.length() == 0) {
             Log.d("TAG", "operation_backspace: 4");
 
@@ -812,7 +812,6 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TAG", "operation_backspace: 5");
             operation_AC();
         } else {
-            currentEntry = previousEntry;
 
             if (currentEntry.endsWith("(")) {
                 openParentheses--;
@@ -826,10 +825,10 @@ public class MainActivity extends AppCompatActivity {
 
             // Depreciated
 //            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
-//            currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
+//            currentEntry = currentEntry.substring(0, currentEntry.length() -
+            currentEntry = previousEntry;
             if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
                 Log.d("TAG", "operation_backspace: 2");
-
                 previousEntry = previousEntry.substring(0,previousEntry.length()-4);
                 Log.d("TAG", "operation_backspace: 3");
 
