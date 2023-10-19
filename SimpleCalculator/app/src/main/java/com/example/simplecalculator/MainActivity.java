@@ -15,10 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+
+import net.objecthunter.exp4j.ExpressionBuilder;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mariuszgromada.math.mxparser.*;
 
 
 import org.w3c.dom.Text;
@@ -244,8 +248,8 @@ public class MainActivity extends AppCompatActivity {
 
             else if (btn_text.equals("=")) {
                 if (!currentEntry.isEmpty()) {
-                    fixExpression(currentEntry);
-                    String result = getResult();
+                    fixExpression_V2(currentEntry);
+                    String result = getResult_V2();
 
 
                     Log.d("TAG", "onClick: equal 1 ");
@@ -332,8 +336,7 @@ public class MainActivity extends AppCompatActivity {
                         processFirstEntry(btn_text);
                     }
                 } else if (btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
-                        appendText(btn_text + "(");
-                        openParentheses++;
+                        appendText(btn_text);
                 } else {
                     appendText(btn_text);
                 }
@@ -460,9 +463,12 @@ public class MainActivity extends AppCompatActivity {
                 When preceding character is ( do the following actions
                  */
                 else if (currentEntry.endsWith("(")) {
-                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text))
+                    if (btn_text.equals("-") || btn_text.equals("(") || btn_text.equals(".") || StringUtils.isNumeric(btn_text)
+                        || btn_text.equals("√") || btn_text.equals("π") || btn_text.equals("e")
+                            || btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan")) {
                         processFirstEntry(btn_text);
 //                        appendText(btn_text);
+                    }
                 }
 
                 /*
@@ -533,8 +539,10 @@ public class MainActivity extends AppCompatActivity {
     private void showInitialResult() {
 
         if (currentEntry.length() >= 2 && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
-            fixExpression(currentEntry);
-            String result = getResult();
+//            fixExpression(currentEntry);
+//            String result = getResult();
+            fixExpression_V2(currentEntry);
+            String result = getResult_V2();
 
             // Using Apache Commons Lang 3 to figure out what the result is
             // The use here is to filter error msg from showing on primary screen
@@ -546,6 +554,18 @@ public class MainActivity extends AppCompatActivity {
                 secondaryScreen.setText(result);
             }
         }
+    }
+
+
+    private String getResult_V2() {
+        Expression e = new Expression(expression);
+        mXparser.consolePrintln("Result is: " + e.getExpressionString() + " = " + e.calculate());
+        return String.valueOf(e.calculate());
+    }
+
+    private String getResult_V3() {
+        net.objecthunter.exp4j.Expression e = new ExpressionBuilder(expression).build();
+        return String.valueOf(e.evaluate());
     }
 
 
@@ -619,6 +639,26 @@ public class MainActivity extends AppCompatActivity {
         }
         expression += ").toFixed(10)*1000/1000";
         Log.d("exp", "fixExpression: E.... " + expression);
+    }
+
+
+    private void fixExpression_V2(String str) {
+//        expression = "";
+        expression = str;
+//        for (int i = 1; i < str.length(); i++) {
+//            if (StringUtils.isNumeric(String.valueOf(str.charAt(i-1))) && str.charAt(i) == '(') {
+//                expression += "*" + str.charAt(i);
+//            } else if (str.charAt(i-1) == ')' && StringUtils.isNumeric(String.valueOf(str.charAt(i)))) {
+//                expression += "*" + str.charAt(i);
+//            } else {
+//                expression += str.charAt(i);
+//            }
+//        }
+
+        // Close all the opened parentheses
+        for (int i = 0; i < openParentheses; i++) {
+            expression += ")";
+        }
     }
 
 
@@ -704,7 +744,8 @@ public class MainActivity extends AppCompatActivity {
                 openParentheses++;
                 Log.d("TAG", "operation_parentheses 2: count : " + openParentheses);
                 return "(";
-            } else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1)) || currentEntry.endsWith(")")) {
+            } else if (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1)) ||
+                    currentEntry.endsWith(")") || currentEntry.endsWith("π") || currentEntry.endsWith("e")) {
                 openParentheses--;
                 Log.d("TAG", "operation_parentheses 3: count : " + openParentheses);
                 return ")";
@@ -829,8 +870,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (btn_text.equals("(") || btn_text.equals("π") || btn_text.equals("√")|| btn_text.equals("e")) {
             appendText(btn_text);
         } else if (btn_text.equals("sin") || btn_text.equals("cos") ||btn_text.equals("tan")) {
-            appendText(btn_text + "(");
-            openParentheses++;
+            appendText(btn_text);
+//            openParentheses++;
         } else if (StringUtils.isNumeric(btn_text)) {
                 appendText(btn_text);
                 if (btn_text.equals("0"))
