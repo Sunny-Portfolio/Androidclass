@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
                             setOperator(btn_text);
                             appendText(btn_text);
                         }
-                    } else if (!btn_text.equals(")")) {
+                    } else if (!btn_text.equals(")") && !btn_text.equals("^")) {
                         Log.d("TAG", "onClick: Just append it");
                         if (btn_text.equals("."))
                             setDecimal();
