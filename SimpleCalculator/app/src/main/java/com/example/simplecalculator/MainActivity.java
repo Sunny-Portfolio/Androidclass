@@ -331,11 +331,16 @@ public class MainActivity extends AppCompatActivity {
                 } else if (currentEntry.equals(".")) {
                     if (StringUtils.isNumeric(btn_text)) {
                         Log.d("ZERO", "1 entry: 4 \t" + "zero = " + zeroSuppression);
-
+                        appendText(btn_text);
+                    } else if (btn_text.equals("√") || btn_text.equals("π") || btn_text.equals("e") ||
+                            btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan") ||
+                            btn_text.equals("(") || btn_text.equals("-")) {
+                        operation_backspace();
                         appendText(btn_text);
                     }
+
                 } else if (currentEntry.equals("(")) {
-                    if (isOperators(btn_text)) {
+                    if (isOperators(btn_text) || btn_text.equals("^")) {
                         Log.d("ZERO", "1 entry: 1 \t" + "zero = " + zeroSuppression);
 
                         processFirstEntry(btn_text);
@@ -429,13 +434,16 @@ public class MainActivity extends AppCompatActivity {
                 When preceding character is a dot, do the following actions
                  */
                 else if (currentEntry.endsWith(".")) {
-                    if (btn_text.equals(")") || isOperators(btn_text)) {
+                    if (btn_text.equals(")") || isOperators(btn_text) || btn_text.equals("^")) {
                         setOldEntry(btn_text);
                         if (openDecimal)
                             setDecimal();
-                    } else if (btn_text.equals("(")) {
+                    } else if (btn_text.equals("(") || btn_text.equals("√") || btn_text.equals("π") || btn_text.equals("e") ||
+                            btn_text.equals("sin") || btn_text.equals("cos") || btn_text.equals("tan") ||
+                            btn_text.equals("-")) {
                         toOldEntry(btn_text);
-                        setOperator("*");
+                        // TODO: 10/19/23 setOperator will be depreciated
+//                        setOperator("*");
                         if (openDecimal)
                             setDecimal();
 //                        appendText("*");
