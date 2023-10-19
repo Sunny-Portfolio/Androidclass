@@ -60,6 +60,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn15"
             style="@style/operatorButtons_theme"
+            android:textColor="@color/darkerBlue"
             android:text="@string/oper_text_15" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn19"

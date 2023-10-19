@@ -152,6 +152,19 @@ public class MainActivity extends AppCompatActivity {
             mXparser.enableImpliedMultiplicationMode();
         } else if (!mXparser.checkIfUnicodeBuiltinKeyWordsMode()) {
             mXparser.enableUnicodeBuiltinKeyWordsMode();
+        } else if (!mXparser.checkIfDegreesMode()) {
+            mXparser.setDegreesMode();
+        }
+    }
+
+    /*/
+    mXparser: set degree or radian fucntion
+     */
+    private void setDegRadMode_mXparser() {
+        if (mXparser.checkIfDegreesMode())
+            mXparser.setRadiansMode();
+        else if (mXparser.checkIfRadiansMode()) {
+            mXparser.setDegreesMode();
         }
     }
 
@@ -280,6 +293,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                     Log.d("TAG", "onClick: equal 3 ");
                 }
+
+            }
+
+            /*
+            This condition take cares of the Degree / Radian button
+             */
+            else if (btn.getId() == R.id.oper_btn15) {
+                if (btn.getText().equals("DEG")) {
+                    btn.setTextColor(Color.parseColor("#A31621"));
+                    btn.setText("RAD");
+                    setDegRadMode_mXparser();
+                } else if (btn.getText().equals("RAD")) {
+                    btn.setTextColor(Color.parseColor("#214A59"));
+                    btn.setText("DEG");
+                    setDegRadMode_mXparser();
+                }
+
 
             }
 
