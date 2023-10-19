@@ -44,6 +44,8 @@ dependencies {
 //    implementation("org.apache.commons:commons-lang3:3.13.0")
     // https://mvnrepository.com/artifact/org.mozilla/rhino
     implementation("org.mozilla:rhino:1.7.14")
+    implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
+    implementation("net.objecthunter:exp4j:0.4.8")
 
 
 }
