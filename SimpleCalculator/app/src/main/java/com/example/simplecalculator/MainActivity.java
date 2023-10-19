@@ -480,13 +480,12 @@ public class MainActivity extends AppCompatActivity {
                 When preceding character is * / do the following actions
                  */
                 else if (currentEntry.endsWith("*") || currentEntry.endsWith("/")) {
-                    if (isOperators(btn_text) || btn_text.equals("^")) {
-                        if (!btn_text.equals("-")) {
+                    if ((isOperators(btn_text) && !btn_text.equals("-")) || btn_text.equals("^")) {
                             toOldEntry(btn_text);
-                            Log.d("TAG", "onClick: */ \tcurrent = " + currentEntry + "\t previous = " + previousEntry );
+                            Log.d("TAG", "onClick: */ \tcurrent = " + currentEntry + "\t previous = " + previousEntry);
                             setOperator(btn_text);
                             appendText(btn_text);
-                        }
+
                     } else if (!btn_text.equals(")")) {
                         Log.d("TAG", "onClick: Just append it");
                         if (btn_text.equals("."))
@@ -828,7 +827,7 @@ public class MainActivity extends AppCompatActivity {
             // Depreciated
 //            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
 //            currentEntry = currentEntry.substring(0, currentEntry.length() - 1);
-            else if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
+            if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
                 Log.d("TAG", "operation_backspace: 2");
 
                 previousEntry = previousEntry.substring(0,previousEntry.length()-4);
