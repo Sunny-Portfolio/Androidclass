@@ -46,18 +46,20 @@ public class MainActivity extends AppCompatActivity {
     MaterialButton button_Deg, button_Sin, button_Cos, button_Tan;
     MaterialButton button_Pow, button_Sqrt, button_Pi, button_E;
 
-    String currentEntry = "";
-    String previousEntry = "";
-    String currentOperator = "";
+    private String currentEntry = "";
+    private String previousEntry = "";
+    private String currentOperator = "";
 //    String lastOperator = "";
 //    String secondLastOperator = "";
-    int openParentheses = 0;
-    boolean openDecimal = false;
-    String expression = "";
-    String memoryStored = "";
-    boolean zeroSuppression = false;
+    private int openParentheses = 0;
+    private boolean openDecimal = false;
+    private String expression = "";
+    private String memoryStored = "";
+    private boolean zeroSuppression = false;
     private final int expressionMax = 72;
-    boolean isFirstRun = true;
+    // is first run is no use
+    private boolean isFirstRun = true;
+    private String result = "";
 
     AlertDialog.Builder builder;
 
@@ -221,6 +223,20 @@ public class MainActivity extends AppCompatActivity {
             mXparser.setDegreesMode();
         }
 
+        /* Non-Commercial Use Confirmation */
+        boolean isCallSuccessful = License.iConfirmNonCommercialUse("TRU TRU");
+
+        /* Verification if use type has been already confirmed */
+        boolean isConfirmed = License.checkIfUseTypeConfirmed();
+
+        /* Checking use type confirmation message */
+        String message = License.getUseTypeConfirmationMessage();
+
+        /* ----------- */
+        mXparser.consolePrintln("isCallSuccessful = " + isCallSuccessful);
+        mXparser.consolePrintln("isConfirmed = " + isConfirmed);
+        mXparser.consolePrintln("message = " + message);
+
         mXparser.consolePrintln("checkIfAlmostIntRounding = " + mXparser.checkIfAlmostIntRounding());
         mXparser.consolePrintln("checkIfUlpRounding = " + mXparser.checkIfUlpRounding());
         mXparser.consolePrintln("checkIfCanonicalRounding = " + mXparser.checkIfCanonicalRounding());
@@ -246,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
             MaterialButton btn = (MaterialButton) view;
             String btn_text = btn.getText().toString();
 
+            Log.d("TAG", "onClick: start**** \tbtn = " + btn_text + "\tResult = " + result + "\tCurrent = " + currentEntry + "\tPrevious = " + previousEntry + "\tBracket count = " + openParentheses);
 
             // Change special characters to programming operators
             if (btn_text.equals("÷"))
@@ -341,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("=")) {
                 if (!currentEntry.isEmpty()) {
                     fixExpression_V2(currentEntry);
-                    String result = getResult_V2();
+                    result = getResult_V2();
 
                     // Using Apache Commons Lang 3 to figure out what the result is
                     // The use here is to filter error msg from showing on primary screen
@@ -349,8 +366,9 @@ public class MainActivity extends AppCompatActivity {
                         secondaryScreen.setTextColor(Color.parseColor("#A31621"));
                         secondaryScreen.setText(result);
                     } else {
+                        previousEntry = currentEntry;
                         currentEntry = result;
-                        primaryScreen.setText(currentEntry);
+                        primaryScreen.setText(result);
                         secondaryScreen.setText("");
                     }
                 }
@@ -375,6 +393,9 @@ public class MainActivity extends AppCompatActivity {
             This condition take cares of the backspace operation
              */
             else if (btn.getId() == R.id.oper_btn13) {
+                if (currentEntry.equals(result)) {
+                    operation_backspace();
+                }
                 operation_backspace();
                 // Show initial result of the current expression
                 showInitialResult();
@@ -392,6 +413,15 @@ public class MainActivity extends AppCompatActivity {
              If the current entry is length 1, use the following logic
               */
             else if (currentEntry.length() == 1) {
+
+                // Reset the suppression counters if continue input after equal sign
+                if (currentEntry.equals(result)) {
+                    openParentheses = 0;
+                    openDecimal = false;
+                    zeroSuppression = false;
+                }
+
+
                 // Leading zero suppression
                 if (StringUtils.isNumeric(currentEntry)) {
                     if (currentEntry.equals("0") && zeroSuppression && StringUtils.isNumeric(btn_text)) {
@@ -447,6 +477,14 @@ public class MainActivity extends AppCompatActivity {
             If the current entry is not empty; larger than 1 and less than 72; use the following logic
              */
             else if (!currentEntry.isEmpty() && currentEntry.length() < expressionMax) {
+
+                // Reset the suppression counters if continue input after equal sign
+                if (currentEntry.equals(result)) {
+                    openParentheses = 0;
+                    openDecimal = false;
+                    zeroSuppression = false;
+                }
+
                  /*
                  When preceding character is + - do the following actions
                   */
@@ -608,6 +646,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(MainActivity.this, "You have reach max characters allowed", Toast.LENGTH_SHORT).show();
             }
+            Log.d("TAG", "onClick: end**** \tbtn = " + btn_text + "\tResult = " + result + "\tCurrent = " + currentEntry + "\tPrevious = " + previousEntry + "\tBracket count = " + openParentheses);
         }
     };
 
@@ -616,19 +655,21 @@ public class MainActivity extends AppCompatActivity {
      */
     private void showInitialResult() {
         fixExpression_V2(currentEntry);
-        String result = getResult_V2();
+        String initResult = getResult_V2();
 
-        if (!currentEntry.equals(result) && currentEntry.length() > 1
-                && StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1))) {
+        // Calculate initial result when it is a number or constant
+        if (!currentEntry.equals(initResult) && currentEntry.length() > 1 &&
+                (StringUtils.isNumeric(currentEntry.substring(currentEntry.length()-1)) ||
+                currentEntry.endsWith("e") || currentEntry.endsWith("π"))) {
 
             // Using Apache Commons Lang 3 to figure out what the result is
             // The use here is to filter error msg from showing on primary screen
-            if (!NumberUtils.isCreatable(result)) {
+            if (!NumberUtils.isCreatable(initResult)) {
                 secondaryScreen.setTextColor(Color.parseColor("#A31621"));
-                secondaryScreen.setText(result);
+                secondaryScreen.setText(initResult);
             } else {
                 secondaryScreen.setTextColor(Color.parseColor("#828282"));
-                secondaryScreen.setText(result);
+                secondaryScreen.setText(initResult);
             }
         }
     }
@@ -791,8 +832,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentEntry.length() == 0) {
         }
-        else if (currentEntry.length() == 1) {
-            operation_AC();
+        else if (currentEntry.length() == 1 || previousEntry.isEmpty()) {
+                operation_AC();
         } else {
 
             if (currentEntry.endsWith("(")) {
@@ -808,13 +849,21 @@ public class MainActivity extends AppCompatActivity {
             // Depreciated
 //            previousEntry = currentEntry.substring(0, currentEntry.length() - 2);
 //            currentEntry = currentEntry.substring(0, currentEntry.length() -
+            Log.d("fix back", "operation_backspace 1: result = " + result + "\tcurrent = " + currentEntry + "\tprevious = " + previousEntry);
+
+            Log.d("fix back", "operation_backspace 2: result = " + result + "\tcurrent = " + currentEntry + "\tprevious = " + previousEntry);
+
+
             currentEntry = previousEntry;
             if (previousEntry.endsWith("sin(") || previousEntry.endsWith("cos(") || previousEntry.endsWith("tan(")) {
                 previousEntry = previousEntry.substring(0,previousEntry.length()-4);
             } else {
                 previousEntry = previousEntry.substring(0, previousEntry.length() - 1);
             }
+            Log.d("fix back", "operation_backspace 3: result = " + result + "\tcurrent = " + currentEntry + "\tprevious = " + previousEntry);
+
             primaryScreen.setText(currentEntry);
+            result = "";
         }
     }
 
@@ -929,6 +978,7 @@ public class MainActivity extends AppCompatActivity {
         primaryScreen.setText("");
         secondaryScreen.setText("");
         zeroSuppression = false;
+        result = "";
     }
 
     /*
