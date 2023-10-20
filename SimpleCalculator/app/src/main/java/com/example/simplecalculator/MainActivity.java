@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE_primaryScreen = "STATE_primaryScreen_key";
     private static final String STATE_secondaryScreen ="STATE_secondaryScreen_key";
     private static final String STATE_isFirstRun ="STATE_isFirstRun_key";
+    private static final String STATE_result ="STATE_result_key";
+
 
 
 
@@ -153,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean(STATE_openDecimal, openDecimal);
         outState.putBoolean(STATE_zeroSuppression, zeroSuppression);
         outState.putBoolean(STATE_isFirstRun, isFirstRun);
+        outState.putString(STATE_result, result);
+
 
     }
 
@@ -177,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
             openDecimal = savedInstanceState.getBoolean(STATE_openDecimal);
             zeroSuppression = savedInstanceState.getBoolean(STATE_zeroSuppression);
             isFirstRun = savedInstanceState.getBoolean((STATE_isFirstRun));
+            result = savedInstanceState.getString((STATE_result));
+
         }
     }
 
