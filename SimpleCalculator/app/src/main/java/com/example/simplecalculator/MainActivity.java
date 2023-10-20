@@ -276,10 +276,7 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("×"))
                 btn_text = "*";
 
-            // Take care of which bracket to use
-            if (btn_text.equals("( )")) {
-                btn_text = operation_parentheses();
-            }
+
 
              /*
              Processing each user onClick entry
@@ -427,6 +424,11 @@ public class MainActivity extends AppCompatActivity {
                     zeroSuppression = false;
                 }
 
+                // Take care of which bracket to use
+                if (btn_text.equals("( )")) {
+                    btn_text = operation_parentheses();
+                }
+
 
                 // Leading zero suppression
                 if (StringUtils.isNumeric(currentEntry)) {
@@ -489,6 +491,11 @@ public class MainActivity extends AppCompatActivity {
                     openParentheses = 0;
                     openDecimal = false;
                     zeroSuppression = false;
+                }
+
+                // Take care of which bracket to use
+                if (btn_text.equals("( )")) {
+                    btn_text = operation_parentheses();
                 }
 
                  /*
