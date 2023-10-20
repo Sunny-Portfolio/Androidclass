@@ -1019,8 +1019,12 @@ public class MainActivity extends AppCompatActivity {
         } else if (btn_text.equals(".") && !openDecimal) {
             appendText(btn_text);
             openDecimal = true;
-        } else if (btn_text.equals("(") || btn_text.equals("π") || btn_text.equals("√")|| btn_text.equals("e")) {
+        } else if (btn_text.equals("(") || btn_text.equals("√")) {
             appendText(btn_text);
+        } else if (btn_text.equals("π") || btn_text.equals("e")) {
+            appendText(btn_text);
+            fixExpression_V2(currentEntry);
+            secondaryScreen.setText(getResult_V2());
         } else if (btn_text.equals("sin") || btn_text.equals("cos") ||btn_text.equals("tan")) {
             appendText(btn_text);
         } else if (StringUtils.isNumeric(btn_text)) {
