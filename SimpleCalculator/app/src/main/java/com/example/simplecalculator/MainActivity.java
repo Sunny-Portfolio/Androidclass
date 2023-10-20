@@ -49,16 +49,13 @@ public class MainActivity extends AppCompatActivity {
     private String currentEntry = "";
     private String previousEntry = "";
     private String currentOperator = "";
-//    String lastOperator = "";
-//    String secondLastOperator = "";
+
     private int openParentheses = 0;
     private boolean openDecimal = false;
     private String expression = "";
     private String memoryStored = "";
     private boolean zeroSuppression = false;
     private final int expressionMax = 72;
-    // is first run is no use
-    private boolean isFirstRun = true;
     private String result = "";
 
     AlertDialog.Builder builder;
@@ -72,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String STATE_zeroSuppression = "STATE_zeroSuppression_key";
     private static final String STATE_primaryScreen = "STATE_primaryScreen_key";
     private static final String STATE_secondaryScreen ="STATE_secondaryScreen_key";
-    private static final String STATE_isFirstRun ="STATE_isFirstRun_key";
     private static final String STATE_result ="STATE_result_key";
 
 
@@ -154,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt(STATE_openParentheses, openParentheses);
         outState.putBoolean(STATE_openDecimal, openDecimal);
         outState.putBoolean(STATE_zeroSuppression, zeroSuppression);
-        outState.putBoolean(STATE_isFirstRun, isFirstRun);
         outState.putString(STATE_result, result);
 
 
@@ -180,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
             openParentheses = savedInstanceState.getInt(STATE_openParentheses);
             openDecimal = savedInstanceState.getBoolean(STATE_openDecimal);
             zeroSuppression = savedInstanceState.getBoolean(STATE_zeroSuppression);
-            isFirstRun = savedInstanceState.getBoolean((STATE_isFirstRun));
             result = savedInstanceState.getString((STATE_result));
 
         }
@@ -1022,6 +1016,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (btn_text.equals("(") || btn_text.equals("√")) {
             appendText(btn_text);
         } else if (btn_text.equals("π") || btn_text.equals("e")) {
+            // Allow constants to display value on secondary screen.
             appendText(btn_text);
             fixExpression_V2(currentEntry);
             secondaryScreen.setText(getResult_V2());
