@@ -84,35 +84,6 @@ public class MainActivity extends AppCompatActivity {
         primaryScreen = (TextView) findViewById(R.id.textView_primary);
         secondaryScreen = (TextView) findViewById(R.id.textView_secondary);
 
-//        button_MS = (MaterialButton) findViewById(R.id.oper_btn1);
-//        button_MR = (MaterialButton) findViewById(R.id.oper_btn2);
-//        button_mPlus = (MaterialButton) findViewById(R.id.oper_btn3);
-//        button_mMinus = (MaterialButton) findViewById(R.id.oper_btn4);
-//
-//        button_AC = (MaterialButton) findViewById(R.id.oper_btn5);
-//        button_C = (MaterialButton) findViewById(R.id.oper_btn6);
-//        button_MC = (MaterialButton) findViewById(R.id.oper_btn7);
-//        button_Divide = (MaterialButton) findViewById(R.id.oper_btn8);
-//
-//        button_Multiply = (MaterialButton) findViewById(R.id.oper_btn9);
-//        button_Minus = (MaterialButton) findViewById(R.id.oper_btn10);
-//        button_Plus = (MaterialButton) findViewById(R.id.oper_btn11);
-//        button_Equals = (MaterialButton) findViewById(R.id.oper_btn12);
-//
-//        button_Back = (MaterialButton) findViewById(R.id.oper_btn13);
-//        button_Decimal = (MaterialButton) findViewById(R.id.oper_btn14);
-
-//        button_0 = (MaterialButton) findViewById(R.id.digi_btn0);
-//        button_1 = (MaterialButton) findViewById(R.id.digi_btn1);
-//        button_2 = (MaterialButton) findViewById(R.id.digi_btn2);
-//        button_3 = (MaterialButton) findViewById(R.id.digi_btn3);
-//        button_4 = (MaterialButton) findViewById(R.id.digi_btn4);
-//        button_5 = (MaterialButton) findViewById(R.id.digi_btn5);
-//        button_6 = (MaterialButton) findViewById(R.id.digi_btn6);
-//        button_7 = (MaterialButton) findViewById(R.id.digi_btn7);
-//        button_8 = (MaterialButton) findViewById(R.id.digi_btn8);
-//        button_9 = (MaterialButton) findViewById(R.id.digi_btn9);
-
         setupButton(button_MS, R.id.oper_btn1);
         setupButton(button_MR, R.id.oper_btn2);
         setupButton(button_mPlus, R.id.oper_btn3);
@@ -154,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
         setup_mXparser();
 
+        // This shows the welcome popup message
         if (savedInstanceState == null){
             setPopup();
         }
@@ -162,13 +134,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    /*
+    Save Instance State and variables for orientation change
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        Log.d("TAG", "onSaveInstanceState: 1");
-        Log.d("TAG", "current = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
 
         outState.putString(STATE_primaryScreen, String.valueOf(primaryScreen.getText()));
         outState.putString(STATE_secondaryScreen, String.valueOf(secondaryScreen.getText()));
@@ -181,24 +152,17 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean(STATE_zeroSuppression, zeroSuppression);
         outState.putBoolean(STATE_isFirstRun, isFirstRun);
 
-        Log.d("TAG", "onSaveInstanceState: 2");
-        Log.d("TAG", "STATE current = " + STATE_currentEntry + "\t previous = " + STATE_previousEntry + "\t brackets = " + STATE_openParentheses + "\tDecimal = " + STATE_openDecimal + "\tZero = " + STATE_zeroSuppression);
-
-        // Call superclass to save any view hierarchy.
-//        super.onSaveInstanceState(outState);
     }
 
-
+    /*
+    Restore Instance State and variables for orientation change
+     */
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d("TAG", "onRestoreInstanceState: 1");
-
-
 
         // Recover the instance state.
         if (savedInstanceState != null) {
-            Log.d("TAG", "onRestoreInstanceState: 2");
 
             primaryScreen.setText(savedInstanceState.getString(STATE_primaryScreen));
             secondaryScreen.setText(savedInstanceState.getString(STATE_secondaryScreen));
@@ -211,12 +175,7 @@ public class MainActivity extends AppCompatActivity {
             openDecimal = savedInstanceState.getBoolean(STATE_openDecimal);
             zeroSuppression = savedInstanceState.getBoolean(STATE_zeroSuppression);
             isFirstRun = savedInstanceState.getBoolean((STATE_isFirstRun));
-            Log.d("TAG", "current = " + STATE_currentEntry + "\t previous = " + STATE_previousEntry + "\t brackets = " + STATE_openParentheses + "\tDecimal = " + STATE_openDecimal + "\tZero = " + STATE_zeroSuppression);
-
-
         }
-        Log.d("TAG", "current = " + currentEntry + "\t previous = " + previousEntry + "\t brackets = " + openParentheses + "\tDecimal = " + openDecimal + "\tZero = " + zeroSuppression);
-
     }
 
     /*
@@ -348,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         str = memoryStored + "+" + secondaryScreen.getText().toString();
                         fixExpression(str);
-                        memoryStored = getResult();
+                        memoryStored = getResult_V2();
                     }
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
                 } else if (memoryStored.isEmpty()) {
@@ -367,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         str = memoryStored + "-" + secondaryScreen.getText().toString();
                         fixExpression(str);
-                        memoryStored = getResult();
+                        memoryStored = getResult_V2();
                     }
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
                 } else if (memoryStored.isEmpty()) {
@@ -753,6 +712,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*
     Process the expression using Mozilla Rhino JavaScript engine, and get calculated result.
+    ***Depreciated
      */
     private String getResult() {
         String result;
