@@ -838,7 +838,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentEntry.length() == 0) {
         }
-        else if (currentEntry.length() == 1 || previousEntry.isEmpty()) {
+        else if (currentEntry.length() == 1 && previousEntry.isEmpty()) {
                 operation_AC();
         } else {
 
