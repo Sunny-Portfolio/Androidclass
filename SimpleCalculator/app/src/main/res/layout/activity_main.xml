@@ -219,7 +219,7 @@
             app:icon="@drawable/icon_backspace"
             app:iconGravity="textStart"
             app:iconPadding="1dp"
-            app:iconSize="0dp" />
+            app:iconSize="30dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/oper_btn12"

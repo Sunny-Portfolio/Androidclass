@@ -20,8 +20,9 @@
         <!-- These will auto resize button text-->
         <item name="android:autoSizeTextType">uniform</item>
         <item name="android:autoSizeMinTextSize">14sp</item>
-        <item name="android:autoSizeMaxTextSize">20sp</item>
+        <item name="android:autoSizeMaxTextSize">24sp</item>
         <item name="android:autoSizeStepGranularity">1sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- Set the specific attributions for digit buttons -->

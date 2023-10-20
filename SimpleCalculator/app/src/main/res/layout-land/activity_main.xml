@@ -232,7 +232,7 @@
             app:icon="@drawable/icon_backspace"
             app:iconGravity="textStart"
             app:iconPadding="10dp"
-            app:iconSize="30dp" />
+            app:iconSize="25dp" />
 
 
 
