@@ -297,8 +297,11 @@ public class MainActivity extends AppCompatActivity {
                 // Used on MS, M+ M-, and equal button
                 if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
                     memoryStored = secondaryScreen.getText().toString();
-                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
-                } else if (memoryStored.isEmpty()) {
+                } else if (NumberUtils.isCreatable(primaryScreen.getText().toString())) {
+                    memoryStored = primaryScreen.getText().toString();
+                }
+
+                if (memoryStored.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
@@ -324,11 +327,20 @@ public class MainActivity extends AppCompatActivity {
                         memoryStored = secondaryScreen.getText().toString();
                     } else {
                         str = memoryStored + "+" + secondaryScreen.getText().toString();
-                        fixExpression(str);
+                        fixExpression_V2(str);
                         memoryStored = getResult_V2();
                     }
-                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
-                } else if (memoryStored.isEmpty()) {
+                } else if (NumberUtils.isCreatable(primaryScreen.getText().toString())) {
+                    if (memoryStored.equals("")) {
+                        memoryStored = primaryScreen.getText().toString();
+                    } else {
+                        str = memoryStored + "+" + primaryScreen.getText().toString();
+                        fixExpression_V2(str);
+                        memoryStored = getResult_V2();
+                    }
+                }
+
+                if (memoryStored.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
@@ -337,17 +349,16 @@ public class MainActivity extends AppCompatActivity {
             else if (btn_text.equals("M-")) {
                 String str;
                 if (NumberUtils.isCreatable(secondaryScreen.getText().toString())) {
-                    Log.d("TAG", "onClick 222: creatabel????");
+                    str = memoryStored + "-" + secondaryScreen.getText().toString();
+                    fixExpression_V2(str);
+                    memoryStored = getResult_V2();
+                } else if (NumberUtils.isCreatable(primaryScreen.getText().toString())) {
+                    str = memoryStored + "-" + primaryScreen.getText().toString();
+                    fixExpression_V2(str);
+                    memoryStored = getResult_V2();
+                }
 
-                    if (memoryStored.equals("")) {
-                        memoryStored = secondaryScreen.getText().toString();
-                    } else {
-                        str = memoryStored + "-" + secondaryScreen.getText().toString();
-                        fixExpression(str);
-                        memoryStored = getResult_V2();
-                    }
-                    Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
-                } else if (memoryStored.isEmpty()) {
+                if (memoryStored.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Memory: is empty", Toast.LENGTH_SHORT).show();
                 } else
                     Toast.makeText(MainActivity.this, "Memory: " + memoryStored, Toast.LENGTH_SHORT).show();
@@ -1018,5 +1029,7 @@ public class MainActivity extends AppCompatActivity {
                 zeroSuppression = true;
         }
     }
+
+
 
 }
