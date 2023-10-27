@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Security Token App</string>
+
+    <string name="title_1">PASS CODE</string>
+    <string name="text_passcode">123 456</string>
+    <string name="text_countdown">15 seconds remaining</string>
+
+
+    <string name="button_text_v">VERIFY</string>
+    <string name="button_text_p">PASS</string>
+
+</resources>
