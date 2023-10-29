@@ -3,6 +3,7 @@ package com.example.securitytokenapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.Timer;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Calendar cal;
     private int current_minute;
     private int current_second;
+    private int milliSec_remain;
     private int passcode;
     private TextView textview_passcode;
     private TextView textview_countdown;
@@ -59,13 +61,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * First update of the passcode on app startup
+         * Also update the remaining secs on startup
+         */
         passcode = renew_passcode();
         textview_passcode.setText(String.valueOf(passcode));
+        cal = Calendar.getInstance();
+        current_second = cal.get(Calendar.SECOND);
+        milliSec_remain = (60 - current_second) * 1000;
 
+        timer = new CountDownTimer(milliSec_remain, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int seconds_remain = (int) millisUntilFinished / 1000;
+                textview_countdown.setText(seconds_remain + " seconds remaining");
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
 
 
         /**
-         * This broadcast receiver receive ACTION_TIME_TICK which is sent when the minutes changesd
+         * This broadcast receiver receive ACTION_TIME_TICK which is sent when the minutes changed
          * After that, the passcode is changed and synced
          */
         minuteChangedReceiver = new BroadcastReceiver() {
@@ -79,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     // Start the 60 seconds timer
                     timer.start();
 
-                    // Broadcast the passcode to Activity2
+                    // Broadcast the passcode to be received by VerificationActivity
                     Intent passcodeIntent = new Intent(PASSCODE_UPDATE_ACTION);
                     passcodeIntent.putExtra("passcode", passcode);
                     sendBroadcast(passcodeIntent);
@@ -123,9 +144,6 @@ public class MainActivity extends AppCompatActivity {
 //                start();
             }
         };
-
-
-        Log.d("TAG", "onCreate: minutes is = " + current_minute);
 
     }
 
