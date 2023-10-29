@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,8 +26,9 @@ public class VerificationActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private BroadcastReceiver passcodeReceiver;
     private static final String PASSCODE_UPDATE_ACTION = "com.example.securitytokenapp.passcode_update";
-    private List<String> timestamps = new ArrayList<>();
+    private List<String> timestamps_arraylist = new ArrayList<>();
 //    String [] time_stamp_list = {"test1", "test2", "test3"};
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +36,15 @@ public class VerificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verification);
 
         /**
-         * Setup views and buttons
+         * Setup views, buttons, SharedPreferences
          */
         timeStampListView = findViewById(R.id.time_stamp_list);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 ,android.R.id.text1, timestamps);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 ,android.R.id.text1, timestamps_arraylist);
         timeStampListView.setAdapter(adapter);
 
-        timestamps.add("999999");
+        if (timestamps_arraylist.isEmpty()) {
+            loadTimestampsFromSharedPreferences();
+        }
 
         /**
          * Broadcast receiver for passcode update
@@ -53,7 +57,8 @@ public class VerificationActivity extends AppCompatActivity {
                     String timestamp = getCurrentTimestamp();
 
                     // Add the timestamp to the list and update the ListView
-                    timestamps.add(timestamp + "  " + passcode);
+                    timestamps_arraylist.add(timestamp + "\t\t\t" + passcode);
+                    saveTimeStamp(timestamp + "  " + passcode);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -65,7 +70,30 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     private String getCurrentTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault());
         return sdf.format(new Date());
+    }
+
+
+    private void saveTimeStamp (String timestamp) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("last_timestamp_key", timestamp);
+        editor.apply();
+    }
+    private void loadTimestampsFromSharedPreferences() {
+        sharedPreferences = getSharedPreferences("passcode_preference", MODE_PRIVATE);
+
+        String lastTimestamp = sharedPreferences.getString("last_timestamp_key", "");
+
+        if (lastTimestamp.isEmpty()) {
+            timestamps_arraylist.add("Beginning of list");
+        } else {
+            timestamps_arraylist.add(lastTimestamp);
+        }
+    }
+
+    private void clearTimestamps() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Timestamps", MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
     }
 }
