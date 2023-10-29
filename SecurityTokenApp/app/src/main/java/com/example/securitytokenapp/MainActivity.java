@@ -7,7 +7,10 @@ import java.util.Calendar;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.content.Intent;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private int passcode;
     private TextView textview_passcode;
     private TextView textview_countdown;
+    private Button button_verify;
     private CountDownTimer timer;
 
 
@@ -27,11 +31,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /**
+         * Setup views and buttons
+         */
         textview_passcode = findViewById(R.id.textView_passcode);
         textview_countdown = findViewById(R.id.textView_countdown);
+        button_verify = findViewById(R.id.btn_verify);
+
+        /**
+         * On Click Listener for the verification button
+         */
+        button_verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start verification activity via Explicit intent
+                Intent intent = new Intent(MainActivity.this, VerificationActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         renew_passcode();
 
+        /**
+         * Setup the timer and start counting
+         * Count down 60000 milli secs (60 secs)
+         */
         timer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -51,7 +76,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void renew_passcode () {
+    /**
+     * Method to update the passcode
+     * Using the Java Calendar class instead of System.currentTimeMillis()
+     * Both should work the same way
+     */
+    public void renew_passcode () {
         cal = Calendar.getInstance();
 
         current_minute = cal.get(Calendar.MINUTE);
@@ -59,4 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
         textview_passcode.setText(String.valueOf(passcode));
     }
+
+
 }
