@@ -44,9 +44,6 @@ public class VerificationActivity extends AppCompatActivity {
         button_clear = findViewById(R.id.btn_clear);
 
 
-
-
-
         if (timestamps_arraylist.isEmpty()) {
             loadTimestampsFromSharedPreferences();
         }
@@ -78,7 +75,7 @@ public class VerificationActivity extends AppCompatActivity {
 
                     // Add the timestamp to the list and update the ListView
                     timestamps_arraylist.add(timestamp + "\t\t\t" + passcode);
-                    saveTimeStamp(timestamp + "  " + passcode);
+                    saveTimeStamp(timestamp + "\t\t\t" + passcode);
                     adapter.notifyDataSetChanged();
                 }
             }
