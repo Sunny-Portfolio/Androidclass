@@ -86,17 +86,30 @@ public class VerificationActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Create the timestamp string
+     * @return
+     */
     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", java.util.Locale.getDefault());
         return sdf.format(new Date());
     }
 
 
+    /**
+     * Method used to save the timestamp to shared preferences
+     * @param timestamp
+     */
     private void saveTimeStamp (String timestamp) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("last_timestamp_key", timestamp);
         editor.apply();
     }
+
+    /**
+     * Method used to load last timestamp from shared preferences
+     */
     private void loadTimestampsFromSharedPreferences() {
         sharedPreferences = getSharedPreferences("passcode_preference", MODE_PRIVATE);
 
@@ -109,6 +122,10 @@ public class VerificationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method used to clear timestamp from shared preferences
+     * Currently not used
+     */
     private void clearTimestamps() {
         SharedPreferences sharedPreferences = getSharedPreferences("Timestamps", MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
