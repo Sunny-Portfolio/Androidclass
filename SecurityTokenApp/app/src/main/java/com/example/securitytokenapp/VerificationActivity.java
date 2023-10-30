@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,7 +28,6 @@ public class VerificationActivity extends AppCompatActivity {
     private BroadcastReceiver passcodeReceiver;
     private static final String PASSCODE_UPDATE_ACTION = "com.example.securitytokenapp.passcode_update";
     private List<String> timestamps_arraylist = new ArrayList<>();
-//    String [] time_stamp_list = {"test1", "test2", "test3"};
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -41,10 +41,30 @@ public class VerificationActivity extends AppCompatActivity {
         timeStampListView = findViewById(R.id.time_stamp_list);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 ,android.R.id.text1, timestamps_arraylist);
         timeStampListView.setAdapter(adapter);
+        button_clear = findViewById(R.id.btn_clear);
+
+
+
+
 
         if (timestamps_arraylist.isEmpty()) {
             loadTimestampsFromSharedPreferences();
         }
+
+
+        /**
+         * Clear button action
+         */
+        button_clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timestamps_arraylist.clear();
+//                clearTimestamps();
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
 
         /**
          * Broadcast receiver for passcode update
