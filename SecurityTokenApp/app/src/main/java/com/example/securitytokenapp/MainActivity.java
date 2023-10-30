@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-
+                Toast.makeText(MainActivity.this, "Passcode Updated", Toast.LENGTH_SHORT).show();=
             }
         }.start();
 
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //                start();
+                Toast.makeText(MainActivity.this, "Passcode Updated", Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -171,6 +173,5 @@ public class MainActivity extends AppCompatActivity {
         return current_minute * 1245 + 10000;
 
     }
-
 
 }
