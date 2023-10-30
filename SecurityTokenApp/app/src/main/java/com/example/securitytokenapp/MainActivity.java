@@ -64,10 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
         /**
          * First update of the passcode on app startup
-         * Also update the remaining secs on startup
          */
         passcode = renew_passcode();
         textview_passcode.setText(String.valueOf(passcode));
+
+
+        /**
+         * Update the remaining secs on startup
+         */
         cal = Calendar.getInstance();
         current_second = cal.get(Calendar.SECOND);
         milliSec_remain = (60 - current_second) * 1000;
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Toast.makeText(MainActivity.this, "Passcode Updated", Toast.LENGTH_SHORT).show();=
+                Toast.makeText(MainActivity.this, "Passcode Updated", Toast.LENGTH_SHORT).show();
             }
         }.start();
 
@@ -157,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         unregisterReceiver(minuteChangedReceiver);
     }
 
@@ -168,10 +171,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public int renew_passcode () {
         cal = Calendar.getInstance();
-
         current_minute = cal.get(Calendar.MINUTE);
         return current_minute * 1245 + 10000;
-
     }
 
 }
