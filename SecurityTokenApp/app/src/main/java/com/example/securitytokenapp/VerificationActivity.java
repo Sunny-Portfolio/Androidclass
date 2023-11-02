@@ -171,8 +171,14 @@ public class VerificationActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        timestamps_arraylist = savedInstanceState.getStringArrayList("Passcode_key");
-        Log.d("TAG", "onRestoreInstanceState: 1");
+
+        // Update listView adaptor with restored arraylist data
+        ArrayList<String> restoredTimestamps = savedInstanceState.getStringArrayList("Passcode_key");
+        if (restoredTimestamps != null) {
+            timestamps_arraylist.clear();
+            timestamps_arraylist.addAll(restoredTimestamps);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 
