@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Unregister the broadcast receiver when MainActivity is destroyed
+     * Receiver registered in onCreate(), therefore unregister in onDestroy()
      */
     @Override
     protected void onDestroy() {
