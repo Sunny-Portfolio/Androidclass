@@ -49,7 +49,6 @@ public class VerificationActivity extends AppCompatActivity {
 
         if (timestamps_arraylist.isEmpty()) {
             loadTimestampsFromSharedPreferences();
-            Log.d("TAG", "onCreate: Timestamp is empty");
         }
 
 
@@ -73,7 +72,6 @@ public class VerificationActivity extends AppCompatActivity {
         passcodeReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d("TAG", "onReceive: in broadcast receiver");
                 if (PASSCODE_UPDATE_ACTION.equals(intent.getAction())) {
                     int passcode = intent.getIntExtra("passcode", 0);
                     String timestamp = getCurrentTimestamp();
@@ -82,12 +80,6 @@ public class VerificationActivity extends AppCompatActivity {
                     timestamps_arraylist.add(timestamp + "\t\t\t" + passcode);
                     saveTimeStamp(timestamp + "\t\t\t" + passcode);
                     adapter.notifyDataSetChanged();
-                    Log.d("TAG", "onReceive: in broadcast receiver2");
-                    int count = 1;
-                    for (String time : timestamps_arraylist){
-                        Log.d("TAG", "onReceive: in broadcast receiver2 : " + count + ") " + time);
-                        count++;
-                    }
 
                 }
 
@@ -133,10 +125,6 @@ public class VerificationActivity extends AppCompatActivity {
             timestamps_arraylist.add("Beginning of list");
         } else {
             timestamps_arraylist.add(lastTimestamp);
-            Log.d("TAG", "loadTimestampsFromSharedPreferences: 1 :");
-            for (String time : timestamps_arraylist){
-                Log.d("TAG", "loadTimestampsFromSharedPreferences: : " + time);
-            }
         }
     }
 
@@ -160,7 +148,6 @@ public class VerificationActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         outState.putStringArrayList("Passcode_key", timestamps_arraylist);
-        Log.d("TAG", "onSaveInstanceState: 1");
     }
 
     /**
