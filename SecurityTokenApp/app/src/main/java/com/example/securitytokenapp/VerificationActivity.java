@@ -1,5 +1,7 @@
 package com.example.securitytokenapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.BroadcastReceiver;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +30,7 @@ public class VerificationActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private BroadcastReceiver passcodeReceiver;
     private static final String PASSCODE_UPDATE_ACTION = "com.example.securitytokenapp.passcode_update";
-    private List<String> timestamps_arraylist = new ArrayList<>();
+    private ArrayList<String> timestamps_arraylist = new ArrayList<>();
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -46,6 +49,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         if (timestamps_arraylist.isEmpty()) {
             loadTimestampsFromSharedPreferences();
+            Log.d("TAG", "onCreate: Timestamp is empty");
         }
 
 
@@ -69,6 +73,7 @@ public class VerificationActivity extends AppCompatActivity {
         passcodeReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Log.d("TAG", "onReceive: in broadcast receiver");
                 if (PASSCODE_UPDATE_ACTION.equals(intent.getAction())) {
                     int passcode = intent.getIntExtra("passcode", 0);
                     String timestamp = getCurrentTimestamp();
@@ -77,7 +82,15 @@ public class VerificationActivity extends AppCompatActivity {
                     timestamps_arraylist.add(timestamp + "\t\t\t" + passcode);
                     saveTimeStamp(timestamp + "\t\t\t" + passcode);
                     adapter.notifyDataSetChanged();
+                    Log.d("TAG", "onReceive: in broadcast receiver2");
+                    int count = 1;
+                    for (String time : timestamps_arraylist){
+                        Log.d("TAG", "onReceive: in broadcast receiver2 : " + count + ") " + time);
+                        count++;
+                    }
+
                 }
+
             }
         };
 
@@ -85,6 +98,7 @@ public class VerificationActivity extends AppCompatActivity {
         registerReceiver(passcodeReceiver, new IntentFilter(PASSCODE_UPDATE_ACTION));
 
     }
+
 
 
     /**
@@ -119,6 +133,10 @@ public class VerificationActivity extends AppCompatActivity {
             timestamps_arraylist.add("Beginning of list");
         } else {
             timestamps_arraylist.add(lastTimestamp);
+            Log.d("TAG", "loadTimestampsFromSharedPreferences: 1 :");
+            for (String time : timestamps_arraylist){
+                Log.d("TAG", "loadTimestampsFromSharedPreferences: : " + time);
+            }
         }
     }
 
@@ -129,5 +147,42 @@ public class VerificationActivity extends AppCompatActivity {
     private void clearTimestamps() {
         SharedPreferences sharedPreferences = getSharedPreferences("Timestamps", MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
+    }
+
+
+    /**
+     * Save instance state when screen rotates
+     * @param outState Bundle in which to place your saved state.
+     *
+     */
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putStringArrayList("Passcode_key", timestamps_arraylist);
+        Log.d("TAG", "onSaveInstanceState: 1");
+    }
+
+    /**
+     * Restore instance state after screen rotation
+     * @param savedInstanceState the data most recently supplied in {@link #onSaveInstanceState}.
+     *
+     */
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        timestamps_arraylist = savedInstanceState.getStringArrayList("Passcode_key");
+        Log.d("TAG", "onRestoreInstanceState: 1");
+
+    }
+
+    /**
+     * Unregister the broadcast receiver when VerificationActivity is destroyed
+     * Receiver registered in onCreate(), therefore unregister in onDestroy()
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(passcodeReceiver);
     }
 }
