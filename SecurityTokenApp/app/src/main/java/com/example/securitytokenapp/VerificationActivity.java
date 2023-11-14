@@ -35,8 +35,6 @@ public class VerificationActivity extends AppCompatActivity {
     private ListView timeStampListView;
     private Button button_clear;
     private ArrayAdapter<String> adapter;
-    private BroadcastReceiver passcodeReceiver;
-    private static final String PASSCODE_UPDATE_ACTION = "com.example.securitytokenapp.passcode_update";
     private ArrayList<String> timestamps_arraylist = new ArrayList<>();
     private SharedPreferences sharedPreferences;
     private int passcode;
@@ -47,25 +45,12 @@ public class VerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
 
-        Log.d("TAG", "onCreate: START =============");
         /**
-         * Setup views, buttons, SharedPreferences
+         * Setup views, buttons
          */
         timeStampListView = findViewById(R.id.time_stamp_list);
-//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 ,android.R.id.text1, timestamps_arraylist);
-//        timeStampListView.setAdapter(adapter);
         button_clear = findViewById(R.id.btn_clear);
 
-
-
-        Log.d("TAG", "onCreate: timestamps_arraylist 1 : " + timestamps_arraylist);
-
-//        if (getIntent() != null) {
-//            loadAllTimestampsFromSharedPreferences();
-//        } else {
-//            loadLastTimestampsFromSharedPreferences();
-//            Log.d("TAG", "onCreate: timestamps_arraylist 2 : " + timestamps_arraylist);
-//        }
 
         /**
          * Find out if restore all timestamp (back button pressed) or not (app closed and restarted)
@@ -82,6 +67,9 @@ public class VerificationActivity extends AppCompatActivity {
         }
 
 
+        /**
+         * Setup adaptor after loading saved preferences
+         */
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 ,android.R.id.text1, timestamps_arraylist);
         timeStampListView.setAdapter(adapter);
         Log.d("TAG", "onCreate: timestamps_arraylist 2 : " + timestamps_arraylist);
@@ -153,7 +141,6 @@ public class VerificationActivity extends AppCompatActivity {
     private void saveTimeStamp (String timestamp) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("last_timestamp_key", timestamp);
-//        editor.putStringSet("s", (Set<String>) timestamps_arraylist);
         editor.apply();
     }
 
@@ -163,14 +150,10 @@ public class VerificationActivity extends AppCompatActivity {
      */
     private void saveAllTimeStamp (ArrayList timestamp) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putStringSet("all_timestamp_key", new HashSet<>(timestamps_arraylist));
-//        Log.d("TAG", "saveAllTimeStamp: ");
-//        editor.putBoolean("isRestoreAll_key", true);
-//        editor.apply();
 
         Log.d("TAG", "saveAllTimeStamp: ");
 
-        // Save timestamp ArrayList to JSON
+        // Save timestamp ArrayList to JSON format to preserve order of the list
         Gson gson = new Gson();
         String json = gson.toJson(timestamps_arraylist);
         editor.putString("all_timestamp_key", json);
@@ -203,17 +186,7 @@ public class VerificationActivity extends AppCompatActivity {
     private void loadAllTimestampsFromSharedPreferences() {
         sharedPreferences = getSharedPreferences("passcode_preference", MODE_PRIVATE);
 
-//        Set<String> allTimestamp = sharedPreferences.getStringSet("all_timestamp_key", null);
-//
-//        if (allTimestamp == null) {
-//            timestamps_arraylist.add("Beginning of list");
-//        } else {
-//            timestamps_arraylist.clear();
-//            timestamps_arraylist.addAll(allTimestamp);
-//        }
-
-        // Load ArrayList from JSON
-
+        // Load ArrayList from JSON string
         String allTimestamp = sharedPreferences.getString("all_timestamp_key", null);
         Log.d("TAG", "loadAllTimestampsFromSharedPreferences: " + allTimestamp);
 
@@ -222,8 +195,6 @@ public class VerificationActivity extends AppCompatActivity {
         } else {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<String>>() {}.getType();
-//            timestamps_arraylist.clear();
-//            timestamps_arraylist.addAll(allTimestamp);
             timestamps_arraylist = gson.fromJson(allTimestamp, type);
         }
     }
@@ -252,8 +223,6 @@ public class VerificationActivity extends AppCompatActivity {
      */
     private void clearTimestamps() {
         SharedPreferences last_time_pref = getSharedPreferences("passcode_preference", MODE_PRIVATE);
-//        SharedPreferences all_time_pref = getSharedPreferences("Timestamps", MODE_PRIVATE);
-
         sharedPreferences.edit().clear().apply();
     }
 
@@ -307,9 +276,6 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("TAG", "onDestroy: 1");
-//        unregisterReceiver(passcodeReceiver);
-//        clearTimestamps();
-//        timestamps_arraylist.clear();
         Log.d("TAG", "onDestroy: restore all timestamp is : " + restoreAllTimestamp);
 
     }
@@ -318,15 +284,12 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d("TAG", "onPause: 1 " + timestamps_arraylist);
-
-//        saveAllTimeStamp(timestamps_arraylist);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
         Log.d("TAG", "onPostResume: ");
-//        loadAllTimestampsFromSharedPreferences();
     }
 
     @Override
