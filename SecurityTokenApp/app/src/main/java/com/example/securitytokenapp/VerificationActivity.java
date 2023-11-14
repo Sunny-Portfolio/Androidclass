@@ -25,6 +25,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +59,6 @@ public class VerificationActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("passcode_preference", MODE_PRIVATE);
         restoreAllTimestamp = sharedPreferences.getBoolean("isRestoreAll_key", false);
 
-        Log.d("TAG", "onCreate: restore all? : " + restoreAllTimestamp);
         if (restoreAllTimestamp) {
             loadAllTimestampsFromSharedPreferences();
             setRestoreAllTimestamp(false);
@@ -72,8 +72,6 @@ public class VerificationActivity extends AppCompatActivity {
          */
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1 ,android.R.id.text1, timestamps_arraylist);
         timeStampListView.setAdapter(adapter);
-        Log.d("TAG", "onCreate: timestamps_arraylist 2 : " + timestamps_arraylist);
-
 
 
         /**
@@ -93,15 +91,12 @@ public class VerificationActivity extends AppCompatActivity {
          * Get the verified code from intent
          */
         passcode = getIntent().getIntExtra("passcode", 0);
-        Log.d("TAG", "onCreate: passcode after verify is : " + passcode);
-        // Add the timestamp to the list and update the ListView
+
+        // Add the new timestamp to the list and update the ListView
         String timestamp = getCurrentTimestamp();
         timestamps_arraylist.add(timestamp + "\t\t\t" + passcode);
-        Log.d("TAG", "onCreate: timestamp after verify is : " + timestamps_arraylist);
         saveTimeStamp(timestamp + "\t\t\t" + passcode);
         adapter.notifyDataSetChanged();
-
-        Log.d("TAG", "onCreate: timestamps_arraylist 3 : " + timestamps_arraylist);
 
 
         /**
@@ -114,7 +109,6 @@ public class VerificationActivity extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                Log.d("TAG", "handleOnBackPressed: back is pressed");
                 saveAllTimeStamp(timestamps_arraylist);
                 finish();
             }
@@ -135,7 +129,7 @@ public class VerificationActivity extends AppCompatActivity {
 
 
     /**
-     * Method used to save last timestamp to shared preferences
+     * Method used to save only the last timestamp to shared preferences
      * @param timestamp
      */
     private void saveTimeStamp (String timestamp) {
@@ -151,8 +145,6 @@ public class VerificationActivity extends AppCompatActivity {
     private void saveAllTimeStamp (ArrayList timestamp) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        Log.d("TAG", "saveAllTimeStamp: ");
-
         // Save timestamp ArrayList to JSON format to preserve order of the list
         Gson gson = new Gson();
         String json = gson.toJson(timestamps_arraylist);
@@ -162,7 +154,7 @@ public class VerificationActivity extends AppCompatActivity {
     }
 
     /**
-     * Method used to load last timestamp from shared preferences
+     * Method used to load only the last timestamp from shared preferences
      * Used on app startup
      */
     private void loadLastTimestampsFromSharedPreferences() {
@@ -173,7 +165,6 @@ public class VerificationActivity extends AppCompatActivity {
         if (lastTimestamp.isEmpty()) {
             timestamps_arraylist.add("Beginning of list");
         } else {
-            Log.d("TAG", "loadLastTimestampsFromSharedPreferences: added time stamp : " + lastTimestamp);
 //            timestamps_arraylist.clear();
             timestamps_arraylist.add(lastTimestamp);
         }
@@ -188,7 +179,6 @@ public class VerificationActivity extends AppCompatActivity {
 
         // Load ArrayList from JSON string
         String allTimestamp = sharedPreferences.getString("all_timestamp_key", null);
-        Log.d("TAG", "loadAllTimestampsFromSharedPreferences: " + allTimestamp);
 
         if (allTimestamp == null) {
             timestamps_arraylist.add("Beginning of list");
@@ -203,19 +193,19 @@ public class VerificationActivity extends AppCompatActivity {
     /**
      * Method used to load all timestamp from shared preferences
      * Used on app resume
+     * Currently not used
+     * @deprecated
      */
-//    private void loadTimestampsFromSharedPreferences() {
-//
-//
-//
-//        Log.d("TAG", "loadAllTimestampsFromSharedPreferences: " + allTimestamp);
-//        if (allTimestamp == null) {
-//            timestamps_arraylist.add("Beginning of list");
-//        } else {
-//            timestamps_arraylist.clear();
-//            timestamps_arraylist.addAll(allTimestamp);
-//        }
-//    }
+    private void loadTimestampsFromSharedPreferences() {
+        String allTimestamp = sharedPreferences.getString("all_timestamp_key", null);
+
+        if (allTimestamp == null) {
+            timestamps_arraylist.add("Beginning of list");
+        } else {
+            timestamps_arraylist.clear();
+            timestamps_arraylist.addAll(Collections.singleton(allTimestamp));
+        }
+    }
 
     /**
      * Method used to clear timestamp from shared preferences
@@ -235,7 +225,6 @@ public class VerificationActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("TAG", "onSaveInstanceState: 1 list is : " + timestamps_arraylist);
 
         outState.putStringArrayList("Passcode_key", timestamps_arraylist);
     }
@@ -249,10 +238,8 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        Log.d("TAG", "onRestoreInstanceState: 1 saved Instance state: " + savedInstanceState);
         // Update listView adaptor with restored arraylist data
         ArrayList<String> restoredTimestamps = savedInstanceState.getStringArrayList("Passcode_key");
-        Log.d("TAG", "onRestoreInstanceState: list is : " + restoredTimestamps);
         if (restoredTimestamps != null) {
             timestamps_arraylist.clear();
             timestamps_arraylist.addAll(restoredTimestamps);
@@ -261,6 +248,11 @@ public class VerificationActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to change the saved shared preference for restoreAllTimstamp
+     * This is used to indicate if the app needs to restore all timestamps
+     * @param bool
+     */
     private void setRestoreAllTimestamp(boolean bool) {
         restoreAllTimestamp = bool;
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -276,14 +268,11 @@ public class VerificationActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.d("TAG", "onDestroy: 1");
-        Log.d("TAG", "onDestroy: restore all timestamp is : " + restoreAllTimestamp);
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("TAG", "onPause: 1 " + timestamps_arraylist);
     }
 
     @Override
