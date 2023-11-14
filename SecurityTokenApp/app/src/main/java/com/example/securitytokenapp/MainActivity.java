@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("TAG", "onCreate: In onCreate*** Start");
+
         /**
          * Setup views and buttons
          */
@@ -50,17 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        /**
-         * On Click Listener for the verification button
-         */
-        button_verify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start verification activity via Explicit intent
-                Intent intent = new Intent(MainActivity.this, VerificationActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         /**
          * First update of the passcode on app startup
@@ -91,6 +83,26 @@ public class MainActivity extends AppCompatActivity {
 
 
         /**
+         * On Click Listener for the verification button
+         */
+        button_verify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // Start verification activity via Explicit intent
+                Intent intent = new Intent(MainActivity.this, VerificationActivity.class);
+                Log.d("TAG", "onClick: the passcode in main is : " + passcode);
+                intent.putExtra("passcode",passcode);
+                startActivity(intent);
+
+
+            }
+        });
+
+
+
+        /**
          * This broadcast receiver receive ACTION_TIME_TICK which is sent when the minutes changed
          * After that, the passcode is changed and synced
          */
@@ -99,21 +111,22 @@ public class MainActivity extends AppCompatActivity {
             public void onReceive(Context context, Intent intent) {
                 if (Intent.ACTION_TIME_TICK.equals(intent.getAction())) {
                     // Update the passcode when the minutes change
-                    int passcode = renew_passcode();
+                    passcode = renew_passcode();
+                    Log.d("TAG", "onReceive: Main update passcode: " + passcode);
                     textview_passcode.setText(String.valueOf(passcode));
 
                     // Start the 60 seconds timer
                     timer.start();
 
-                    // Broadcast the passcode to be received by VerificationActivity
-                    Intent passcodeIntent = new Intent(PASSCODE_UPDATE_ACTION);
-                    passcodeIntent.putExtra("passcode", passcode);
-                    sendBroadcast(passcodeIntent);
+//                    // Broadcast the passcode to be received by VerificationActivity
+//                    Intent passcodeIntent = new Intent(PASSCODE_UPDATE_ACTION);
+//                    passcodeIntent.putExtra("passcode", passcode);
+//                    sendBroadcast(passcodeIntent);
                 }
             }
         };
 
-        // Register the broadcast receiver for ACTION_TIME_TICK
+        // Register the broadcast receiver with intent filter for ACTION_TIME_TICK
         registerReceiver(minuteChangedReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
 
@@ -131,22 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-//                int passcode = renew_passcode();
-//                textview_passcode.setText(String.valueOf(passcode));
-//
-//                // TODO: 10/28/23 send braoadcast this way maybe? check gpt
-//                // maybe use ACTION_TIME_TICK instead of 60 secs countdown
-//                // because it suppose to sync with system instead my own countdown
-//                // Broadcast an intent
-//                Intent intent = new Intent();
-//                intent.setAction("")
-//                intent.putExtra("passcode", passcode);
-//                sendBroadcast(intent);
-//
-//                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
-//
-//
-//                start();
                 Toast.makeText(MainActivity.this, "Passcode Updated", Toast.LENGTH_SHORT).show();
             }
         };
