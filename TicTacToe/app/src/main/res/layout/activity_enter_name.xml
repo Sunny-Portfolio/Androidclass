@@ -34,7 +34,7 @@
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/ID_player1_name"
+            android:id="@+id/ID_P1_name_entry"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"
@@ -62,7 +62,7 @@
             android:layout_gravity="center"/>
 
         <EditText
-            android:id="@+id/ID_player2_name"
+            android:id="@+id/ID_P2_name_entry"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPassword"

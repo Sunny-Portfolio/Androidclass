@@ -17,8 +17,8 @@ public class EnterNameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter_name);
 
-        final EditText player1_text = findViewById(R.id.ID_player1_name);
-        final EditText player2_text = findViewById(R.id.ID_player2_name);
+        final EditText player1_text = findViewById(R.id.ID_P1_name_entry);
+        final EditText player2_text = findViewById(R.id.ID_P2_name_entry);
         final Button start_btn = findViewById(R.id.start_btn);
 
         start_btn.setOnClickListener(new View.OnClickListener() {
