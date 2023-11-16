@@ -260,10 +260,7 @@ public class VerificationActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    /**
-     * Unregister the broadcast receiver when VerificationActivity is destroyed
-     * Receiver registered in onCreate(), therefore unregister in onDestroy()
-     */
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
