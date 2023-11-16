@@ -16,7 +16,7 @@
         android:gravity="bottom"
         android:orientation="horizontal"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -39,6 +39,7 @@
 
 
                 <TextView
+                    android:id="@+id/ID_P1_name_inGame"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Player1_name"
@@ -68,6 +69,7 @@
                         android:layout_marginStart="10dp" />
 
                     <TextView
+                        android:id="@+id/ID_P1_score_inGame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/P1_Score_count"
@@ -112,6 +114,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/ID_Box1"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -129,6 +132,7 @@
                 android:layout_weight="1" >
 
                 <ImageView
+                    android:id="@+id/ID_Box2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -147,6 +151,7 @@
                 android:layout_weight="1" >
 
                 <ImageView
+                    android:id="@+id/ID_Box3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -178,6 +183,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/ID_Box4"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -195,6 +201,7 @@
                 android:layout_weight="1" >
 
                 <ImageView
+                    android:id="@+id/ID_Box5"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -213,6 +220,7 @@
                 android:layout_weight="1" >
 
                 <ImageView
+                    android:id="@+id/ID_Box6"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -244,6 +252,7 @@
                 android:layout_weight="1">
 
                 <ImageView
+                    android:id="@+id/ID_Box7"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -261,6 +270,7 @@
                 android:layout_weight="1" >
 
                 <ImageView
+                    android:id="@+id/ID_Box8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -279,6 +289,7 @@
                 android:layout_weight="1" >
 
                 <ImageView
+                    android:id="@+id/ID_Box9"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@drawable/playboard_square"
@@ -304,7 +315,7 @@
         android:gravity="right"
         android:orientation="horizontal"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="20dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -327,6 +338,7 @@
 
 
                 <TextView
+                    android:id="@+id/ID_P2_name_inGame"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Player2_name"
@@ -356,6 +368,7 @@
                         android:layout_marginStart="10dp" />
 
                     <TextView
+                        android:id="@+id/ID_P2_score_inGame"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/P2_Score_count"
