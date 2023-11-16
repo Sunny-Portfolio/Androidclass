@@ -7,5 +7,12 @@
     <string name="enter_name_2">Enter Player 2 Name</string>
     <string name="standing_title">Player Standings</string>
     <string name="start_game">Start !</string>
+    <string name="Player1_name">Player 1 (AI)</string>
+    <string name="Player2_name">Player 2 (AI)</string>
+    <string name="Score_title">Score:</string>
+    <string name="P1_Score_count">12</string>
+    <string name="P2_Score_count">12</string>
+
+
 
 </resources>
