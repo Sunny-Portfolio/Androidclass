@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".EnterNameActivity">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="@string/enter_name" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="50dp" >
+
+        <ImageView
+            android:id="@+id/ID_player1_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/cross"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/ID_player1_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:hint="Player 1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="50dp" >
+
+        <ImageView
+            android:id="@+id/ID_player2_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/circle"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="20dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:id="@+id/ID_player2_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPassword"
+            android:hint="Player 2"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="@string/start_game"
+        android:layout_marginTop="50dp"/>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
