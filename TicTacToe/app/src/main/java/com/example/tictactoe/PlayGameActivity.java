@@ -39,7 +39,7 @@ public class PlayGameActivity extends AppCompatActivity {
         box5 = findViewById(R.id.ID_Box5);
         box6 = findViewById(R.id.ID_Box6);
         box7 = findViewById(R.id.ID_Box7);
-        box8 = findViewById(R.id.ID_Box8;
+        box8 = findViewById(R.id.ID_Box8);
         box9 = findViewById(R.id.ID_Box9);
 
 
