@@ -4,11 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +29,8 @@ public class PlayGameActivity extends AppCompatActivity {
     private int playerTurn = 1;
     private int totalBoxSelected = 1;
     private String P1_name, P2_name;
+    String FILENAME = "players.txt";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +66,13 @@ public class PlayGameActivity extends AppCompatActivity {
         combo_list.add(new int[] {2,4,6});
         combo_list.add(new int[] {0,4,8});
 
-        P1_name = getIntent().getStringExtra("P1_name");
-        P2_name = getIntent().getStringExtra("P2_name");
+
+        /**
+         * Get the players name
+         */
+        // TODO: 11/17/23 this probably should get from internal file 
+        P1_name = getIntent().getStringExtra("Key_P1_name");
+        P2_name = getIntent().getStringExtra("Key_P2_name");
 
         /**
          * Set player name on the player card
@@ -70,6 +85,9 @@ public class PlayGameActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
 
     private class AImove extends AsyncTask<Integer, String, Integer> {
