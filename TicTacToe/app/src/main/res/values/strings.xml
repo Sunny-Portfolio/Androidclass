@@ -9,8 +9,14 @@
     <string name="save_name">Save</string>
     <string name="Player1_name">Player 1 (AI)</string>
     <string name="Player2_name">Player 2 (AI)</string>
-    <string name="Score_title">Score:</string>
-    <string name="P1_Score_count">12</string>
-    <string name="P2_Score_count">12</string>
+    <string name="Win_title">W:</string>
+    <string name="Draw_title">D:</string>
+    <string name="Lose_title">L:</string>
+    <string name="P1_Win_count">12</string>
+    <string name="P2_Win_count">12</string>
+    <string name="P1_Draw_count">12</string>
+    <string name="P2_Draw_count">12</string>
+    <string name="P1_Lose_count">12</string>
+    <string name="P2_Lose_count">12</string>
 
 </resources>
