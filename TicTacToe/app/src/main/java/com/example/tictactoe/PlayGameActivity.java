@@ -2,6 +2,7 @@ package com.example.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +67,40 @@ public class PlayGameActivity extends AppCompatActivity {
         if (!P2_name.isEmpty())
             player2_name_tag.setText(P2_name);
 
+
+
+    }
+
+
+    private class AImove extends AsyncTask<Integer, String, Integer> {
+
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        /**
+         * AI's move goes here
+         * @param integers The parameters of the task.
+         *
+         * @return
+         */
+        @Override
+        protected Integer doInBackground(Integer... integers) {
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            super.onPostExecute(integer);
+        }
 
 
     }
