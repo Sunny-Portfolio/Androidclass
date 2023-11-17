@@ -54,6 +54,11 @@ public class EnterNameActivity extends AppCompatActivity {
     }
 
     private void savePlayerName () {
+        if (player1_name.isEmpty())
+            player1_name = "Player 1 (AI)";
+        else if (player2_name.isEmpty()) {
+            player2_name = "Player 2 (AI)";
+        }
         writeFile();
     }
 
@@ -88,9 +93,13 @@ public class EnterNameActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "File Doesn't Exist!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
+    /**
+     * Check if the a internal file exist
+     * @param fileName
+     * @return
+     */
     private boolean checkFileExist (String fileName) {
         File file = getBaseContext().getFileStreamPath(fileName);
         return file.exists();
@@ -102,6 +111,7 @@ public class EnterNameActivity extends AppCompatActivity {
         try {
             FileOutputStream saveNames = openFileOutput(FILENAME, Context.MODE_PRIVATE);
             saveNames.write(player1_name.getBytes());
+            saveNames.write(System.lineSeparator().getBytes());
             saveNames.write(player2_name.getBytes());
 
             saveNames.close();
