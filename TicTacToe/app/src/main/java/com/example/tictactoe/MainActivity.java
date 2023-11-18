@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ListView menu_list;
     private ArrayAdapter<String> adapter;
     private List<String> menu_btn;
-    String FILENAME = "players.txt";
+    String PLAYERNAMES = "players.txt";
     private String P1_name, P2_name;
 
     @Override
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 final String selection = parent.getItemAtPosition(position).toString();
                 Intent intent;
 
+                // Game menu selection
                 switch (position) {
                     case 0:
                         intent = new Intent(MainActivity.this, EnterNameActivity.class);
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 1:
 
-                        if (checkFileExist(FILENAME)) {
-                            readFile();
+                        if (checkFileExist(PLAYERNAMES)) {
+                            readFile(PLAYERNAMES);
 
                             intent = new Intent(MainActivity.this, PlayGameActivity.class);
                             // TODO: 11/16/23 may need to pass player name here
@@ -96,11 +97,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void restorePlayerName (View v) {
-        readFile();
-    }
+//    private void restorePlayerName (View v) {
+//        readFile();
+//    }
 
-    private void readFile () {
+    /**
+     * Method to read file containing player names
+     * @param FILENAME
+     */
+    private void readFile (String FILENAME) {
         if (checkFileExist(FILENAME)) {
             // Read file and update edit text
             FileInputStream fileInput = null;
