@@ -26,6 +26,7 @@ import java.util.List;
 public class PlayGameActivity extends AppCompatActivity {
 
     private TextView player1_name_tag, player2_name_tag;
+    private View P1_name_card, P2_name_card;
     private ImageView box1, box2, box3, box4, box5, box6, box7, box8, box9;
     private List<int[]> combo_list = new ArrayList<>();
     private int[] box_position = {0,0,0,0,0,0,0,0,0};
@@ -45,6 +46,8 @@ public class PlayGameActivity extends AppCompatActivity {
          */
         player1_name_tag = findViewById(R.id.ID_P1_name_inGame);
         player2_name_tag = findViewById(R.id.ID_P2_name_inGame);
+        P1_name_card = findViewById(R.id.ID_P1_player_card);
+        P2_name_card = findViewById(R.id.ID_P2_player_card);
 
         setupBoxes(R.id.ID_Box1, box1);
         setupBoxes(R.id.ID_Box2, box2);
@@ -63,7 +66,6 @@ public class PlayGameActivity extends AppCompatActivity {
         GridLayout layout = findViewById(R.id.ID_playboard);
         int screenWidth = getResources().getDisplayMetrics().widthPixels - 64;
         layout.getLayoutParams().height = screenWidth;
-
 
 
         /**
@@ -173,68 +175,59 @@ public class PlayGameActivity extends AppCompatActivity {
         if (turnNumber % 2 == 0) {
 
             v.setImageResource(R.drawable.cross);
-//            v.getLayoutParams().width = 200;
-
-
-//            if (checkResults()) {
-//                ResultDialog resultDialog = new ResultDialog(MainActivity.this, binding.playerOneName.getText().toString()
-//                        + " is a Winner!", MainActivity.this);
-//                resultDialog.setCancelable(false);
-//                resultDialog.show();
-//            } else if(totalSelectedBoxes == 9) {
-//                ResultDialog resultDialog = new ResultDialog(MainActivity.this, "Match Draw", MainActivity.this);
-//                resultDialog.setCancelable(false);
-//                resultDialog.show();
-//            } else {
-//                changePlayerTurn(2);
-//                totalSelectedBoxes++;
-//            }
-
+            // Set the box_position to mark Player 1's move
             int boxIndex = getBoxIndex(v);
             box_position[boxIndex] = 1;
 
             if (checkResults()) {
                 displayResult(player1_name_tag.getText().toString() + " is a Winner!");
+                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player1_name_tag.getText().toString() + " is a Winner!", PlayGameActivity.this);
+                showWin.setCancelable(false);
+                showWin.show();
             } else if (turnNumber == 8) {
                 displayResult("Match Draw");
+                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, "It's a Draw!", PlayGameActivity.this);
+                showWin.setCancelable(false);
+                showWin.show();
+            } else {
+                turnNumber++;
+                switchPlayer();
             }
 
-            turnNumber++;
         } else {
             v.setImageResource(R.drawable.circle);
-//            if (checkResults()) {
-//                ResultDialog resultDialog = new ResultDialog(MainActivity.this, binding.playerTwoName.getText().toString()
-//                        + " is a Winner!", MainActivity.this);
-//                resultDialog.setCancelable(false);
-//                resultDialog.show();
-//            } else if(totalSelectedBoxes == 9) {
-//                ResultDialog resultDialog = new ResultDialog(MainActivity.this, "Match Draw", MainActivity.this);
-//                resultDialog.setCancelable(false);
-//                resultDialog.show();
-//            } else {
-//                changePlayerTurn(1);
-//                totalSelectedBoxes++;
-//            }
-
+            // Set the box_position to mark Player 2's move
             int boxIndex = getBoxIndex(v);
             box_position[boxIndex] = 2;
 
             if (checkResults()) {
                 displayResult(player2_name_tag.getText().toString() + " is a Winner!");
+                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player2_name_tag.getText().toString() + " is a Winner!", PlayGameActivity.this);
+                showWin.setCancelable(false);
+                showWin.show();
             } else if (turnNumber == 8) {
                 displayResult("Match Draw");
+                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, "It's a Draw!", PlayGameActivity.this);
+                showWin.setCancelable(false);
+                showWin.show();
+            } else {
+                turnNumber++;
+                switchPlayer();
             }
 
-            turnNumber++;
         }
-
-
     }
 
     private void displayResult (String s) {
         Log.d("TAG", "displayResult: " + s);
     }
 
+
+    /**
+     * Get the corresponding square number being clicked
+     * @param v
+     * @return the corresponding number of the grid
+     */
     private int getBoxIndex(ImageView v) {
         int id = v.getId();
         if (id == R.id.ID_Box1) {
@@ -260,6 +253,10 @@ public class PlayGameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check to see if the game has been won
+     * @return bool
+     */
     private boolean checkResults() {
         for (int[] combo : combo_list) {
             int pos1 = combo[0];
@@ -268,10 +265,94 @@ public class PlayGameActivity extends AppCompatActivity {
 
             if (box_position[pos1] != 0 && box_position[pos1] == box_position[pos2] && box_position[pos2] == box_position[pos3]) {
                 // A winning combination is found
-//                highlightWinningCombo(pos1, pos2, pos3);
+                highlightWinningCombo(pos1, pos2, pos3);
                 return true;
             }
         }
         return false;
+    }
+
+
+    /**
+     * Highlight the winning combo at the end of the game
+     * @param pos1 position of the grid
+     * @param pos2 position of the grid
+     * @param pos3 position of the grid
+     */
+    private void highlightWinningCombo(int pos1, int pos2, int pos3) {
+        // You can implement logic to highlight the winning combination on the UI
+        // For example, change the background color of the winning boxes
+        // Update the UI as needed based on your design
+        // This method is just a placeholder, and you need to customize it based on your UI elements
+        // You might also want to disable further clicks on the board after a result is determined
+        // or show a button to start a new game
+        // Example:
+        highlightBox(pos1);
+        highlightBox(pos2);
+        highlightBox(pos3);
+    }
+
+    /**
+     * Highlight action of one box of the grid
+     * @param position
+     */
+    private void highlightBox(int position) {
+        // Implement logic to highlight a specific box on the UI
+        // For example, change the background color or add a border to indicate the winning combination
+        // This is a placeholder method, and you need to customize it based on your UI elements
+        // You may want to use animations or other visual indicators
+        // Example:
+        int resId = getResources().getIdentifier("ID_Box" + (position + 1), "id", getPackageName());
+        ImageView box = findViewById(resId);
+        // Add your UI highlighting logic here
+        // For simplicity, let's change the background color
+//        box.setBackgroundColor(getColor(R.color.myLimeGreen));
+        box.setBackground(getDrawable(R.drawable.playboard_square_hl));
+    }
+
+    /**
+     * Change the player card border to illustrate which player turn it is
+     */
+    private void switchPlayer() {
+        if (turnNumber % 2 == 0) {
+            P1_name_card.setBackground(getDrawable(R.drawable.player_border));
+            P2_name_card.setBackground(getDrawable(R.drawable.player_no_border));
+        } else {
+            P1_name_card.setBackground(getDrawable(R.drawable.player_no_border));
+            P2_name_card.setBackground(getDrawable(R.drawable.player_border));
+        }
+    }
+
+    /**
+     * Method to restart the game and reset all counters
+     */
+    protected void restartGame() {
+        // Reset all game variables and UI elements to start a new game
+        turnNumber = 0;
+//        totalBoxSelected = 1;
+
+        // Clear the box_position array
+        for (int i = 0; i < box_position.length; i++) {
+            box_position[i] = 0;
+        }
+
+        // Reset the image resources of all boxes to null
+        resetBoxBackground();
+
+        // Reset the player card borders
+        P1_name_card.setBackground(getDrawable(R.drawable.player_border));
+        P2_name_card.setBackground(getDrawable(R.drawable.player_no_border));
+    }
+
+    /**
+     * Method to reset the background to the default state for all boxes
+     */
+    private void resetBoxBackground() {
+        for (int i = 0; i < 9; i++) {
+            int resId = getResources().getIdentifier("ID_Box" + (i + 1), "id", getPackageName());
+            ImageView box = findViewById(resId);
+            box.setImageResource(0);
+            box.setBackground(getDrawable(R.drawable.playboard_square));
+        }
     }
 }
