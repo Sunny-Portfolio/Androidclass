@@ -26,6 +26,7 @@ import java.util.List;
 public class PlayGameActivity extends AppCompatActivity {
 
     private TextView player1_name_tag, player2_name_tag;
+    private TextView P1_win_tag, P2_win_tag, P1_draw_tag, P2_draw_tag;
     private View P1_name_card, P2_name_card;
     private ImageView box1, box2, box3, box4, box5, box6, box7, box8, box9;
     private List<int[]> combo_list = new ArrayList<>();
@@ -33,6 +34,9 @@ public class PlayGameActivity extends AppCompatActivity {
     private int turnNumber = 0;
     private int totalBoxSelected = 1;
     private String P1_name, P2_name;
+    private int P1_wins = 0;
+    private int P2_wins = 0;
+    private int draw_count = 0;
     String FILENAME = "players.txt";
 
 
@@ -46,6 +50,11 @@ public class PlayGameActivity extends AppCompatActivity {
          */
         player1_name_tag = findViewById(R.id.ID_P1_name_inGame);
         player2_name_tag = findViewById(R.id.ID_P2_name_inGame);
+        P1_win_tag = findViewById(R.id.ID_P1_Win_inGame);
+        P1_draw_tag = findViewById(R.id.ID_P1_Draw_inGame);
+        P2_win_tag = findViewById(R.id.ID_P2_Win_inGame);
+        P2_draw_tag = findViewById(R.id.ID_P2_Draw_inGame);
+
         P1_name_card = findViewById(R.id.ID_P1_player_card);
         P2_name_card = findViewById(R.id.ID_P2_player_card);
 
@@ -180,11 +189,22 @@ public class PlayGameActivity extends AppCompatActivity {
             box_position[boxIndex] = 1;
 
             if (checkResults()) {
+                // Increment win count and update text
+                P1_wins++;
+                P1_win_tag.setText(String.valueOf(P1_wins));
+
+                // Display result
                 displayResult(player1_name_tag.getText().toString() + " is a Winner!");
                 GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player1_name_tag.getText().toString() + " WON!", PlayGameActivity.this);
                 showWin.setCancelable(false);
                 showWin.show();
             } else if (turnNumber == 8) {
+                // Increment Draw count and update text
+                draw_count++;
+                P1_draw_tag.setText(String.valueOf(draw_count));
+                P2_draw_tag.setText(String.valueOf(draw_count));
+
+                // Display result
                 displayResult("Match Draw");
                 GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, "It's a Draw!", PlayGameActivity.this);
                 showWin.setCancelable(false);
@@ -201,11 +221,22 @@ public class PlayGameActivity extends AppCompatActivity {
             box_position[boxIndex] = 2;
 
             if (checkResults()) {
+                // Increment win count and update text
+                P2_wins++;
+                P2_win_tag.setText(String.valueOf(P2_wins));
+
+                // Display result
                 displayResult(player2_name_tag.getText().toString() + " is a Winner!");
                 GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player2_name_tag.getText().toString() + " WON!", PlayGameActivity.this);
                 showWin.setCancelable(false);
                 showWin.show();
             } else if (turnNumber == 8) {
+                // Increment Draw count and update text
+                draw_count++;
+                P1_draw_tag.setText(String.valueOf(draw_count));
+                P2_draw_tag.setText(String.valueOf(draw_count));
+
+                // Display result
                 displayResult("Match Draw");
                 GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, "It's a Draw!", PlayGameActivity.this);
                 showWin.setCancelable(false);
