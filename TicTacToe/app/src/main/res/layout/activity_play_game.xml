@@ -9,7 +9,6 @@
 
     <!-- Player 1 info -->
     <LinearLayout
-        android:id="@+id/ID_P1_player_card"
         android:layout_above="@id/ID_playboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +18,7 @@
         android:layout_marginBottom="20dp">
 
         <LinearLayout
+            android:id="@+id/ID_P1_player_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -254,7 +254,6 @@
 
     <!-- Player 2 info -->
     <LinearLayout
-        android:id="@+id/ID_P2_player_card"
         android:layout_below="@id/ID_playboard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -264,11 +263,12 @@
         android:layout_marginTop="20dp">
 
         <LinearLayout
+            android:id="@+id/ID_P2_player_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@drawable/player_border">
+            android:background="@drawable/player_no_border">
 
             <ImageView
                 android:layout_width="50dp"
