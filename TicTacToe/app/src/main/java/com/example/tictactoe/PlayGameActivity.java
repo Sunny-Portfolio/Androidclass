@@ -181,7 +181,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
             if (checkResults()) {
                 displayResult(player1_name_tag.getText().toString() + " is a Winner!");
-                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player1_name_tag.getText().toString() + " is a Winner!", PlayGameActivity.this);
+                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player1_name_tag.getText().toString() + " WON!", PlayGameActivity.this);
                 showWin.setCancelable(false);
                 showWin.show();
             } else if (turnNumber == 8) {
@@ -202,7 +202,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
             if (checkResults()) {
                 displayResult(player2_name_tag.getText().toString() + " is a Winner!");
-                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player2_name_tag.getText().toString() + " is a Winner!", PlayGameActivity.this);
+                GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player2_name_tag.getText().toString() + " WON!", PlayGameActivity.this);
                 showWin.setCancelable(false);
                 showWin.show();
             } else if (turnNumber == 8) {
@@ -264,7 +264,7 @@ public class PlayGameActivity extends AppCompatActivity {
             int pos3 = combo[2];
 
             if (box_position[pos1] != 0 && box_position[pos1] == box_position[pos2] && box_position[pos2] == box_position[pos3]) {
-                // A winning combination is found
+                // Highlight the winning combo
                 highlightWinningCombo(pos1, pos2, pos3);
                 return true;
             }
@@ -280,13 +280,6 @@ public class PlayGameActivity extends AppCompatActivity {
      * @param pos3 position of the grid
      */
     private void highlightWinningCombo(int pos1, int pos2, int pos3) {
-        // You can implement logic to highlight the winning combination on the UI
-        // For example, change the background color of the winning boxes
-        // Update the UI as needed based on your design
-        // This method is just a placeholder, and you need to customize it based on your UI elements
-        // You might also want to disable further clicks on the board after a result is determined
-        // or show a button to start a new game
-        // Example:
         highlightBox(pos1);
         highlightBox(pos2);
         highlightBox(pos3);
@@ -297,21 +290,13 @@ public class PlayGameActivity extends AppCompatActivity {
      * @param position
      */
     private void highlightBox(int position) {
-        // Implement logic to highlight a specific box on the UI
-        // For example, change the background color or add a border to indicate the winning combination
-        // This is a placeholder method, and you need to customize it based on your UI elements
-        // You may want to use animations or other visual indicators
-        // Example:
         int resId = getResources().getIdentifier("ID_Box" + (position + 1), "id", getPackageName());
         ImageView box = findViewById(resId);
-        // Add your UI highlighting logic here
-        // For simplicity, let's change the background color
-//        box.setBackgroundColor(getColor(R.color.myLimeGreen));
         box.setBackground(getDrawable(R.drawable.playboard_square_hl));
     }
 
     /**
-     * Change the player card border to illustrate which player turn it is
+     * Method to change the player card border to illustrate which player turn it is
      */
     private void switchPlayer() {
         if (turnNumber % 2 == 0) {
