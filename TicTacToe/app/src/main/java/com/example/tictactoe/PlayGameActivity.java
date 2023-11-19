@@ -176,10 +176,21 @@ public class PlayGameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to check if the box has been played.
+     * @param box
+     * @return
+     */
     private boolean isBoxEmpty(ImageView box) {
         return box.getDrawable() == null;
     }
 
+
+    /**
+     * Method to play a move when a button is clicked. It will determine which player's turn
+     * and switch player accordingly. It will also stop and display result when the game is finished
+     * @param v View of the box being clicked.
+     */
     private void playMove(ImageView v) {
         if (turnNumber % 2 == 0) {
 
