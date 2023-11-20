@@ -54,9 +54,6 @@ public class StandingActivity extends AppCompatActivity {
             playerStandingList.setAdapter(adapter);
         }
 
-
-
-
     }
 
 
