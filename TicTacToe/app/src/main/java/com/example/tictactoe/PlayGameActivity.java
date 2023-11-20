@@ -192,6 +192,13 @@ public class PlayGameActivity extends AppCompatActivity {
          */
         @Override
         protected Integer doInBackground(Integer... integers) {
+            // Simulate Android's move (you can replace this with your actual logic)
+            try {
+                int randomTime = (int) (Math.random() * 3000);
+                Thread.sleep(randomTime); // Simulate some processing time
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return makeAIDecision();
         }
 
@@ -568,6 +575,10 @@ public class PlayGameActivity extends AppCompatActivity {
         // Reset the player card borders
         P1_name_card.setBackground(getDrawable(R.drawable.player_border));
         P2_name_card.setBackground(getDrawable(R.drawable.player_no_border));
+
+        // Check for AI make first move
+        if (isAITurn())
+            new AImove().execute();
     }
 
     /**
@@ -738,5 +749,17 @@ public class PlayGameActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d("TAG", "onDestroy: Game ended");
         savePlayerScores();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.d("TAG", "onPostResume: ");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("TAG", "onStart: ");
     }
 }
