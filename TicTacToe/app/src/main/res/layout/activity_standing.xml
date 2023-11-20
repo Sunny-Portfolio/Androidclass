@@ -8,7 +8,7 @@
     android:background="@color/myGrey" >
 
     <TextView
-        android:id="@+id/ID_standing_title"
+        android:id="@+id/ID_standing_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/standing_title"
@@ -20,12 +20,30 @@
         android:paddingBottom="80dp"
         android:fontFamily="serif-monospace"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ID_standing_title"
+        android:layout_below="@id/ID_standing_header"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/myLightBlue"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="5dp"
+        android:fontFamily="serif-monospace"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="Test"
+        android:layout_marginBottom="10dp" />
+
+
     <ListView
         android:id="@+id/ID_standing_list"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_below="@id/ID_standing_title"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@color/myLimeGreen"/>
 
 
