@@ -40,6 +40,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private int P1_wins = 0;
     private int P2_wins = 0;
     private int draw_count = 0;
+    private int ai_side = 0, player_side = 0;
     String FILENAME = "players.txt";
     String PLAYER_STANDING_FILE = "players_standing.txt";
 
@@ -113,7 +114,25 @@ public class PlayGameActivity extends AppCompatActivity {
             Toast.makeText(this, "Player Name ERROR!", Toast.LENGTH_SHORT).show();
         }
 
+        setPlaySide();
 
+        if (isAITurn())
+            new AImove().execute();
+
+    }
+
+    /**
+     * Set playing side for player and AI, Used in AI logic
+     */
+    private void setPlaySide() {
+        if (P1_name.equals("Player 1 (AI)")) {
+            ai_side = 1;
+            player_side = 2;
+        }
+        else if (P2_name.equals("Player 2 (AI)")) {
+            player_side = 1;
+            ai_side = 2;
+        }
     }
 
     /**
@@ -136,11 +155,23 @@ public class PlayGameActivity extends AppCompatActivity {
             if (isBoxEmpty((ImageView) v)) {
                 Log.d("TAG", "onClick: box isempty");
                 playMove((ImageView) v);
+
+                if (isAITurn())
+                    new AImove().execute();
             }
             Log.d("TAG", "onClick: box NOT empty");
         }
     };
 
+    /**
+     * Determines if it is AI's move
+     * @return bool
+     */
+    private boolean isAITurn() {
+        // Check if it's the AI's turn based on player names
+        return P1_name.equals("Player 1 (AI)") && turnNumber % 2 == 0 ||
+                P2_name.equals("Player 2 (AI)") && turnNumber % 2 == 1;
+    }
 
     /**
      * Async Task for AI's moves
@@ -161,7 +192,7 @@ public class PlayGameActivity extends AppCompatActivity {
          */
         @Override
         protected Integer doInBackground(Integer... integers) {
-            return null;
+            return makeAIDecision();
         }
 
         @Override
@@ -170,11 +201,169 @@ public class PlayGameActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
+        protected void onPostExecute(Integer boxIndex) {
+            super.onPostExecute(boxIndex);
+
+            if (boxIndex != -1) {
+                // Simulate AI clicking on the chosen box
+                int resId = getResources().getIdentifier("ID_Box" + (boxIndex + 1), "id", getPackageName());
+                ImageView box = findViewById(resId);
+                playMove(box);
+            }
+        }
+
+        /**
+         * Method that chooses a random available box as AI move. Easy Mode
+         * @return random number base on available index number
+         */
+        private int makeRandomDecision() {
+            List<Integer> emptyBoxes = getEmptyBoxes();
+
+            if (!emptyBoxes.isEmpty()) {
+                // Randomly choose an empty box
+                int randomIndex = (int) (Math.random() * emptyBoxes.size());
+                return emptyBoxes.get(randomIndex);
+            }
+
+            return -1;
         }
 
 
+        /**
+         * Method for AI to make its move
+         * @return int position index
+         */
+        private int makeAIDecision() {
+            // Check for winning moves
+            int winningMove = checkForWinningMove();
+            if (winningMove != -1) {
+                return winningMove;
+            }
+
+            // Check for blocking opponent's winning moves
+            int blockingMove = checkForBlockingMove();
+            if (blockingMove != -1) {
+                return blockingMove;
+            }
+
+            // Check for taking the center square
+            if (box_position[4] == 0) {
+                return 4;
+            }
+
+            // Check for opposite corner move
+            int oppositeCornerMove = checkForOppositeCornerMove();
+            if (oppositeCornerMove != -1) {
+                return oppositeCornerMove;
+            }
+
+            // Check for empty corner move
+            int emptyCornerMove = checkForEmptyCornerMove();
+            if (emptyCornerMove != -1) {
+                return emptyCornerMove;
+            }
+
+            // Check for empty side move
+            int emptySideMove = checkForEmptySideMove();
+            if (emptySideMove != -1) {
+                return emptySideMove;
+            }
+
+            // If no strategic move, make a random move
+            return makeRandomDecision();
+        }
+
+        /**
+         * Check to see if there is a winning move
+         * @return int position index
+         */
+        private int checkForWinningMove() {
+            // Check for a winning move for the AI
+            for (int[] combo : combo_list) {
+                int pos1 = combo[0];
+                int pos2 = combo[1];
+                int pos3 = combo[2];
+
+                // If two out of three positions are AI's, make the winning move
+                if (box_position[pos1] == ai_side && box_position[pos2] == ai_side && box_position[pos3] == 0) {
+                    return pos3;
+                } else if (box_position[pos1] == ai_side && box_position[pos2] == 0 && box_position[pos3] == ai_side) {
+                    return pos2;
+                } else if (box_position[pos1] == 0 && box_position[pos2] == ai_side && box_position[pos3] == ai_side) {
+                    return pos1;
+                }
+            }
+
+            return -1;
+        }
+
+        private int checkForBlockingMove() {
+            // Check for a move to block the opponent from winning
+            for (int[] combo : combo_list) {
+                int pos1 = combo[0];
+                int pos2 = combo[1];
+                int pos3 = combo[2];
+
+                // If two out of three positions are the opponent's, block the move
+                if (box_position[pos1] == player_side && box_position[pos2] == player_side && box_position[pos3] == 0) {
+                    return pos3;
+                } else if (box_position[pos1] == player_side && box_position[pos2] == 0 && box_position[pos3] == player_side) {
+                    return pos2;
+                } else if (box_position[pos1] == 0 && box_position[pos2] == player_side && box_position[pos3] == player_side) {
+                    return pos1;
+                }
+            }
+
+            return -1;
+        }
+
+        // Check for opposite corner move
+        private int checkForOppositeCornerMove() {
+            int[] cornerPairs = {0, 8, 2, 6};
+            for (int i = 0; i < cornerPairs.length; i += 2) {
+                int corner1 = cornerPairs[i];
+                int corner2 = cornerPairs[i + 1];
+                if (box_position[corner1] == player_side && box_position[corner2] == 0) {
+                    return corner2;
+                } else if (box_position[corner2] == player_side && box_position[corner1] == 0) {
+                    return corner1;
+                }
+            }
+            return -1;
+        }
+
+        // Check for empty corner move
+        private int checkForEmptyCornerMove() {
+            int[] corners = {0, 2, 6, 8};
+            for (int corner : corners) {
+                if (box_position[corner] == 0) {
+                    return corner;
+                }
+            }
+            return -1;
+        }
+
+        // Check for empty side move
+        private int checkForEmptySideMove() {
+            int[] sides = {1, 3, 5, 7};
+            for (int side : sides) {
+                if (box_position[side] == 0) {
+                    return side;
+                }
+            }
+            return -1;
+        }
+
+        private List<Integer> getEmptyBoxes() {
+            // Get a list of empty boxes
+            List<Integer> emptyBoxes = new ArrayList<>();
+            for (int i = 0; i < box_position.length; i++) {
+                if (box_position[i] == 0) {
+                    emptyBoxes.add(i);
+                }
+            }
+            return emptyBoxes;
+        }
     }
 
     /**
