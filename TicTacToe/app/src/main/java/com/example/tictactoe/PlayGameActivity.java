@@ -3,6 +3,7 @@ package com.example.tictactoe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +19,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private View P1_name_card, P2_name_card;
     private ImageView box1, box2, box3, box4, box5, box6, box7, box8, box9;
     private List<int[]> combo_list = new ArrayList<>();
-    private int[] box_position = {0,0,0,0,0,0,0,0,0};
+    private int[] box_position = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     private int turnNumber = 0;
     private int totalBoxSelected = 1;
     private String P1_name, P2_name;
@@ -38,6 +41,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private int P2_wins = 0;
     private int draw_count = 0;
     String FILENAME = "players.txt";
+    String PLAYER_STANDING_FILE = "players_standing.txt";
 
 
     @Override
@@ -80,20 +84,19 @@ public class PlayGameActivity extends AppCompatActivity {
         /**
          * Combination of the winning strikes
          */
-        combo_list.add(new int[] {0,1,2});
-        combo_list.add(new int[] {3,4,5});
-        combo_list.add(new int[] {6,7,8});
-        combo_list.add(new int[] {0,3,6});
-        combo_list.add(new int[] {1,4,7});
-        combo_list.add(new int[] {2,5,8});
-        combo_list.add(new int[] {2,4,6});
-        combo_list.add(new int[] {0,4,8});
+        combo_list.add(new int[]{0, 1, 2});
+        combo_list.add(new int[]{3, 4, 5});
+        combo_list.add(new int[]{6, 7, 8});
+        combo_list.add(new int[]{0, 3, 6});
+        combo_list.add(new int[]{1, 4, 7});
+        combo_list.add(new int[]{2, 5, 8});
+        combo_list.add(new int[]{2, 4, 6});
+        combo_list.add(new int[]{0, 4, 8});
 
 
         /**
          * Get the players name
          */
-        // TODO: 11/17/23 this probably should get from internal file 
         P1_name = getIntent().getStringExtra("Key_P1_name");
         P2_name = getIntent().getStringExtra("Key_P2_name");
 
@@ -111,16 +114,15 @@ public class PlayGameActivity extends AppCompatActivity {
         }
 
 
-
-
     }
 
     /**
      * Initialize the game board boxes, and set onClickListener
+     *
      * @param ID view ID
-     * @param v ImageView
+     * @param v  ImageView
      */
-    private void setupBoxes (int ID, View v) {
+    private void setupBoxes(int ID, View v) {
         v = findViewById(ID);
         v.setOnClickListener(Listener);
     }
@@ -146,7 +148,6 @@ public class PlayGameActivity extends AppCompatActivity {
     private class AImove extends AsyncTask<Integer, String, Integer> {
 
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -154,8 +155,8 @@ public class PlayGameActivity extends AppCompatActivity {
 
         /**
          * AI's move goes here
-         * @param integers The parameters of the task.
          *
+         * @param integers The parameters of the task.
          * @return
          */
         @Override
@@ -178,8 +179,9 @@ public class PlayGameActivity extends AppCompatActivity {
 
     /**
      * Method to check if the box has been played.
+     *
      * @param box
-     * @return
+     * @return bool
      */
     private boolean isBoxEmpty(ImageView box) {
         return box.getDrawable() == null;
@@ -189,6 +191,7 @@ public class PlayGameActivity extends AppCompatActivity {
     /**
      * Method to play a move when a button is clicked. It will determine which player's turn
      * and switch player accordingly. It will also stop and display result when the game is finished
+     *
      * @param v View of the box being clicked.
      */
     private void playMove(ImageView v) {
@@ -209,6 +212,7 @@ public class PlayGameActivity extends AppCompatActivity {
                 GameWonDialog showWin = new GameWonDialog(PlayGameActivity.this, player1_name_tag.getText().toString() + " WON!", PlayGameActivity.this);
                 showWin.setCancelable(false);
                 showWin.show();
+
             } else if (turnNumber == 8) {
                 // Increment Draw count and update text
                 draw_count++;
@@ -221,6 +225,7 @@ public class PlayGameActivity extends AppCompatActivity {
                 showWin.setCancelable(false);
                 showWin.show();
             } else {
+                // Increment and next turn
                 turnNumber++;
                 switchPlayer();
             }
@@ -253,6 +258,7 @@ public class PlayGameActivity extends AppCompatActivity {
                 showWin.setCancelable(false);
                 showWin.show();
             } else {
+                // Increment and next turn
                 turnNumber++;
                 switchPlayer();
             }
@@ -260,13 +266,14 @@ public class PlayGameActivity extends AppCompatActivity {
         }
     }
 
-    private void displayResult (String s) {
+    private void displayResult(String s) {
         Log.d("TAG", "displayResult: " + s);
     }
 
 
     /**
      * Get the corresponding square number being clicked
+     *
      * @param v
      * @return the corresponding number of the grid
      */
@@ -297,6 +304,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
     /**
      * Check to see if the game has been won
+     *
      * @return bool
      */
     private boolean checkResults() {
@@ -317,6 +325,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
     /**
      * Highlight the winning combo at the end of the game
+     *
      * @param pos1 position of the grid
      * @param pos2 position of the grid
      * @param pos3 position of the grid
@@ -329,6 +338,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
     /**
      * Highlight action of one box of the grid
+     *
      * @param position
      */
     private void highlightBox(int position) {
@@ -381,5 +391,163 @@ public class PlayGameActivity extends AppCompatActivity {
             box.setImageResource(0);
             box.setBackground(getDrawable(R.drawable.playboard_square));
         }
+    }
+
+
+    /**
+     * Method to save player scores to local file
+     */
+    private void savePlayerScores() {
+
+        // Save data format: Player name``win,,draw,,total games
+        String P1_data = P1_name + "``" + P1_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count);
+        String P2_data = P2_name + "``" + P2_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count);
+
+        String existingData = readFromFile();
+        String updatedData = null;
+        boolean data_updated = false;
+
+        if (existingData.contains(P1_name)) {
+            existingData = updatePlayerData(existingData, P1_name, P1_wins, draw_count, (P1_wins + P2_wins + draw_count));
+            Log.d("PLAY", "savePlayerScores: updated data 1 : \n" + existingData);
+            data_updated = true;
+        } else {
+            existingData += P1_data + "\n";
+        }
+        if (existingData.contains(P2_name)) {
+            existingData = updatePlayerData(existingData, P2_name, P2_wins, draw_count, (P1_wins + P2_wins + draw_count));
+            Log.d("PLAY", "savePlayerScores: updated data 2 : \n" + existingData);
+            data_updated = true;
+        } else {
+            existingData += P2_data + "\n";
+        }
+
+
+
+        try {
+            FileOutputStream fos = openFileOutput(PLAYER_STANDING_FILE, Context.MODE_PRIVATE);
+//            OutputStreamWriter osw = new OutputStreamWriter(fos);
+//            osw.write(data);
+//            osw.close();
+            Log.d("PLAY", "savePlayerScores: save update : \n" + existingData);
+            fos.write((existingData).getBytes());
+
+
+//            FileOutputStream saveNames = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+//            saveNames.write(player1_name.getBytes());
+//            saveNames.write(System.lineSeparator().getBytes());
+//            saveNames.write(player2_name.getBytes());
+//
+//            saveNames.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error saving player scores!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /**
+     * Method to read player data from local file
+     *
+     * @return String of all player names and scores
+     */
+    private String readFromFile() {
+
+
+        if (checkFileExist(PLAYER_STANDING_FILE)) {
+            // Read file and update edit text
+            FileInputStream fileInput = null;
+
+            try {
+                fileInput = openFileInput(PLAYER_STANDING_FILE);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return "";
+            }
+
+            InputStreamReader isr = new InputStreamReader(fileInput);
+            BufferedReader br = new BufferedReader(isr);
+
+            String sLine = null;
+            String output_text = "";
+
+            try {
+                while ((sLine = br.readLine()) != null) {
+                    output_text += sLine;
+                    output_text += "\n";
+                }
+
+                fileInput.close();
+                return output_text.toString();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "";
+            }
+
+        } else {
+            Toast.makeText(this, "File Doesn't Exist!", Toast.LENGTH_SHORT).show();
+            return "";
+        }
+    }
+
+
+    /**
+     * Check if the a internal file exist
+     *
+     * @param fileName
+     * @return Bool
+     */
+    private boolean checkFileExist(String fileName) {
+        File file = getBaseContext().getFileStreamPath(fileName);
+        return file.exists();
+    }
+
+
+    /**
+     * Method to update player data if it already exists in the file
+     *
+     * @param existingData Data of all players
+     * @param playerName Existing player name
+     * @param wins Existing player win count
+     * @param draws Existing player draw count
+     * @param totalGames Existing player total games played
+     * @return String of updated list
+     */
+    private String updatePlayerData(String existingData, String playerName, int wins, int draws, int totalGames) {
+        String[] allPlayers = existingData.split("\n");
+
+        // Find the position of the matching player and update
+        for (int i = 0; i < allPlayers.length; i++) {
+            if (allPlayers[i].contains(playerName)) {
+                Log.d("PLAY", "updatePlayerData: has player \n" + playerName);
+                // Get the parts of the player data [0] is name, [1] is data
+                String[] parts = allPlayers[i].split("``");
+                // Separate the player data
+                int existingWins = Integer.parseInt(parts[1].split(",,")[0]);
+                int existingDraws = Integer.parseInt(parts[1].split(",,")[1]);
+                int existingTotalGames = Integer.parseInt(parts[1].split(",,")[2]);
+
+                // Update the player's data
+                allPlayers[i] = playerName + "``" + (existingWins + wins) + ",," + (existingDraws + draws) + ",," + (existingTotalGames + totalGames);
+                break;
+            }
+        }
+
+        // Rebuild the updated data
+        StringBuilder updatedData = new StringBuilder();
+        for (String line : allPlayers) {
+            updatedData.append(line).append("\n");
+            Log.d("PLAY", "updatePlayerData: update: \n" + updatedData);
+        }
+
+        return String.valueOf(updatedData);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("TAG", "onDestroy: Game ended");
+        savePlayerScores();
     }
 }
