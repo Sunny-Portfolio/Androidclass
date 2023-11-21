@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -61,6 +62,21 @@ public class SelectModeDialog extends Dialog {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                /**
+                 * Change ListView item color on click
+                 */
+                view.setBackgroundColor(getContext().getColor(R.color.myLimeGreen));
+
+                /**
+                 * Reset ListView item color after delay
+                 */
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        view.setBackgroundColor(getContext().getColor(R.color.myLightBlue));
+//                    }
+//                }, 1000);
 
                 // Send intent and start game
                 intent = new Intent(getContext(), PlayGameActivity.class);
