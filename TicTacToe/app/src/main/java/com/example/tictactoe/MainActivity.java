@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,22 +50,21 @@ public class MainActivity extends AppCompatActivity {
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String selection = parent.getItemAtPosition(position).toString();
                 Intent intent;
 
                 // Game menu selection
                 switch (position) {
                     case 0:
+                        // Go to Enter Name Activity
                         intent = new Intent(MainActivity.this, EnterNameActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
-
+                        // Read player names from file and send them by intent to start game
                         if (checkFileExist(PLAYERNAMES)) {
                             readFile(PLAYERNAMES);
 
                             intent = new Intent(MainActivity.this, PlayGameActivity.class);
-                            // TODO: 11/16/23 may need to pass player name here
                             intent.putExtra("Key_P1_name", P1_name);
                             intent.putExtra("Key_P2_name", P2_name);
                             startActivity(intent);
@@ -73,13 +73,14 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case 2:
+                        // Go to Standing Activity
                         intent = new Intent(MainActivity.this, StandingActivity.class);
                         startActivity(intent);
                         break;
                 }
 
                 /**
-                 * Reset the animation back to normal
+                 * Button animation, and back to normal
                  */
                 view.animate().setDuration(1000).scaleXBy(-10).withEndAction(new Runnable() {
                     @Override
@@ -88,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                /**
+                 * Change ListView item color on click
+                 */
+                view.setBackgroundColor(getColor(R.color.myLimeGreen));
+
+                /**
+                 * Reset ListView item color after delay
+                 */
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setBackgroundColor(getColor(R.color.myLightBlue));
+                    }
+                }, 200);
 
 
 
