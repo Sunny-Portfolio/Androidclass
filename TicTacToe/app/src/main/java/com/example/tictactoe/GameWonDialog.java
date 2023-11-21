@@ -10,20 +10,13 @@ import android.widget.TextView;
 
 public class GameWonDialog extends Dialog {
     private final String message;
-//    private final int playerScore;
-//    private final int computerScore;
-//    private final MainActivity mainActivity;
     private final PlayGameActivity playGameActivity;
 
 
-    //    public GameWonDialog(Context context, String message, int playerScore, int computerScore, MainActivity mainActivity) {
     public GameWonDialog(Context context, String message, PlayGameActivity playGameActivity) {
 
         super(context);
         this.message = message;
-//        this.playerScore = playerScore;
-//        this.computerScore = computerScore;
-//        this.mainActivity = mainActivity;
         this.playGameActivity = playGameActivity;
     }
 
@@ -33,13 +26,14 @@ public class GameWonDialog extends Dialog {
         setContentView(R.layout.game_won_dialog_layout);
 
         TextView messageText = findViewById(R.id.winMsg);
-//        TextView scoreText = findViewById(R.id.scoreText);
         Button startAgainButton = findViewById(R.id.restartButton);
         Button mainMenuButton = findViewById(R.id.backToMenuButton);
 
         messageText.setText(message);
-//        scoreText.setText("Player: " + playerScore + " | Computer: " + computerScore);
 
+        /**
+         * Button to start again
+         */
         startAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +42,9 @@ public class GameWonDialog extends Dialog {
             }
         });
 
+        /**
+         * Button to go back to main menu
+         */
         mainMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
