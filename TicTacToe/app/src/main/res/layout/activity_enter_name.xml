@@ -14,8 +14,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="33sp"
         android:text="@string/enter_name"
+        android:fontFamily="serif-monospace"
         android:textStyle="bold"
         android:textColor="@color/myPurple"/>
 
@@ -47,6 +48,8 @@
             android:background="@drawable/player_no_border"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:hint="Player 1"
+            android:textStyle="bold"
+            android:fontFamily="serif-monospace"
             android:inputType="text"
             android:maxLength="10"
             android:paddingLeft="20dp" />
@@ -81,6 +84,8 @@
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:maxLength="10"
             android:hint="Player 2"
+            android:textStyle="bold"
+            android:fontFamily="serif-monospace"
             android:paddingLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp" />
@@ -92,6 +97,9 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:text="@string/save_name"
+        android:textStyle="bold"
+        android:fontFamily="serif-monospace"
+        android:textSize="18sp"
         android:layout_marginTop="50dp"/>
 
 
