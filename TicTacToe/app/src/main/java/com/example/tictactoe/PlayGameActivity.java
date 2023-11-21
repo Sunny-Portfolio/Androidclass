@@ -25,6 +25,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class PlayGameActivity extends AppCompatActivity {
 
@@ -626,10 +629,13 @@ public class PlayGameActivity extends AppCompatActivity {
      * Method to save player scores to local file
      */
     private void savePlayerScores() {
+        // Get the current date and time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd HH:mm", Locale.getDefault());
+        String DateAndTime = dateFormat.format(new Date());
 
         // Save data format: Player name``win,,draw,,total games
-        String P1_data = P1_name + "``" + P1_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count);
-        String P2_data = P2_name + "``" + P2_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count);
+        String P1_data = P1_name + "``" + P1_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count) + "``" + DateAndTime;
+        String P2_data = P2_name + "``" + P2_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count) + "``" + DateAndTime;
 
         String existingData = readFromFile();
 
@@ -637,13 +643,13 @@ public class PlayGameActivity extends AppCompatActivity {
         // Otherwise, append new player result to record.
         try {
             if (existingData.contains(P1_name)) {
-                existingData = updatePlayerData(existingData, P1_name, P1_wins, draw_count, (P1_wins + P2_wins + draw_count));
+                existingData = updatePlayerData(existingData, P1_name, P1_wins, draw_count, (P1_wins + P2_wins + draw_count), DateAndTime);
                 Log.d("PLAY", "savePlayerScores: updated data 1 : \n" + existingData);
             } else {
                 existingData += P1_data + "\n";
             }
             if (existingData.contains(P2_name)) {
-                existingData = updatePlayerData(existingData, P2_name, P2_wins, draw_count, (P1_wins + P2_wins + draw_count));
+                existingData = updatePlayerData(existingData, P2_name, P2_wins, draw_count, (P1_wins + P2_wins + draw_count), DateAndTime);
                 Log.d("PLAY", "savePlayerScores: updated data 2 : \n" + existingData);
             } else {
                 existingData += P2_data + "\n";
@@ -736,7 +742,7 @@ public class PlayGameActivity extends AppCompatActivity {
      * @param totalGames Existing player total games played
      * @return String of updated list
      */
-    private String updatePlayerData(String existingData, String playerName, int wins, int draws, int totalGames) {
+    private String updatePlayerData(String existingData, String playerName, int wins, int draws, int totalGames, String dateTime) {
         String[] allPlayers = existingData.split("\n");
 
         // Find the position of the matching player and update
@@ -753,7 +759,7 @@ public class PlayGameActivity extends AppCompatActivity {
                 int existingTotalGames = Integer.parseInt(parts[1].split(",,")[2]);
 
                 // Update the player's data
-                allPlayers[i] = playerName + "``" + (existingWins + wins) + ",," + (existingDraws + draws) + ",," + (existingTotalGames + totalGames);
+                allPlayers[i] = playerName + "``" + (existingWins + wins) + ",," + (existingDraws + draws) + ",," + (existingTotalGames + totalGames) + "``" + dateTime;
                 break;
             }
         }
