@@ -64,18 +64,18 @@ public class MainActivity extends AppCompatActivity {
                         if (checkFileExist(PLAYERNAMES)) {
                             readFile(PLAYERNAMES);
 
-
-
-
-//                            intent = new Intent(MainActivity.this, PlayGameActivity.class);
-//                            intent.putExtra("Key_P1_name", P1_name);
-//                            intent.putExtra("Key_P2_name", P2_name);
-//                            startActivity(intent);
-
-                            SelectModeDialog popup = new SelectModeDialog(MainActivity.this, P1_name, P2_name);
-                            popup.setCancelable(false);
-                            popup.show();
-
+                            if (!P1_name.equals("Player 1 (AI)") && !P2_name.equals("Player 2 (AI)")) {
+                                // 2 players skip mode selection welcome screen
+                                intent = new Intent(MainActivity.this, PlayGameActivity.class);
+                                intent.putExtra("Key_P1_name", P1_name);
+                                intent.putExtra("Key_P2_name", P2_name);
+                                startActivity(intent);
+                            } else {
+                                // 1 player goes to mode selection
+                                SelectModeDialog popup = new SelectModeDialog(MainActivity.this, P1_name, P2_name);
+                                popup.setCancelable(false);
+                                popup.show();
+                            }
 
                         } else
                             Toast.makeText(MainActivity.this, "Enter Player Names!", Toast.LENGTH_SHORT).show();
