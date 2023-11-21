@@ -40,7 +40,7 @@ public class StandingActivity extends AppCompatActivity {
         /**
          * Set Standing title
          */
-        final String title_text = String.format("%-15s %3s %3s %3s", "Name", "W", "D", "%");
+        final String title_text = String.format("%-8s %-8s %-3s %-3s %-3s", "Date", "Name", "W", "D", "%");
         title.setText(title_text);
 
         player_data_str = readFromFile();
@@ -85,10 +85,11 @@ public class StandingActivity extends AppCompatActivity {
             int existingDraws = Integer.parseInt(parts[1].split(",,")[1]);
             int existingTotalGames = Integer.parseInt(parts[1].split(",,")[2]);
             int winPercentage = (int) Math.round((double) existingWins / existingTotalGames * 100);
+            String dateTime = parts[2];
             Log.d("STAND", "splitData: win " + existingWins + " total " + existingTotalGames + " percentage " + winPercentage);
 
             // Update the player's data
-            String formatted_data = String.format("%-35s %8s %8s %8s", existingName, existingWins, existingDraws, winPercentage + "%");
+            String formatted_data = String.format("%-13s %-15s %-8s %-8s %-8s", dateTime, existingName, existingWins, existingDraws, winPercentage + "%");
             player_list.add(formatted_data);
         }
         return player_list;
