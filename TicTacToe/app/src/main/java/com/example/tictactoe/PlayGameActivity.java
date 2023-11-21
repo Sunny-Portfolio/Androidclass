@@ -44,6 +44,7 @@ public class PlayGameActivity extends AppCompatActivity {
     private int P2_wins = 0;
     private int draw_count = 0;
     private int ai_side = 0, player_side = 0;
+    private boolean insane_mode_on = false;
     String PLAYER_STANDING_FILE = "players_standing.txt";
 
 
@@ -102,6 +103,8 @@ public class PlayGameActivity extends AppCompatActivity {
          */
         P1_name = getIntent().getStringExtra("Key_P1_name");
         P2_name = getIntent().getStringExtra("Key_P2_name");
+        insane_mode_on = getIntent().getBooleanExtra("Key_insane", false);
+        Log.d("TAG", "onCreate: play game insance on? " + insane_mode_on);
 
         /**
          * Set player name on the player card
@@ -201,7 +204,10 @@ public class PlayGameActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return makeAIDecision();
+            if (insane_mode_on)
+                return makeAIDecision();
+            else
+                return makeRandomDecision();
         }
 
         @Override
