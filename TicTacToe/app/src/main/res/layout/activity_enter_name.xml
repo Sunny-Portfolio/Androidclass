@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@color/myGrey"
     tools:context=".EnterNameActivity">
 
 
@@ -14,7 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:text="@string/enter_name" />
+        android:text="@string/enter_name"
+        android:textStyle="bold"
+        android:textColor="@color/myPurple"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,9 +29,11 @@
 
         <ImageView
             android:id="@+id/ID_player1_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             android:src="@drawable/cross"
+            android:background="@drawable/playboard_square"
             android:adjustViewBounds="true"
             android:layout_marginStart="20dp"
             android:layout_gravity="center"/>
@@ -37,12 +42,14 @@
             android:id="@+id/ID_P1_name_entry"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            android:maxLength="10"
-            android:hint="Player 1"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp" />
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/player_no_border"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:hint="Player 1"
+            android:inputType="text"
+            android:maxLength="10"
+            android:paddingLeft="20dp" />
 
     </LinearLayout>
 
@@ -56,9 +63,11 @@
 
         <ImageView
             android:id="@+id/ID_player2_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             android:src="@drawable/circle"
+            android:background="@drawable/playboard_square"
             android:adjustViewBounds="true"
             android:layout_marginStart="20dp"
             android:layout_gravity="center"/>
@@ -67,10 +76,12 @@
             android:id="@+id/ID_P2_name_entry"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/player_no_border"
             android:inputType="text"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:maxLength="10"
             android:hint="Player 2"
+            android:paddingLeft="20dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp" />
 
