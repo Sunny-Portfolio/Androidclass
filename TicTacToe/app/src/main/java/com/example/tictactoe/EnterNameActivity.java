@@ -54,6 +54,33 @@ public class EnterNameActivity extends AppCompatActivity {
             }
         });
 
+        // Set the focus change listener
+        player1_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    // Set the background for the selected state
+                    player1_text.setBackgroundResource(R.drawable.player_border);
+                } else {
+                    // Set the background for the default state
+                    player1_text.setBackgroundResource(R.drawable.player_no_border);
+                }
+            }
+        });
+
+        player2_text.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    // Set the background for the selected state
+                    player2_text.setBackgroundResource(R.drawable.player_border);
+                } else {
+                    // Set the background for the default state
+                    player2_text.setBackgroundResource(R.drawable.player_no_border);
+                }
+            }
+        });
+
     }
 
     /**
