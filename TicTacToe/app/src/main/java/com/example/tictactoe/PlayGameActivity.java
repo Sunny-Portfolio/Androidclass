@@ -197,17 +197,19 @@ public class PlayGameActivity extends AppCompatActivity {
          */
         @Override
         protected Integer doInBackground(Integer... integers) {
-            // Simulate Android's move (you can replace this with your actual logic)
+            // AI's move. Added random time delay to be more realistic
             try {
                 int randomTime = (int) (Math.random() * 3000);
-                Thread.sleep(randomTime); // Simulate some processing time
+                Thread.sleep(randomTime);
+
+                if (insane_mode_on)
+                    return makeAIDecision();
+                else
+                    return makeRandomDecision();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (insane_mode_on)
-                return makeAIDecision();
-            else
-                return makeRandomDecision();
+
         }
 
         @Override
@@ -225,7 +227,7 @@ public class PlayGameActivity extends AppCompatActivity {
             super.onPostExecute(boxIndex);
 
             if (boxIndex != -1) {
-                // Simulate AI clicking on the chosen box
+                // Send AI chosen box to playMove
                 int resId = getResources().getIdentifier("ID_Box" + (boxIndex + 1), "id", getPackageName());
                 ImageView box = findViewById(resId);
                 playMove(box);
@@ -234,7 +236,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
         /**
          * Method that chooses a random available box as AI move.
-         * Can be used for Easy Mode AI. (not currently implemented TBD)
+         * Used in Easy Mode AI.
          * @return random number base on available index number
          */
         private int makeRandomDecision() {
@@ -251,7 +253,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
 
         /**
-         * Method for AI to make its move (Hard mode)
+         * Method for AI to make its move (Insane mode)
          * @return int position index
          */
         private int makeAIDecision() {
@@ -599,7 +601,6 @@ public class PlayGameActivity extends AppCompatActivity {
     protected void restartGame() {
         // Reset all game variables and UI elements to start a new game
         turnNumber = 0;
-//        totalBoxSelected = 1;
 
         // Clear the box_position array
         for (int i = 0; i < box_position.length; i++) {
