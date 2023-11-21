@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/myGrey"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="30dp"
+        android:gravity="center" >
+
+        <LinearLayout
+            android:id="@+id/ID_main_act_title_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/ID_game_title"
+                android:layout_width="250dp"
+                android:layout_height="130dp"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="serif-monospace"
+                android:gravity="center"
+                android:text="@string/game_title"
+                android:textColor="@color/myOrangeJuice"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/ID_game_logo"
+                android:layout_alignBottom="@+id/ID_game"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@id/ID_game_title"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/playboard_base"
+                android:src="@drawable/ttt_logo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:layout_marginStart="80dp"
+            android:gravity="center" >
+
+            <ListView
+                android:id="@+id/ID_menu_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@color/myLightBlue"
+                android:bottom="@+id/ID_main_act_title_group" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
