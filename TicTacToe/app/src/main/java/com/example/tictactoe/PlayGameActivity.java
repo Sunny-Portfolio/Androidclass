@@ -41,7 +41,6 @@ public class PlayGameActivity extends AppCompatActivity {
     private int P2_wins = 0;
     private int draw_count = 0;
     private int ai_side = 0, player_side = 0;
-    String FILENAME = "players.txt";
     String PLAYER_STANDING_FILE = "players_standing.txt";
 
 
@@ -188,7 +187,7 @@ public class PlayGameActivity extends AppCompatActivity {
          * AI's move goes here
          *
          * @param integers The parameters of the task.
-         * @return
+         * @return Grid position index
          */
         @Override
         protected Integer doInBackground(Integer... integers) {
@@ -207,6 +206,11 @@ public class PlayGameActivity extends AppCompatActivity {
             super.onProgressUpdate(values);
         }
 
+        /**
+         * Execute AI move by passing ImageView box to playMove()
+         * @param boxIndex The result of the operation computed by {@link #doInBackground}.
+         *
+         */
         @Override
         protected void onPostExecute(Integer boxIndex) {
             super.onPostExecute(boxIndex);
@@ -220,7 +224,8 @@ public class PlayGameActivity extends AppCompatActivity {
         }
 
         /**
-         * Method that chooses a random available box as AI move. Easy Mode
+         * Method that chooses a random available box as AI move.
+         * Can be used for Easy Mode AI. (not currently implemented TBD)
          * @return random number base on available index number
          */
         private int makeRandomDecision() {
@@ -237,7 +242,7 @@ public class PlayGameActivity extends AppCompatActivity {
 
 
         /**
-         * Method for AI to make its move
+         * Method for AI to make its move (Hard mode)
          * @return int position index
          */
         private int makeAIDecision() {
@@ -304,6 +309,10 @@ public class PlayGameActivity extends AppCompatActivity {
             return -1;
         }
 
+        /**
+         * Check to see if AI needs to block my win
+         * @return int position index
+         */
         private int checkForBlockingMove() {
             // Check for a move to block the opponent from winning
             for (int[] combo : combo_list) {
@@ -324,7 +333,10 @@ public class PlayGameActivity extends AppCompatActivity {
             return -1;
         }
 
-        // Check for opposite corner move
+        /**
+         * Check for human corner move
+         * @return int position index
+         */
         private int checkForOppositeCornerMove() {
             int[] cornerPairs = {0, 8, 2, 6};
             for (int i = 0; i < cornerPairs.length; i += 2) {
@@ -339,7 +351,10 @@ public class PlayGameActivity extends AppCompatActivity {
             return -1;
         }
 
-        // Check for empty corner move
+        /**
+         * Check for empty corner to occupy
+         * @return int position index
+         */
         private int checkForEmptyCornerMove() {
             int[] corners = {0, 2, 6, 8};
             for (int corner : corners) {
@@ -350,7 +365,10 @@ public class PlayGameActivity extends AppCompatActivity {
             return -1;
         }
 
-        // Check for empty side move
+        /**
+         * Check for empty side box to occupy
+         * @return int position index
+         */
         private int checkForEmptySideMove() {
             int[] sides = {1, 3, 5, 7};
             for (int side : sides) {
@@ -361,6 +379,10 @@ public class PlayGameActivity extends AppCompatActivity {
             return -1;
         }
 
+        /**
+         * Get the position of the empty boxes
+         * @return empty box Arraylist()
+         */
         private List<Integer> getEmptyBoxes() {
             // Get a list of empty boxes
             List<Integer> emptyBoxes = new ArrayList<>();
@@ -376,7 +398,7 @@ public class PlayGameActivity extends AppCompatActivity {
     /**
      * Method to check if the box has been played.
      *
-     * @param box
+     * @param box ImageView of the clicked box
      * @return bool
      */
     private boolean isBoxEmpty(ImageView box) {
@@ -387,6 +409,7 @@ public class PlayGameActivity extends AppCompatActivity {
     /**
      * Method to play a move when a button is clicked. It will determine which player's turn
      * and switch player accordingly. It will also stop and display result when the game is finished
+     * Also used by AImove() to play AI's move
      *
      * @param v View of the box being clicked.
      */
@@ -462,6 +485,10 @@ public class PlayGameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Not used in game. For debugging use.
+     * @param s
+     */
     private void displayResult(String s) {
         Log.d("TAG", "displayResult: " + s);
     }
@@ -499,7 +526,8 @@ public class PlayGameActivity extends AppCompatActivity {
     }
 
     /**
-     * Check to see if the game has been won
+     * Check to see if the game has been won.
+     * If won, highlight the winning boxes
      *
      * @return bool
      */
@@ -576,7 +604,7 @@ public class PlayGameActivity extends AppCompatActivity {
         P1_name_card.setBackground(getDrawable(R.drawable.player_border));
         P2_name_card.setBackground(getDrawable(R.drawable.player_no_border));
 
-        // Check for AI make first move
+        // Check for AI to make the first move
         if (isAITurn())
             new AImove().execute();
     }
@@ -604,41 +632,36 @@ public class PlayGameActivity extends AppCompatActivity {
         String P2_data = P2_name + "``" + P2_wins + ",," + draw_count + ",," + (P1_wins + P2_wins + draw_count);
 
         String existingData = readFromFile();
-        String updatedData = null;
-        boolean data_updated = false;
 
-        if (existingData.contains(P1_name)) {
-            existingData = updatePlayerData(existingData, P1_name, P1_wins, draw_count, (P1_wins + P2_wins + draw_count));
-            Log.d("PLAY", "savePlayerScores: updated data 1 : \n" + existingData);
-            data_updated = true;
-        } else {
-            existingData += P1_data + "\n";
+        // If there is already a record for the player. Update the record with current game result
+        // Otherwise, append new player result to record.
+        try {
+            if (existingData.contains(P1_name)) {
+                existingData = updatePlayerData(existingData, P1_name, P1_wins, draw_count, (P1_wins + P2_wins + draw_count));
+                Log.d("PLAY", "savePlayerScores: updated data 1 : \n" + existingData);
+            } else {
+                existingData += P1_data + "\n";
+            }
+            if (existingData.contains(P2_name)) {
+                existingData = updatePlayerData(existingData, P2_name, P2_wins, draw_count, (P1_wins + P2_wins + draw_count));
+                Log.d("PLAY", "savePlayerScores: updated data 2 : \n" + existingData);
+            } else {
+                existingData += P2_data + "\n";
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error parsing Data", Toast.LENGTH_SHORT).show();
         }
-        if (existingData.contains(P2_name)) {
-            existingData = updatePlayerData(existingData, P2_name, P2_wins, draw_count, (P1_wins + P2_wins + draw_count));
-            Log.d("PLAY", "savePlayerScores: updated data 2 : \n" + existingData);
-            data_updated = true;
-        } else {
-            existingData += P2_data + "\n";
-        }
 
 
-
+        // Write to file
         try {
             FileOutputStream fos = openFileOutput(PLAYER_STANDING_FILE, Context.MODE_PRIVATE);
-//            OutputStreamWriter osw = new OutputStreamWriter(fos);
-//            osw.write(data);
-//            osw.close();
             Log.d("PLAY", "savePlayerScores: save update : \n" + existingData);
             fos.write((existingData).getBytes());
+            Toast.makeText(this, "Game Score Saved!", Toast.LENGTH_SHORT).show();
 
 
-//            FileOutputStream saveNames = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-//            saveNames.write(player1_name.getBytes());
-//            saveNames.write(System.lineSeparator().getBytes());
-//            saveNames.write(player2_name.getBytes());
-//
-//            saveNames.close();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error saving player scores!", Toast.LENGTH_SHORT).show();
@@ -686,14 +709,13 @@ public class PlayGameActivity extends AppCompatActivity {
             }
 
         } else {
-            Toast.makeText(this, "File Doesn't Exist!", Toast.LENGTH_SHORT).show();
             return "";
         }
     }
 
 
     /**
-     * Check if the a internal file exist
+     * Check if the a internal save file exist
      *
      * @param fileName
      * @return Bool
@@ -721,8 +743,10 @@ public class PlayGameActivity extends AppCompatActivity {
         for (int i = 0; i < allPlayers.length; i++) {
             if (allPlayers[i].contains(playerName)) {
                 Log.d("PLAY", "updatePlayerData: has player \n" + playerName);
+
                 // Get the parts of the player data [0] is name, [1] is data
                 String[] parts = allPlayers[i].split("``");
+
                 // Separate the player data
                 int existingWins = Integer.parseInt(parts[1].split(",,")[0]);
                 int existingDraws = Integer.parseInt(parts[1].split(",,")[1]);
@@ -744,6 +768,9 @@ public class PlayGameActivity extends AppCompatActivity {
         return String.valueOf(updatedData);
     }
 
+    /**
+     * When leaving this activity, save the player scores
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

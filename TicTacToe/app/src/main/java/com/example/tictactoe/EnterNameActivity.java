@@ -32,6 +32,9 @@ public class EnterNameActivity extends AppCompatActivity {
         final EditText player2_text = findViewById(R.id.ID_P2_name_entry);
         final Button start_btn = findViewById(R.id.start_btn);
 
+        /**
+         * Setup button on click listener
+         */
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +56,9 @@ public class EnterNameActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Save player name to local file
+     */
     private void savePlayerName () {
         if (player1_name.isEmpty())
             player1_name = "Player 1 (AI)";
@@ -62,10 +68,19 @@ public class EnterNameActivity extends AppCompatActivity {
         writeFile();
     }
 
+    /**
+     * Restore player name
+     * @deprecated
+     * @param v
+     */
     private void restorePlayerName (View v) {
         readFile();
     }
 
+    /**
+     * Read local file
+     * Not used in this activity
+     */
     private void readFile () {
         if (checkFileExist(FILENAME)) {
             // Read file and update edit text
@@ -98,7 +113,7 @@ public class EnterNameActivity extends AppCompatActivity {
     /**
      * Check if the a internal file exist
      * @param fileName
-     * @return
+     * @return bool
      */
     private boolean checkFileExist (String fileName) {
         File file = getBaseContext().getFileStreamPath(fileName);
@@ -106,6 +121,12 @@ public class EnterNameActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Write Player names to file
+     * Must have at lease 1 Human player
+     * Human can be either player 1 or player 2
+     * If name is empty, it will be an AI by default
+     */
     private void writeFile() {
 
         try {

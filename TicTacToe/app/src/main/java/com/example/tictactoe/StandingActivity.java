@@ -33,7 +33,6 @@ public class StandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_standing);
 
-//        title.findViewById(R.id.ID_standing_title);
        playerStandingList = findViewById(R.id.ID_standing_list);
        title = findViewById(R.id.ID_standing_title);
 
@@ -44,20 +43,30 @@ public class StandingActivity extends AppCompatActivity {
         final String title_text = String.format("%-15s %3s %3s %3s", "Name", "W", "D", "%");
         title.setText(title_text);
 
-//        player_data = readFromFile();
         player_data_str = readFromFile();
 
         if (player_data_str != null) {
-            Log.d("TAG", "onCreate: received data: " + player_data_str);
-            player_data = splitData(player_data_str);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, player_data);
-            playerStandingList.setAdapter(adapter);
+            try {
+                Log.d("TAG", "onCreate: received data: " + player_data_str);
+                player_data = splitData(player_data_str);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, player_data);
+
+                playerStandingList.setAdapter(adapter);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error reading data!", Toast.LENGTH_SHORT).show();
+            }
         }
+
 
     }
 
 
-
+    /**
+     * Method for splitting string into player data
+     * @param player_data_str
+     * @return
+     */
     private List<String> splitData (String player_data_str) {
         String [] player_data_array = player_data_str.split("\n");
         List<String> player_list = new ArrayList<>();
@@ -111,13 +120,11 @@ public class StandingActivity extends AppCompatActivity {
 
             String sLine = null;
             String output_text = "";
-//            List<String> player_list = new ArrayList<>();
 
             try {
                 while ((sLine = br.readLine()) != null) {
                     Log.d("TAG", "readFromFile: 4");
 
-//                    player_list.add(sLine);
                     output_text += sLine + "\n";
                 }
 
@@ -131,7 +138,7 @@ public class StandingActivity extends AppCompatActivity {
             }
 
         } else {
-            Toast.makeText(this, "File Doesn't Exist!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No Player Record", Toast.LENGTH_SHORT).show();
             Log.d("TAG", "readFromFile: 6");
 
             return null;
@@ -147,4 +154,5 @@ public class StandingActivity extends AppCompatActivity {
         File file = getBaseContext().getFileStreamPath(fileName);
         return file.exists();
     }
+
 }

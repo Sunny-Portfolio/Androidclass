@@ -97,10 +97,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void restorePlayerName (View v) {
-//        readFile();
-//    }
-
     /**
      * Method to read file containing player names
      * @param FILENAME
@@ -123,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
             String output_text = "";
 
             try {
-//                while ((sLine = br.readLine()) != null)
-//                    output_text += sLine;
 
                 if ((sLine = br.readLine()) != null)
                     P1_name = sLine;
