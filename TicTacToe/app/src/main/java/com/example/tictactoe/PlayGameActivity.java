@@ -202,14 +202,14 @@ public class PlayGameActivity extends AppCompatActivity {
                 int randomTime = (int) (Math.random() * 3000);
                 Thread.sleep(randomTime);
 
-                if (insane_mode_on)
-                    return makeAIDecision();
-                else
-                    return makeRandomDecision();
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            if (insane_mode_on)
+                return makeAIDecision();
+            else
+                return makeRandomDecision();
         }
 
         @Override
