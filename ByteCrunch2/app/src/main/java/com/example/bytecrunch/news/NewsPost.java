@@ -1,9 +1,14 @@
 package com.example.bytecrunch.news;
 
+import android.util.Log;
+
+import java.util.Date;
+
 public class NewsPost {
 
     int postID;
-    String title, username, newsImg, userImg, article, date, bgColor, videoURL;
+    String title, username, newsImg, userImg, article, bgColor, videoURL;
+    Date articleDate;
 
     int viewType = 0;
     boolean isFav = false;
@@ -15,30 +20,35 @@ public class NewsPost {
     public NewsPost() {
     }
 
-    public NewsPost(int postID, String title, String username, String newsImg, String userImg, String article, String date, String bgColor, String videoURL, int viewType, boolean isFav) {
+    public NewsPost(int postID, String title, String username, String newsImg, String userImg, String article, String bgColor, Date date, String videoURL, int viewType, boolean isFav) {
         this.postID = postID;
         this.title = title;
         this.username = username;
         this.newsImg = newsImg;
         this.userImg = userImg;
         this.article = article;
-        this.date = date;
+        this.articleDate = date;
         this.bgColor = bgColor;
         this.videoURL = videoURL;
         this.viewType = viewType;
         this.isFav = isFav;
+
+        Log.d("TAG", "NewsPost: 1 " + NewsPost.this);
     }
 
-    public NewsPost(int postID, String title, String username, String newsImg, String userImg, String article, String date, String bgColor, int viewType) {
+    public NewsPost(int postID, String title, String username, String newsImg, String userImg, String article, String bgColor, Date date, int viewType) {
         this.postID = postID;
         this.title = title;
         this.username = username;
         this.newsImg = newsImg;
         this.userImg = userImg;
         this.article = article;
-        this.date = date;
+        this.articleDate = date;
         this.bgColor = bgColor;
         this.viewType = viewType;
+
+        Log.d("TAG", "NewsPost: 2 " + NewsPost.this);
+
     }
 
     /**
@@ -58,6 +68,7 @@ public class NewsPost {
 
     public void setNewsImg(String newsImg) {
         this.newsImg = newsImg;
+        Log.d("NEWS", "setNewsImg: set this : " + newsImg);
     }
 
     public void setUserImg(String userImg) {
@@ -68,8 +79,8 @@ public class NewsPost {
         this.article = article;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(Date date) {
+        this.articleDate = date;
     }
 
     public void setBgColor(String bgColor) {
@@ -105,6 +116,7 @@ public class NewsPost {
     }
 
     public String getNewsImg() {
+        Log.d("NEWS", "getNewsImg: get this : " + newsImg);
         return newsImg;
     }
 
@@ -116,8 +128,8 @@ public class NewsPost {
         return article;
     }
 
-    public String getDate() {
-        return date;
+    public Date getDate() {
+        return articleDate;
     }
 
     public String getBgColor() {
@@ -148,7 +160,7 @@ public class NewsPost {
                 ", newsImg='" + newsImg + '\'' +
                 ", userImg='" + userImg + '\'' +
                 ", article='" + article + '\'' +
-                ", date='" + date + '\'' +
+                ", date='" + articleDate + '\'' +
                 ", bgColor='" + bgColor + '\'' +
                 ", videoURL='" + videoURL + '\'' +
                 ", viewType=" + viewType +
