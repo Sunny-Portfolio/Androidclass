@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(minuteChangedReceiver);
+        Log.d("TAG", "onDestroy: ");
     }
 
     /**

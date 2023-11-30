@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ID_btm_bar_home">
+
+    <fragment
+        android:id="@+id/ID_btm_bar_home"
+        android:name="com.example.bytecrunch.NewsDetailsFragment"
+        android:label="fragment_news_details"
+        tools:layout="@layout/fragment_news_details" />
+
+    <fragment
+        android:id="@+id/ID_btm_bar_fav"
+        android:name="com.example.bytecrunch.FavNewsFragment"
+        android:label="fragment_fav_news"
+        tools:layout="@layout/fragment_fav_news" />
+
+    <fragment
+        android:id="@+id/ID_btm_bar_search"
+        android:name="com.example.bytecrunch.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/ID_btm_bar_settings"
+        android:name="com.example.bytecrunch.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

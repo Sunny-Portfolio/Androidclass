@@ -19,4 +19,12 @@
     <string name="P1_Lose_count">0</string>
     <string name="P2_Lose_count">0</string>
 
+    <string name="dialog_msg">Play Again?</string>
+    <string name="dialog_start_btn">Start Again</string>
+    <string name="dialog_back_to_menu">Back to Menu</string>
+    <string name="dialog_greeting">Bonjour!</string>
+    <string name="dialog_insane_mode_switch">INSANE mode??</string>
+    <string name="diaglog_greeting_start">Start!</string>
+
+
 </resources>

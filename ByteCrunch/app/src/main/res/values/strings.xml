@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ByteCrunch</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="Str_home">Home</string>
+    <string name="Str_fav">Fav</string>
+    <string name="Str_search">Search</string>
+    <string name="Str_settings">Settings</string>
+
+</resources>

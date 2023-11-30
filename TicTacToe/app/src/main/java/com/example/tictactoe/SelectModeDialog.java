@@ -12,6 +12,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 public class SelectModeDialog extends Dialog {
 
     private Intent intent;
@@ -45,6 +47,7 @@ public class SelectModeDialog extends Dialog {
         Log.d("TAG", "onCreate: message " + message);
         messageText.setText(message);
 
+        // Switch selection for insane mode
         insaneMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -65,8 +68,10 @@ public class SelectModeDialog extends Dialog {
 
                 /**
                  * Change ListView item color on click
+                 * (doesn't seem to work)
                  */
                 view.setBackgroundColor(getContext().getColor(R.color.myLimeGreen));
+                view.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.myLimeGreen));
 
                 /**
                  * Reset ListView item color after delay

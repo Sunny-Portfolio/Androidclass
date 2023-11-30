@@ -46,6 +46,7 @@ public class EnterNameActivity extends AppCompatActivity {
                 } else {
                     savePlayerName();
 
+                    // Send intent with player names back to MainActivity
                     Intent intent = new Intent(EnterNameActivity.this, MainActivity.class);
                     intent.putExtra("P1_name", player1_name);
                     intent.putExtra("P2_name", player2_name);

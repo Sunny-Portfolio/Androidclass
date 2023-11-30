@@ -1,8 +1,10 @@
 package com.example.tictactoe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -170,6 +172,5 @@ public class MainActivity extends AppCompatActivity {
         File file = getBaseContext().getFileStreamPath(fileName);
         return file.exists();
     }
-
 
 }

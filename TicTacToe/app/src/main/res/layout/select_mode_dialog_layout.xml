@@ -22,7 +22,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
-            android:text="Bonjour!"
+            android:text="@string/dialog_greeting"
             android:fontFamily="serif-monospace"
             android:textSize="20sp"
             android:textStyle="bold"/>
@@ -36,7 +36,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="5dp"
-            android:text="INSANE mode??"
+            android:text="@string/dialog_insane_mode_switch"
             android:textSize="20sp"
             android:textStyle="bold"
             android:paddingLeft="60dp"
@@ -57,7 +57,7 @@
             app:cornerRadius = "20dp"
             android:backgroundTint="@color/myLightBlue"
             android:textColor="@color/myPurple"
-            android:text="Start!"
+            android:text="@string/diaglog_greeting_start"
             android:textSize="20sp"
             android:fontFamily="serif-monospace"
             android:textStyle="bold" />
