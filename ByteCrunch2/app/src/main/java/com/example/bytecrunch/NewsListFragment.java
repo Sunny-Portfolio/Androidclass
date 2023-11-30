@@ -2,14 +2,18 @@ package com.example.bytecrunch;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bytecrunch.news.FakeDataSource;
 import com.example.bytecrunch.news.NewsPost;
 import com.example.bytecrunch.viewholder.NewsPostCallback;
 import com.example.bytecrunch.viewholder.PostsListAdapter;
@@ -64,12 +68,6 @@ public class NewsListFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        recyclerView = recyclerView.findViewById(R.id.ID_newsList);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        postsListAdapter = new PostsListAdapter(new NewsPostCallback()0);
-        recyclerView.setAdapter(postsListAdapter);
-
 
     }
 
@@ -78,5 +76,25 @@ public class NewsListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView = view.findViewById(R.id.ID_newsList);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        postsListAdapter = new PostsListAdapter(new NewsPostCallback());
+        recyclerView.setAdapter(postsListAdapter);
+
+
+        /**
+         * fake data
+         */
+
+        FakeDataSource fakeDataSource = new FakeDataSource();
+        postsListAdapter.submitList(fakeDataSource.getFakeListNews());
+        Log.d("News Fragment", "onViewCreated: sent fake data to adapter");
     }
 }
