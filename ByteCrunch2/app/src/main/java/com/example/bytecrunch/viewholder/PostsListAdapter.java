@@ -1,5 +1,6 @@
 package com.example.bytecrunch.viewholder;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -35,7 +36,7 @@ public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
     }
 
 
-    protected PostsListAdapter(@NonNull DiffUtil.ItemCallback<NewsPost> diffCallback) {
+    public PostsListAdapter(@NonNull DiffUtil.ItemCallback<NewsPost> diffCallback) {
         super(diffCallback);
     }
 
@@ -48,20 +49,22 @@ public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
          */
         switch (viewType) {
             case VIEWTYPE_POST_TXT:
+                Log.d("LISTAdapter", "onCreateViewHolder: Txt");
                 PostNewsTextBinding postNewsTextBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.post_news_text,parent,false);
                 return new TextViewHolder(postNewsTextBinding);
             case VIEWTYPE_POST_IMG:
+                Log.d("LISTAdapter", "onCreateViewHolder: Img");
                 PostNewsImageBinding postNewsImageBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.post_news_image,parent,false);
                 return new ImageViewHolder(postNewsImageBinding);
             default:
+                Log.d("LISTAdapter", "onCreateViewHolder: default");
                 PostNewsTextBinding defaultPostNewsTextBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                         R.layout.post_news_text,parent,false);
                 return new TextViewHolder(defaultPostNewsTextBinding);
         }
 
-        return null;
     }
 
     @Override
