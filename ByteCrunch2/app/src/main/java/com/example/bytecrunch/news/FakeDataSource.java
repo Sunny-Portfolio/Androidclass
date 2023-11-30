@@ -55,13 +55,13 @@ public class FakeDataSource {
      *         this.viewType = viewType;
      */
 
-    public List<NewsItem> getFakeListNews() {
+    public List<NewsPost> getFakeListNews() {
 
 
-        List<NewsItem> data = new ArrayList<>();
+        List<NewsPost> data = new ArrayList<>();
         for(int index=0;index<30;index++) {
 
-            NewsItem item = new NewsItem(index,
+            NewsPost item = new NewsPost(index,
                     getRandomNewsTitle(),
                     getRandomUsername(),
                     getRandomNewsImage(),
@@ -80,10 +80,10 @@ public class FakeDataSource {
 
     // generate a static list news Items
 
-    public List<NewsItem> getFakeStaticListNews(){
+    public List<NewsPost> getFakeStaticListNews(){
 
-        List<NewsItem> data = new ArrayList<>();
-        data.add(new NewsItem(
+        List<NewsPost> data = new ArrayList<>();
+        data.add(new NewsPost(
                 0,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -95,7 +95,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 1,
                 TXT_TITLE_02,
                 TXT_NAME_02,
@@ -107,7 +107,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 2,
                 TXT_TITLE_03,
                 TXT_NAME_03,
@@ -119,7 +119,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 3,
                 TXT_TITLE_04,
                 TXT_NAME_04,
@@ -131,7 +131,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 4,
                 TXT_TITLE_05,
                 TXT_NAME_01,
@@ -143,7 +143,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 5,
                 TXT_TITLE_03,
                 TXT_NAME_01,
@@ -156,7 +156,7 @@ public class FakeDataSource {
         ));
 
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 6,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -168,7 +168,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 7,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -180,7 +180,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 8,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -192,7 +192,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 9,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -209,10 +209,10 @@ public class FakeDataSource {
 
     // generate an updated static news list
 
-    public List<NewsItem> getFakeUpdatedStaticListNews(){
-        List<NewsItem> data = new ArrayList<>();
+    public List<NewsPost> getFakeUpdatedStaticListNews(){
+        List<NewsPost> data = new ArrayList<>();
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 -4,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -224,7 +224,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 -3,
                 TXT_TITLE_02,
                 TXT_NAME_02,
@@ -236,7 +236,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 -2,
                 TXT_TITLE_03,
                 TXT_NAME_03,
@@ -248,7 +248,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 -1,
                 TXT_TITLE_04,
                 TXT_NAME_04,
@@ -262,7 +262,7 @@ public class FakeDataSource {
 
 
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 0,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -274,7 +274,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 1,
                 TXT_TITLE_02,
                 TXT_NAME_02,
@@ -286,7 +286,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 2,
                 TXT_TITLE_03,
                 TXT_NAME_03,
@@ -298,7 +298,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 3,
                 TXT_TITLE_04,
                 TXT_NAME_04,
@@ -310,7 +310,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 4,
                 TXT_TITLE_05,
                 TXT_NAME_01,
@@ -322,7 +322,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 5,
                 TXT_TITLE_03,
                 TXT_NAME_01,
@@ -335,7 +335,7 @@ public class FakeDataSource {
         ));
 
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 6,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -347,7 +347,7 @@ public class FakeDataSource {
                 0
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 7,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -359,7 +359,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 8,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -371,7 +371,7 @@ public class FakeDataSource {
                 1
         ));
 
-        data.add(new NewsItem(
+        data.add(new NewsPost(
                 9,
                 TXT_TITLE_01,
                 TXT_NAME_01,
@@ -472,15 +472,15 @@ public class FakeDataSource {
     public static final String LOREM_TEXT ="Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with: The purpose of lorem ipsum is to create a natural looking block of text (sentence, paragraph, page, etc.) that doesn't distract from the layout. A practice not without controversy, laying out pages with meaningless filler text can be very useful when the focus is meant to be on design, not content." ;
 
     // news background colors
-    static final String[] lstColors = {"RED","YELLOW","BLACK","PURPLE"};
+    static final String[] lstColors = {"RED","ORANGE","GREY","PINK"};
 
 
     /**
      * this method generate a random news item
      */
-    public NewsItem generateRandomNewsItem(){
+    public NewsPost generateRandomNewsItem(){
 
-        NewsItem item = new NewsItem(-1, getRandomNewsTitle(), getRandomUsername(), getRandomNewsImage(), getRandomUserImage(), getRandomContent(), getRandomBgColor(), null, 0);
+        NewsPost item = new NewsPost(-1, getRandomNewsTitle(), getRandomUsername(), getRandomNewsImage(), getRandomUserImage(), getRandomContent(), getRandomBgColor(), null, 0);
         return item;
 
     }

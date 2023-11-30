@@ -1,5 +1,6 @@
 package com.example.bytecrunch.viewholder;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,17 +19,22 @@ public class ImageViewHolder extends MyViewHolder{
 
     @Override
     public void bindData(NewsPost post) {
+        Log.d("ImgViewHolder", "getPostNewsTextBing: binding data ");
 
         postNewsImageBinding.setNewsPostImage(post);
     }
 
     @Override
     public PostNewsTextBinding getPostNewsTextBing() {
+        Log.d("ImgViewHolder", "getPostNewsTextBing: txt ");
+
         return null;
     }
 
     @Override
     public PostNewsImageBinding getPostNewsImageBinding() {
+        Log.d("ImgViewHolder", "getPostNewsTextBing: img ");
+
         return null;
     }
 }
