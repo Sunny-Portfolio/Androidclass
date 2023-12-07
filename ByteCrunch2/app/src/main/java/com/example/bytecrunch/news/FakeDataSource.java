@@ -209,7 +209,7 @@ public class FakeDataSource {
 
     // generate an updated static news list
 
-    public List<NewsPost> getFakeUpdatedStaticListNews(){
+    public static List<NewsPost> getFakeUpdatedStaticListNews(){
         List<NewsPost> data = new ArrayList<>();
 
         data.add(new NewsPost(
@@ -429,9 +429,9 @@ public class FakeDataSource {
     public static final String IMG_NEWS_03 ="https://1.bp.blogspot.com/-dpcd0TBJ5xk/XxtDboRBeYI/AAAAAAAAAoE/CdWFJq1k8GsGgAwGTLGJd6ToCwvtO9OtwCK4BGAYYCw/s1600/newsimg2.PNG";
     public static final String IMG_NEWS_04 ="https://3.bp.blogspot.com/-Ele_lJ7t2Fg/XxtD9BfVm8I/AAAAAAAAAow/m8fpgF7Ocmcfs2rJ6nGP-Dsms5X5PQdwwCK4BGAYYCw/s1600/newsimg.png";
     public static final String IMG_NEWS_05 ="https://2.bp.blogspot.com/-4eQzZxP2ubw/Xx4XnCFRANI/AAAAAAAAAps/Xwugw45_OD8rfOw_CPgbJ6455IiAspF8wCK4BGAYYCw/s1600/illust2.jpg";
-    public static final String IMG_NEWS_06 ="http://4.bp.blogspot.com/-aisXccEBqJY/Xx37Zdf7wMI/AAAAAAAAApg/8mbSFn0JvrIdIIRJrxoaU7GH0wsBOgCsACK4BGAYYCw/s640/illustration.jpg";
+    public static final String IMG_NEWS_06 ="https://picsum.photos/300";
     public static final String IMG_NEWS_07 ="https://cdn.dribbble.com/users/1663335/screenshots/13906863/media/f82fca5285ba7260e7408cff9edb3fa7.jpg";
-    public static final String IMG_NEWS_08 ="http://4.bp.blogspot.com/-aisXccEBqJY/Xx37Zdf7wMI/AAAAAAAAApg/8mbSFn0JvrIdIIRJrxoaU7GH0wsBOgCsACK4BGAYYCw/s640/illustration.jpg";
+    public static final String IMG_NEWS_08 ="https://picsum.photos/300";
     public static final String IMG_NEWS_09 ="https://cdn.dribbble.com/users/2400016/screenshots/13897147/media/2e54a3ade13ebb2611c999e4178c133f.png";
     public static final String IMG_NEWS_10 ="https://cdn.dribbble.com/users/2400016/screenshots/11466370/image.png";
 

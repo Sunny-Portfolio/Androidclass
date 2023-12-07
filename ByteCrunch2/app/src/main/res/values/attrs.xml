@@ -4,6 +4,7 @@
 
         <attr name="background_color" format="color" />
         <attr name="text_color" format="color" />
+        <attr name="hint_color" format="color" />
 
 
     </declare-styleable>

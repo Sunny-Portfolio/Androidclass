@@ -10,6 +10,10 @@ public class NewsPost {
     String title, username, newsImg, userImg, article, bgColor, videoURL;
     Date articleDate;
 
+
+
+    String url;
+
     int viewType = 0;
     boolean isFav = false;
 
@@ -20,6 +24,8 @@ public class NewsPost {
     public NewsPost() {
     }
 
+
+    // TODO: 12/2/23 The constructor needs to be updated for updated var. Current is for fake data, not the API
     public NewsPost(int postID, String title, String username, String newsImg, String userImg, String article, String bgColor, Date date, String videoURL, int viewType, boolean isFav) {
         this.postID = postID;
         this.title = title;
@@ -99,6 +105,14 @@ public class NewsPost {
         isFav = fav;
     }
 
+    public void setArticleDate(Date articleDate) {
+        this.articleDate = articleDate;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 
     /**
      * Getters
@@ -147,6 +161,19 @@ public class NewsPost {
     public boolean isFav() {
         return isFav;
     }
+
+
+    public Date getArticleDate() {
+        return articleDate;
+    }
+
+
+
+    public String getUrl() {
+        return url;
+    }
+
+
 
     /**
      * Overwrite toString()

@@ -1,13 +1,12 @@
 package com.example.bytecrunch.viewholder;
 
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.databinding.PostNewsImageBinding;
 import com.example.bytecrunch.databinding.PostNewsTextBinding;
-import com.example.bytecrunch.news.NewsPost;
 
 public class TextViewHolder extends MyViewHolder {
 
@@ -21,7 +20,7 @@ public class TextViewHolder extends MyViewHolder {
     }
 
     @Override
-    public void bindData(NewsPost post) {
+    public void bindData(ResultsItem post) {
         postNewsTextBinding.setNewsPostText(post);
     }
 

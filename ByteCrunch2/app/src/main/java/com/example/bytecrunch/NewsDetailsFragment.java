@@ -2,11 +2,19 @@ package com.example.bytecrunch;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.bytecrunch.databinding.FragmentNewsDetailsBinding;
+import com.example.bytecrunch.news.FakeDataSource;
+import com.example.bytecrunch.news.NewsPost;
+import com.example.bytecrunch.ui.NewsViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +22,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class NewsDetailsFragment extends Fragment {
+
+    NewsViewModel viewModel;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +70,29 @@ public class NewsDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news_details, container, false);
+        FragmentNewsDetailsBinding fragmentNewsDetailsBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(getContext()),
+                R.layout.fragment_news_details,
+                container, false);
+
+
+        // Temp Test to see if the binding works
+        FakeDataSource fakeDataSource = new FakeDataSource();
+        NewsPost post = fakeDataSource.generateRandomNewsItem();
+
+        post.setFav(true);
+//        fragmentNewsDetailsBinding.setNewsItemData(post);
+
+        return fragmentNewsDetailsBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Set this viewModel to the viewModel in MainActivity to access it
+        if (getActivity() instanceof MainActivity) {
+            viewModel = ((MainActivity) getActivity()).viewModel;
+        }
     }
 }

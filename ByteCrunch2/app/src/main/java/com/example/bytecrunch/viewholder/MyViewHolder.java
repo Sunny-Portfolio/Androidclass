@@ -5,9 +5,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.databinding.PostNewsImageBinding;
 import com.example.bytecrunch.databinding.PostNewsTextBinding;
-import com.example.bytecrunch.news.NewsPost;
 
 abstract class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -16,7 +16,8 @@ abstract class MyViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public abstract void bindData (NewsPost post);
+//    public abstract void bindData (NewsPost post);
+    public abstract void bindData (ResultsItem post);
 
 
     // use for shared view animation

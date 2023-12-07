@@ -2,11 +2,20 @@ package com.example.bytecrunch;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.bytecrunch.news.FakeDataSource;
+import com.example.bytecrunch.ui.NewsViewModel;
+import com.example.bytecrunch.viewholder.NewsPostCallback;
+import com.example.bytecrunch.viewholder.PostsListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +23,12 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class NewFavFragment extends Fragment {
+
+
+    private RecyclerView fav_list;
+    private PostsListAdapter adapter;
+    NewsViewModel viewModel;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +75,32 @@ public class NewFavFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_fav, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        /**
+         * Setup the view and adapter
+         */
+        fav_list = view.findViewById(R.id.ID_fav_news_list);
+        fav_list.setLayoutManager(new GridLayoutManager(getContext(),2));
+        fav_list.setHasFixedSize(true);
+
+        adapter = new PostsListAdapter(new NewsPostCallback());
+        fav_list.setAdapter(adapter);
+
+
+        // Set this viewModel to the viewModel in MainActivity to access it
+        if (getActivity() instanceof MainActivity) {
+            viewModel = ((MainActivity) getActivity()).viewModel;
+        }
+
+        // TODO: 12/2/23 need to change to real data
+        // Get fake news
+        FakeDataSource fakeDataSource = new FakeDataSource();
+//        adapter.submitList(fakeDataSource.getFakeListNews());
+
     }
 }

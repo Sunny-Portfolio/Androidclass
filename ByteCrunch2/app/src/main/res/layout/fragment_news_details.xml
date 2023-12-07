@@ -1,15 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".NewsDetailsFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+        <variable
+            name="NewsItemData"
+            type="com.example.bytecrunch.apiResponse.ResultsItem" />
+        <variable
+            name="getAuthorItem"
+            type="com.example.bytecrunch.apiResponse.AuthorsItem" />
+        <variable
+            name="getBG"
+            type="com.example.bytecrunch.helper.RandomBG" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textColor="?attr/text_color"
-        android:text="@string/hello_blank_fragment" />
+        android:background="?attr/background_color">
 
-</FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".NewsDetailsFragment" >
+
+
+            <ImageView
+                glide_url="@{NewsItemData.image}"
+                android:id="@+id/imageView5"
+                android:layout_width="0dp"
+                android:layout_height="210dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                glide_circular="@{NewsItemData.image}"
+                android:id="@+id/ID_newsDetail_blogLogo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:text="@{NewsItemData.title}"
+                android:id="@+id/ID_newsDetails_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="30sp"
+                android:textColor="?attr/text_color"
+                android:lineSpacingExtra="4sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ID_newsDetail_blogLogo" />
+
+            <TextView
+                android:id="@+id/ID_newsDetail_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="By Sunny Chan"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ID_newsDetails_title" />
+
+            <TextView
+                android:id="@+id/ID_newsDetail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="99/99/2099"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/ID_newsDetail_author"
+                app:layout_constraintTop_toBottomOf="@+id/ID_newsDetails_title" />
+
+            <ImageView
+                fav_check="@{getBG.isFav}"
+                android:id="@+id/ID_newsDetail_fav_no"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/fav_no_logo_red"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ID_newsDetails_title" />
+
+            <TextView
+                android:id="@+id/ID_newsDetail_blogName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="The Sunny Times"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:textColor="?attr/text_color"
+                app:layout_constraintBottom_toBottomOf="@+id/ID_newsDetail_blogLogo"
+                app:layout_constraintStart_toEndOf="@+id/ID_newsDetail_blogLogo" />
+
+            <TextView
+                android:id="@+id/ID_newsDetail_article"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{NewsItemData.body}"
+                android:textColor="?attr/text_color"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ID_newsDetail_author" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>

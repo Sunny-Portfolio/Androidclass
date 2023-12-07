@@ -9,12 +9,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
+import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.R;
 import com.example.bytecrunch.databinding.PostNewsImageBinding;
 import com.example.bytecrunch.databinding.PostNewsTextBinding;
-import com.example.bytecrunch.news.NewsPost;
 
-public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
+
+// TODO: 12/2/23 Postlistadapter newpost need to change to ResultsItem
+//public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
+public class PostsListAdapter extends ListAdapter<ResultsItem,MyViewHolder> {
 
 
     public static final int VIEWTYPE_POST_TXT = 0;
@@ -35,8 +38,8 @@ public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
         this.listener = listener;
     }
 
-
-    public PostsListAdapter(@NonNull DiffUtil.ItemCallback<NewsPost> diffCallback) {
+    // TODO: 12/2/23 Postlistadapter newpost need to change to ResultsItem
+    public PostsListAdapter(@NonNull DiffUtil.ItemCallback<ResultsItem> diffCallback) {
         super(diffCallback);
     }
 
@@ -50,17 +53,20 @@ public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
         switch (viewType) {
             case VIEWTYPE_POST_TXT:
                 Log.d("LISTAdapter", "onCreateViewHolder: Txt");
-                PostNewsTextBinding postNewsTextBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                PostNewsTextBinding postNewsTextBinding = DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.getContext()),
                         R.layout.post_news_text,parent,false);
                 return new TextViewHolder(postNewsTextBinding);
             case VIEWTYPE_POST_IMG:
                 Log.d("LISTAdapter", "onCreateViewHolder: Img");
-                PostNewsImageBinding postNewsImageBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                PostNewsImageBinding postNewsImageBinding = DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.getContext()),
                         R.layout.post_news_image,parent,false);
                 return new ImageViewHolder(postNewsImageBinding);
             default:
                 Log.d("LISTAdapter", "onCreateViewHolder: default");
-                PostNewsTextBinding defaultPostNewsTextBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                PostNewsTextBinding defaultPostNewsTextBinding = DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.getContext()),
                         R.layout.post_news_text,parent,false);
                 return new TextViewHolder(defaultPostNewsTextBinding);
         }
@@ -70,7 +76,13 @@ public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.bindData(getItem(position));
+        // TODO: 12/5/23 set on click listener?? or check if there is one for open web view
 
+    }
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
     }
 
     @Override

@@ -7,7 +7,11 @@
     <data>
         <variable
             name="NewsPostText"
-            type="com.example.bytecrunch.news.NewsPost" />
+            type="com.example.bytecrunch.apiResponse.ResultsItem" />
+        <variable
+            name="getAuthorItem"
+            type="com.example.bytecrunch.apiResponse.AuthorsItem" />
+
 
     </data>
 
@@ -24,6 +28,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:maxLines="3"
+            android:textStyle="bold"
             android:text="@{NewsPostText.title}"
             android:textColor="?attr/text_color"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +45,7 @@
             android:layout_marginBottom="16dp"
             android:lineSpacingExtra="2sp"
             android:maxLines="6"
-            android:text="@{NewsPostText.article}"
+            android:text="@{NewsPostText.body}"
             android:textColor="?attr/text_color"
             app:layout_constraintBottom_toTopOf="@+id/ID_news_txt_avatar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +59,7 @@
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            glide_circular="@{NewsPostText.userImg}"
+            glide_circular="@{NewsPostText.image}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -64,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{NewsPostText.username}"
+            android:text="@{getAuthorItem.name}"
             android:textColor="?attr/text_color"
             app:layout_constraintBottom_toBottomOf="@+id/ID_news_txt_avatar"
             app:layout_constraintStart_toEndOf="@+id/ID_news_txt_avatar"

@@ -1,5 +1,6 @@
 package com.example.bytecrunch.binding;
 
+
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -51,7 +52,7 @@ public class BindingAdapters {
     public static void setImgPostBG (ImageView view, String color) {
 //    @BindingAdapter("set_background")
 //    public static void setBackground (ImageView view, String color) {
-         Log.d("BIND", "setImgPostBG: ");
+         Log.d("BIND", "setImgPostBG: color is : " + color);
          switch (color) {
              case "RED" :
                  view.setBackgroundColor(ContextCompat.getColor(view.getContext(),R.color.kinda_grapefruit));
@@ -94,5 +95,20 @@ public class BindingAdapters {
 //        }
 //
 //    }
+
+    /**
+     * Set the Fav icon accordingly.
+     * Changes article post fav icon.
+     * @param view
+     * @param isFav
+     */
+    @BindingAdapter("fav_check")
+    public static void  setFav (ImageView view, boolean isFav) {
+         if (isFav)
+             view.setImageResource(R.drawable.fav_yes_logo_red);
+         else
+             view.setImageResource(R.drawable.fav_no_logo_red);
+
+    }
 
 }

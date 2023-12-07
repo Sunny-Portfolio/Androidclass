@@ -1,12 +1,18 @@
 package com.example.bytecrunch;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
+
+    SettingsPref settingsPref;
+    private RadioGroup themeSelection;
+    private RadioButton pick_lightTheme, pick_darkTheme, pick_contrastTheme;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +71,64 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        /**
+         * Setup the radio button
+         */
+        themeSelection = view.findViewById(R.id.ID_theme_selection);
+        pick_lightTheme = view.findViewById(R.id.ID_theme_light);
+        pick_darkTheme = view.findViewById(R.id.ID_theme_dark);
+        pick_contrastTheme = view.findViewById(R.id.ID_theme_contrast);
+
+        settingsPref = new SettingsPref(getContext());
+
+        /**
+         * Check saved preference for theme selection and check the corresponding radio button
+         */
+        switch (settingsPref.getThemeSelection()) {
+            case SettingsPref.THEME_LIGHT:
+                pick_lightTheme.setChecked(true);
+                break;
+            case SettingsPref.THEME_DARK:
+                pick_darkTheme.setChecked(true);
+                break;
+            case SettingsPref.THEME_CONTRAST:
+                pick_contrastTheme.setChecked(true);
+                break;
+            default:
+                pick_lightTheme.setChecked(true);
+
+        }
+
+
+        /**
+         * Select the corresponding theme when a new theme is selected
+         */
+        themeSelection.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+
+                if (checkedId == R.id.ID_theme_light)
+                    settingsPref.setThemeSelection(SettingsPref.THEME_LIGHT);
+                else if (checkedId == R.id.ID_theme_dark)
+                    settingsPref.setThemeSelection(SettingsPref.THEME_DARK);
+                else if (checkedId == R.id.ID_theme_contrast)
+                    settingsPref.setThemeSelection(SettingsPref.THEME_CONTRAST);
+                else
+                    settingsPref.setThemeSelection(SettingsPref.THEME_LIGHT);
+
+                getActivity().recreate();
+
+            }
+        });
+
+
     }
 }

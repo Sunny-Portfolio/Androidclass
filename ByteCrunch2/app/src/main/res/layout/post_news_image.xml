@@ -7,7 +7,13 @@
     <data>
         <variable
             name="NewsPostImage"
-            type="com.example.bytecrunch.news.NewsPost" />
+            type="com.example.bytecrunch.apiResponse.ResultsItem" />
+        <variable
+            name="getAuthorItem"
+            type="com.example.bytecrunch.apiResponse.AuthorsItem" />
+        <variable
+            name="getBG"
+            type="com.example.bytecrunch.helper.RandomBG" />
 
     </data>
 
@@ -17,7 +23,7 @@
 
         <ImageView
             android:id="@+id/imageView"
-            glide_url="@{NewsPostImage.newsImg}"
+            glide_url="@{NewsPostImage.image}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -44,7 +50,7 @@
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="16dp"
-            app:glide_circular="@{NewsPostImage.userImg}"
+            app:glide_circular="@{NewsPostImage.image}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
@@ -55,6 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:maxLines="4"
+            android:textStyle="bold"
             android:text="@{NewsPostImage.title}"
             android:textColor="@color/dark_text_color"
             app:layout_constraintBottom_toTopOf="@+id/ID_news_img_avatar"
@@ -67,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="@{NewsPostImage.username}"
+            android:text="@{getAuthorItem.name}"
             android:textColor="@color/dark_text_color"
             app:layout_constraintBottom_toBottomOf="@+id/ID_news_img_avatar"
             app:layout_constraintStart_toEndOf="@+id/ID_news_img_avatar"
