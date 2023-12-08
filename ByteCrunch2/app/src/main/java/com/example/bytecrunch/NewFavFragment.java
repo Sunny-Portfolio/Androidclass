@@ -5,10 +5,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,11 @@ import com.example.bytecrunch.news.FakeDataSource;
 import com.example.bytecrunch.ui.NewsViewModel;
 import com.example.bytecrunch.viewholder.NewsPostCallback;
 import com.example.bytecrunch.viewholder.PostsListAdapter;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,6 +111,75 @@ public class NewFavFragment extends Fragment {
          * Set on click listener for the article news click event
          * and set navigation to the NewsDetailFragment (to read the article)
          */
+        postsListAdapter.setOnItemClickListener(new PostsListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ResultsItem resultsItem) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("resultsItem", resultsItem);
+                Navigation.findNavController(view).navigate(R.id.action_ID_btm_bar_fav_to_newsDetailsFragment, bundle);
+            }
+        });
+
+
+        /**
+         * Setup swipe delete action with ItemTouchHelper
+         */
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
+                return true;
+            }
+
+            // Delete action on swipe
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                ResultsItem resultsItem = postsListAdapter.getCurrentList().get(position);
+                viewModel.deleteArticle(resultsItem);
+
+                // Delete saved article but offer an Undo button
+                Snackbar.make(view, "Deleted!", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                viewModel.saveArticle(resultsItem);
+                                Snackbar.make(view, "Restored!", Snackbar.LENGTH_LONG);
+                            }
+                        }).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(fav_list);
+
+
+
+
+        /**
+         * Get saved news from local room database and display the list
+         */
+        viewModel.getSavedNews().observe(getViewLifecycleOwner(), new Observer<List<ResultsItem>>() {
+            private static final String TAG = "NewFavFragment";
+            @Override
+            public void onChanged(List<ResultsItem> resultsItems) {
+
+                Log.d(TAG, "onChanged 2: resultItem is : " + resultsItems);
+                postsListAdapter.submitList(resultsItems);
+            }
+
+
+        });
+
+
+        /**
+         * Set on click listener for the article news click event
+         * and set navigation to the NewsDetailFragment (to read the article)
+         */
 //        postsListAdapter.setOnNewsPostClickListener(new PostsListAdapter.OnPostItemClickEvent() {
 //            @Override
 //            public void onPostItemClick(ResultsItem resultsItem) {
@@ -130,10 +206,9 @@ public class NewFavFragment extends Fragment {
 //        });
 
 
-
-        // TODO: 12/2/23 need to change to real data
-        // Get fake news
-        FakeDataSource fakeDataSource = new FakeDataSource();
+                // TODO: 12/2/23 need to change to real data
+                // Get fake news
+                FakeDataSource fakeDataSource = new FakeDataSource();
 //        adapter.submitList(fakeDataSource.getFakeListNews());
 
     }

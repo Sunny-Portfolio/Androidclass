@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +115,20 @@ public class SearchFragment extends Fragment {
         if (getActivity() instanceof MainActivity) {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
+
+
+        /**
+         * Set on click listener for the article news click event
+         * and set navigation to the NewsDetailFragment (to read the article)
+         */
+        postsListAdapter.setOnItemClickListener(new PostsListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ResultsItem resultsItem) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("resultsItem", resultsItem);
+                Navigation.findNavController(view).navigate(R.id.action_ID_btm_bar_search_to_newsDetailsFragment, bundle);
+            }
+        });
 
 
         /**

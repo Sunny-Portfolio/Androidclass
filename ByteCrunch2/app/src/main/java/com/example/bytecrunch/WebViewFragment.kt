@@ -1,6 +1,7 @@
 package com.example.bytecrunch
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.navigation.fragment.navArgs
 import com.example.bytecrunch.ui.NewsViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +30,7 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
 
     lateinit var viewModel: NewsViewModel
     val args: WebViewFragmentArgs by navArgs()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,6 +80,17 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
             webViewClient = WebViewClient()
             loadUrl(resultsItem.url)
         }
+
+
+        /**
+         * Set OnClickListener for floating action button (Favourite button)
+         */
+        val favFab = view.findViewById<FloatingActionButton>(R.id.ID_webview_fav_btn)
+        favFab.setOnClickListener(View.OnClickListener {
+            Log.d("webview", "onViewCreated: saved : " + resultsItem)
+            viewModel.saveArticle(resultsItem)
+            Snackbar.make(view, "Saved article!", Snackbar.LENGTH_SHORT).show()
+        })
 
 
 

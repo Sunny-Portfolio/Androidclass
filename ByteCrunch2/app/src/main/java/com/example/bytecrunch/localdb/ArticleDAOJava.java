@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.core.Single;
  * Using RXjava and LiveData for Asynchronous queries
  */
 @Dao
-public interface ArticleDAO {
+public interface ArticleDAOJava {
 
 
     /**

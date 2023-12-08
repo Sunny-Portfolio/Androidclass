@@ -149,7 +149,10 @@ class NewsViewModel (
         return Resource.Error(response.message())
     }
 
+
+    private val TAG = "NewsViewModel"
     fun saveArticle(resultsItem: ResultsItem) = viewModelScope.launch {
+        Log.d(TAG, "saveArticle: resultItem is : " + resultsItem)
         newsRepo.updateInsert(resultsItem)
     }
 
@@ -158,6 +161,21 @@ class NewsViewModel (
     fun deleteArticle(resultsItem: ResultsItem) = viewModelScope.launch {
         newsRepo.deleteArticle(resultsItem)
     }
+
+//    // Saves a `ResultsItem` object representing a news article to the local database using the `newsRepo` instance.
+//    fun saveArticle(resultsItem: ResultsItem) = viewModelScope.launch {
+//        newsRepo.updateInsert(resultsItem)
+//    }
+//
+//    // Retrieves all saved news articles from the local database using the `newsRepo` instance and returns the results as a LiveData stream.
+//    fun getSavedNews(): LiveData<List<ResultsItem>> {
+//        return newsRepo.getSavedNews()
+//    }
+//
+//    // Deletes a `ResultsItem` object representing a saved news article from the local database using the `newsRepo` instance.
+//    fun deleteArticle(resultsItem: ResultsItem) = viewModelScope.launch {
+//        newsRepo.deleteArticle(resultsItem)
+//    }
 
 
 

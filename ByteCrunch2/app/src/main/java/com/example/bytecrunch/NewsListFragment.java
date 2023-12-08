@@ -177,7 +177,7 @@ public class NewsListFragment extends Fragment {
 
 
 
-            // Set this viewModel to the viewModel in MainActivity to access it
+        // Set this viewModel to the viewModel in MainActivity to access it
         if (getActivity() instanceof MainActivity) {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
