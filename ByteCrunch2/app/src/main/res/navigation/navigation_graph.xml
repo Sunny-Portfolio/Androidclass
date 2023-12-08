@@ -60,5 +60,23 @@
         <argument
             android:name="resultsItem"
             app:argType="com.example.bytecrunch.apiResponse.ResultsItem" />
+        <action
+            android:id="@+id/action_newsDetailsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.bytecrunch.WebViewFragment"
+        android:label="fragment_web_view"
+        tools:layout="@layout/fragment_web_view" >
+
+        <argument
+            android:name="resultsItem"
+            app:argType="com.example.bytecrunch.apiResponse.ResultsItem" />
     </fragment>
 </navigation>
