@@ -2,6 +2,7 @@ package com.example.bytecrunch.localdb;
 
 import androidx.room.TypeConverter;
 
+import com.example.bytecrunch.apiResponse.AuthorsItem;
 import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.apiResponse.Source;
 import com.google.gson.Gson;
@@ -50,6 +51,16 @@ public class Converters {
         return gson.fromJson(json, listType);
     }
 
+    @TypeConverter
+    public static String fromAuthorsItemList(List<AuthorsItem> list) {
+        return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static List<AuthorsItem> toAuthorsItemList(String json) {
+        Type listType = new TypeToken<List<AuthorsItem>>() {}.getType();
+        return gson.fromJson(json, listType);
+    }
 
 
 }

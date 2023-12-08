@@ -115,7 +115,7 @@ public class NewsListFragment extends Fragment {
         postsListAdapter.setOnItemClickListener(new PostsListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(ResultsItem resultsItem) {
-                Log.d("NEWSLIST", "onPostItemClick: NewsListFragment : ResultItem is : " + resultsItem);
+                Log.d("NEWSLIST", "onPostItemClick: NewsListFragment : ResultItem is : " + resultsItem.getUri());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("resultsItem", resultsItem);
                 Navigation.findNavController(view).navigate(R.id.action_ID_btm_bar_home_to_newsDetailsFragment, bundle);

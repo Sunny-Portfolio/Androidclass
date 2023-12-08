@@ -76,7 +76,7 @@ public class ResultsItem implements Serializable {
 	private boolean isDuplicate;
 
 	@SerializedName("authors")
-	private List<Object> authors;
+	private List<AuthorsItem> authors;
 
 	@SerializedName("viewType")
 	private int viewType = 0;
@@ -179,7 +179,7 @@ public class ResultsItem implements Serializable {
 		return isDuplicate;
 	}
 
-	public List<Object> getAuthors(){
+	public List<AuthorsItem> getAuthors(){
 		return authors;
 	}
 
@@ -268,7 +268,7 @@ public class ResultsItem implements Serializable {
 		isDuplicate = duplicate;
 	}
 
-	public void setAuthors(List<Object> authors) {
+	public void setAuthors(List<AuthorsItem> authors) {
 		this.authors = authors;
 	}
 

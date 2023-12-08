@@ -29,6 +29,14 @@ interface NewsAPI {
 //            @Query("sourceGroupUri") source: String = "technology/top20, ERtop/technology20",
             @Query("categoryUri") catUri: String = "news/Technology",
             @Query("sourceGroupUri") source: String = "technology/top20",
+            @Query("sourceGroupUri") source1: String = "science/top15",
+            @Query("sourceGroupUri") source2: String = "general/top25",
+            @Query("startSourceRankPercentile") startRank: Int = 0,
+            @Query("endSourceRankPercentile") endRank: Int = 20,
+            @Query("ignoreSourceUri") igUri1: String = "dailymed.nlm.nih.gov",
+            @Query("ignoreSourceUri") igUri2: String = "foxnews.com",
+            @Query("ignoreSourceUri") igUri3: String = "",
+            @Query("ignoreSourceUri") igUri4: String = "",
             @Query("apiKey") apiKey: String = NEWSAPI_API_KEY
     ): Response<ResponseAPI>
 
