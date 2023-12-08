@@ -33,6 +33,7 @@
             android:textStyle="bold"
             android:text="@{NewsPostText.title}"
             android:textColor="?attr/text_color"
+            android:fontFamily="?attr/title_font"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,6 +50,7 @@
             android:maxLines="6"
             android:text="@{NewsPostText.body}"
             android:textColor="?attr/text_color"
+            android:fontFamily="?attr/body_font"
             app:layout_constraintBottom_toTopOf="@+id/ID_news_txt_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +78,7 @@
             android:textSize="16sp"
             android:text="@{NewsPostText.source.title}"
             android:textColor="@color/dark_text_color"
+            android:fontFamily="?attr/source_font"
             app:layout_constraintBottom_toBottomOf="@+id/ID_news_txt_avatar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ID_news_txt_avatar"

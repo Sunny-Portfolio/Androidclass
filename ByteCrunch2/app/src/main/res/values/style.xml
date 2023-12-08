@@ -10,6 +10,10 @@
         <item name="background_color">@color/light_bg_color</item>
         <item name="hint_color" >@color/grey60</item>
 
+        <item name="source_font">@font/nunito_sans</item>
+        <item name="title_font">@font/roboto</item>
+        <item name="body_font">@font/roboto</item>
+
     </style>
 
     <!--    here we define dark theme style -->
@@ -22,6 +26,10 @@
         <item name="background_color">@color/dark_bg_color</item>
         <item name="android:textColorSecondary">@color/dark_icon_tint_color</item>
         <item name="hint_color" >@color/grey30</item>
+
+        <item name="source_font">@font/nunito_sans</item>
+        <item name="title_font">@font/roboto</item>
+        <item name="body_font">@font/roboto</item>
 
 
     </style>

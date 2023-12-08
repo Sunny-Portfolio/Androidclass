@@ -51,16 +51,17 @@
                 tools:src="@tools:sample/avatars" />
 
             <TextView
-                android:text="@{NewsItemData.title}"
                 android:id="@+id/ID_newsDetails_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="30sp"
-                android:textColor="?attr/text_color"
+                android:fontFamily="?attr/title_font"
                 android:lineSpacingExtra="4sp"
+                android:text="@{NewsItemData.title}"
+                android:textColor="?attr/text_color"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ID_newsDetail_blogLogo" />
@@ -120,6 +121,7 @@
                 android:text="@{NewsItemData.source.title}"
                 android:textSize="36sp"
                 android:textStyle="bold"
+                android:fontFamily="?attr/source_font"
                 android:textColor="@color/dark_text_color"
                 app:layout_constraintBottom_toBottomOf="@+id/ID_newsDetail_blogLogo"
                 app:layout_constraintStart_toEndOf="@+id/ID_newsDetail_blogLogo" />
@@ -136,6 +138,7 @@
                 android:text="@{NewsItemData.body}"
                 android:textColor="?attr/text_color"
                 android:textSize="20sp"
+                android:fontFamily="?attr/body_font"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"

@@ -36,7 +36,7 @@ public class BindingAdapters {
     /**
      * Binding adapter for news site avatar
      * @param view
-     * @param url
+     * @param siteName  Name of source news from layout files call
      */
      @BindingAdapter("glide_circular")
     public static void loadAvatar (ImageView view, String siteName) {
@@ -106,9 +106,6 @@ public class BindingAdapters {
                  Glide.with(view.getContext()).load(R.drawable.byte_crunch_logo).circleCrop().into(view); break;
          }
      }
-
-    private void loadImg (String url) {
-    }
 
 
 
