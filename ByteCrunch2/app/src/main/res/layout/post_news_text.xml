@@ -11,7 +11,9 @@
         <variable
             name="getAuthorItem"
             type="com.example.bytecrunch.apiResponse.AuthorsItem" />
-
+        <variable
+            name="getSource"
+            type="com.example.bytecrunch.apiResponse.Source" />
 
     </data>
 
@@ -65,13 +67,17 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/ID_news_txt_username"
-            android:layout_width="wrap_content"
+            android:id="@+id/ID_news_txt_sourceName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@{getAuthorItem.name}"
-            android:textColor="?attr/text_color"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:text="@{NewsPostText.source.title}"
+            android:textColor="@color/dark_text_color"
             app:layout_constraintBottom_toBottomOf="@+id/ID_news_txt_avatar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ID_news_txt_avatar"
             app:layout_constraintTop_toTopOf="@+id/ID_news_txt_avatar" />
     </androidx.constraintlayout.widget.ConstraintLayout>

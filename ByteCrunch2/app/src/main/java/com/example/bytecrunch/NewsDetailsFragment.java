@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.databinding.FragmentNewsDetailsBinding;
 import com.example.bytecrunch.news.FakeDataSource;
 import com.example.bytecrunch.news.NewsPost;
@@ -24,6 +25,9 @@ import com.example.bytecrunch.ui.NewsViewModel;
 public class NewsDetailsFragment extends Fragment {
 
     NewsViewModel viewModel;
+
+    private NewsDetailsFragmentArgs args;
+    private ResultsItem resultsItem;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -75,6 +79,12 @@ public class NewsDetailsFragment extends Fragment {
                 R.layout.fragment_news_details,
                 container, false);
 
+        // Get Safe Args data from another fragment. Set when navigating.
+        if (getArguments() != null) {
+            resultsItem = NewsDetailsFragmentArgs.fromBundle(getArguments()).getResultsItem();
+        }
+        fragmentNewsDetailsBinding.setNewsItemData(resultsItem);
+
 
         // Temp Test to see if the binding works
         FakeDataSource fakeDataSource = new FakeDataSource();
@@ -94,5 +104,10 @@ public class NewsDetailsFragment extends Fragment {
         if (getActivity() instanceof MainActivity) {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
+
+        if (getArguments() != null) {
+            resultsItem = NewsDetailsFragmentArgs.fromBundle(getArguments()).getResultsItem();
+        }
+//        fragmentNewsDetailsBinding.setNewsItemData(resultsItem);
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.news.FakeDataSource;
 import com.example.bytecrunch.ui.NewsViewModel;
 import com.example.bytecrunch.viewholder.NewsPostCallback;
@@ -26,7 +28,7 @@ public class NewFavFragment extends Fragment {
 
 
     private RecyclerView fav_list;
-    private PostsListAdapter adapter;
+    private PostsListAdapter postsListAdapter;
     NewsViewModel viewModel;
 
 
@@ -88,14 +90,46 @@ public class NewFavFragment extends Fragment {
         fav_list.setLayoutManager(new GridLayoutManager(getContext(),2));
         fav_list.setHasFixedSize(true);
 
-        adapter = new PostsListAdapter(new NewsPostCallback());
-        fav_list.setAdapter(adapter);
+        postsListAdapter = new PostsListAdapter(new NewsPostCallback());
+        fav_list.setAdapter(postsListAdapter);
 
 
         // Set this viewModel to the viewModel in MainActivity to access it
         if (getActivity() instanceof MainActivity) {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
+
+
+        /**
+         * Set on click listener for the article news click event
+         * and set navigation to the NewsDetailFragment (to read the article)
+         */
+//        postsListAdapter.setOnNewsPostClickListener(new PostsListAdapter.OnPostItemClickEvent() {
+//            @Override
+//            public void onPostItemClick(ResultsItem resultsItem) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("KEY_ResultItem", resultsItem);
+//                Navigation.findNavController(getActivity(), R.id.action_ID_btm_bar_fav_to_newsDetailsFragment)
+//                        .navigate(R.id.action_ID_btm_bar_fav_to_newsDetailsFragment, bundle);
+//            }
+//
+//            @Override
+//            public void onPostTextClick() {
+//
+//            }
+//
+//            @Override
+//            public void onPostImageClick() {
+//
+//            }
+//
+//            @Override
+//            public void onPostLongClick() {
+//
+//            }
+//        });
+
+
 
         // TODO: 12/2/23 need to change to real data
         // Get fake news

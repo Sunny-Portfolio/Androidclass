@@ -2,6 +2,7 @@ package com.example.bytecrunch.viewholder;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,8 @@ import com.example.bytecrunch.R;
 import com.example.bytecrunch.databinding.PostNewsImageBinding;
 import com.example.bytecrunch.databinding.PostNewsTextBinding;
 
+import javax.xml.transform.Result;
+
 
 // TODO: 12/2/23 Postlistadapter newpost need to change to ResultsItem
 //public class PostsListAdapter extends ListAdapter<NewsPost,MyViewHolder> {
@@ -24,21 +27,14 @@ public class PostsListAdapter extends ListAdapter<ResultsItem,MyViewHolder> {
     public static final int VIEWTYPE_POST_IMG = 1;
     public static final int VIEWTYPE_POST_VID = 2;
 
-    OnPostItemClickEvent listener;
 
 
-    public interface OnPostItemClickEvent {
-        void onPostTextClick();
-        void onPostImageClick();
-        void onPostLongClick();
 
-    }
 
-    public void setOnNewsPostClickListener(OnPostItemClickEvent listener) {
-        this.listener = listener;
-    }
-
-    // TODO: 12/2/23 Postlistadapter newpost need to change to ResultsItem
+    /**
+     * Details of the Custom Adapter
+     * @param diffCallback
+     */
     public PostsListAdapter(@NonNull DiffUtil.ItemCallback<ResultsItem> diffCallback) {
         super(diffCallback);
     }
@@ -73,11 +69,60 @@ public class PostsListAdapter extends ListAdapter<ResultsItem,MyViewHolder> {
 
     }
 
+
+    /**
+     * Interface for news article item click listener
+     */
+//    OnPostItemClickEvent listener;
+    OnItemClickListener listener;
+
+
+    public interface OnItemClickListener {
+        void onItemClick(ResultsItem resultsItem);
+    }
+
+
+//    public interface OnPostItemClickEvent {
+//
+//        void onPostItemClick(ResultsItem resultsItem);
+//        void onPostTextClick();
+//        void onPostImageClick();
+//        void onPostLongClick();
+//
+//    }
+
+//    public void setOnNewsPostClickListener(OnPostItemClickListener listener) {
+//        this.listener = listener;
+//    }
+    // Method to set the click listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.bindData(getItem(position));
         // TODO: 12/5/23 set on click listener?? or check if there is one for open web view
 
+
+        /**
+         * Set on click listener for the view holder
+         */
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            private static final String TAG = "PostsListAdapter";
+            @Override
+            public void onClick(View v) {
+                ResultsItem item = getItem(position);
+                Log.d(TAG, "onClick: is clicked, ResultItem is : " + item);
+                if (listener != null) {
+                    Log.d(TAG, "onClick: is clicked 2, ResultItem is : " );
+                    listener.onItemClick(item);
+                    Log.d(TAG, "onClick: is clicked 3, ResultItem is : " );
+                }
+            }
+        });
     }
 
     @Override

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -105,7 +107,77 @@ public class NewsListFragment extends Fragment {
 
         progressBar = view.findViewById(R.id.ID_newsList_progressBar);
 
-        // Set this viewModel to the viewModel in MainActivity to access it
+
+        /**
+         * Set on click listener for the article news click event
+         * and set navigation to the NewsDetailFragment (to read the article)
+         */
+        postsListAdapter.setOnItemClickListener(new PostsListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ResultsItem resultsItem) {
+                Log.d("NEWSLIST", "onPostItemClick: NewsListFragment : ResultItem is : " + resultsItem);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("resultsItem", resultsItem);
+                Navigation.findNavController(view).navigate(R.id.action_ID_btm_bar_home_to_newsDetailsFragment, bundle);
+            }
+        });
+
+//        {
+//            @Override
+//            public void onPostItemClick(ResultsItem resultsItem) {
+//                Log.d("NEWSLIST", "onPostItemClick: NewsListFragment : ResultItem is : " + resultsItem);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("KEY_ResultItem", resultsItem);
+//                Navigation.findNavController(getActivity(), R.id.action_ID_btm_bar_home_to_newsDetailsFragment)
+//                        .navigate(R.id.action_ID_btm_bar_home_to_newsDetailsFragment, bundle);
+//            }
+//
+//            @Override
+//            public void onPostTextClick() {
+//                Log.d("NEWSLIST", "onPostTextClick: NewsListFragment : ResultItem is : " );
+//
+//            }
+//
+//            @Override
+//            public void onPostImageClick() {
+//                Log.d("NEWSLIST", "onPostImageClick: NewsListFragment : ResultItem is : " );
+//
+//            }
+//
+//            @Override
+//            public void onPostLongClick() {
+//
+//            }
+//        });
+
+
+//
+//        postsListAdapter.setOnNewsPostClickListener(new PostsListAdapter.OnPostItemClickEvent() {
+//            @Override
+//            public void onPostItemClick(ResultsItem resultsItem) {
+//
+//            }
+//
+//            @Override
+//            public void onPostTextClick() {
+//
+//            }
+//
+//            @Override
+//            public void onPostImageClick() {
+//
+//            }
+//
+//            @Override
+//            public void onPostLongClick() {
+//
+//            }
+//        });
+
+
+
+
+            // Set this viewModel to the viewModel in MainActivity to access it
         if (getActivity() instanceof MainActivity) {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
@@ -146,12 +218,13 @@ public class NewsListFragment extends Fragment {
             private void hideProgressBar() {
                 progressBar.setVisibility(View.INVISIBLE);
             }
-
             private void showProgressBar() {
                 progressBar.setVisibility(View.VISIBLE);
             }
 
+
         });
+
 
 
 
@@ -172,8 +245,11 @@ public class NewsListFragment extends Fragment {
                     @Override
                     public void run() {
                         // Update the list with updated news
-                        // TODO: 12/3/23 change this
+                        // TODO: 12/3/23 change this, currently no refresh data
 //                        postsListAdapter.submitList(FakeDataSource.getFakeUpdatedStaticListNews());
+//                        postsListAdapter.submitList(responseAPI.getArticles().getResults());
+
+
                         swipeRefreshLayout.setRefreshing(false);
 
 

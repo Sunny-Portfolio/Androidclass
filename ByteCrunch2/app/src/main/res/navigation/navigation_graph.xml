@@ -56,5 +56,9 @@
     <fragment
         android:id="@+id/newsDetailsFragment"
         android:name="com.example.bytecrunch.NewsDetailsFragment"
-        android:label="NewsDetailsFragment" />
+        android:label="NewsDetailsFragment" >
+        <argument
+            android:name="resultsItem"
+            app:argType="com.example.bytecrunch.apiResponse.ResultsItem" />
+    </fragment>
 </navigation>

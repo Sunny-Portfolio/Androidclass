@@ -3,13 +3,14 @@ package com.example.bytecrunch.apiResponse;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 
 //@Entity(tableName = "articles_table")
 @Entity(tableName = "articles_table")
-public class ResultsItem{
+public class ResultsItem implements Serializable {
 
 
 	// id variables for Room

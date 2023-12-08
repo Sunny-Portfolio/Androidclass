@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bytecrunch.apiResponse.ResponseAPI;
+import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.helper.Constants;
 import com.example.bytecrunch.helper.Resource;
 import com.example.bytecrunch.news.FakeDataSource;
@@ -112,6 +114,36 @@ public class SearchFragment extends Fragment {
         if (getActivity() instanceof MainActivity) {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
+
+
+        /**
+         * Set on click listener for the article news click event
+         * and set navigation to the NewsDetailFragment (to read the article)
+         */
+//        postsListAdapter.setOnNewsPostClickListener(new PostsListAdapter.OnPostItemClickEvent() {
+//            @Override
+//            public void onPostItemClick(ResultsItem resultsItem) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("KEY_ResultItem", resultsItem);
+//                Navigation.findNavController(getActivity(), R.id.action_ID_btm_bar_search_to_newsDetailsFragment)
+//                        .navigate(R.id.action_ID_btm_bar_search_to_newsDetailsFragment, bundle);
+//            }
+//
+//            @Override
+//            public void onPostTextClick() {
+//
+//            }
+//
+//            @Override
+//            public void onPostImageClick() {
+//
+//            }
+//
+//            @Override
+//            public void onPostLongClick() {
+//
+//            }
+//        });
 
 
         /**
