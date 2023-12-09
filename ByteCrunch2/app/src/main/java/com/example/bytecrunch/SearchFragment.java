@@ -1,5 +1,8 @@
 package com.example.bytecrunch;
 
+import static com.example.bytecrunch.helper.Constants.COUNTRY_USA;
+import static com.example.bytecrunch.helper.Constants.QUERY_PAGE_SIZE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -31,6 +35,9 @@ import com.example.bytecrunch.viewholder.NewsPostCallback;
 import com.example.bytecrunch.viewholder.PostsListAdapter;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +53,14 @@ public class SearchFragment extends Fragment {
     EditText editText_search;
     private Runnable searchRunnable;
     private Handler searchHandler = new Handler();
+
+
+    // Use for pagination condition
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private boolean isScrolling = false;
+    private boolean isError = false;
+
 
 
 
@@ -209,17 +224,18 @@ public class SearchFragment extends Fragment {
                     ResponseAPI responseAPI = ((Resource.Success<ResponseAPI>) responseAPIResource).getData();
 
                     if (responseAPI != null) {
-                        // TODO: 12/5/23 newsAdapter needs to change, ?to postsListAdapter
-//                        newsAdapter.differ.submitList(responseAPI.getArticles().toList());
                         // get the list from API response
-                        postsListAdapter.submitList(responseAPI.getArticles().getResults());
+                        // Fix 1 Set and pass new List
+                        postsListAdapter.submitList(new ArrayList<>(responseAPI.getArticles().getResults()));
 
+
+                        // Last page checking and RecyclerView padding adjustment
                         int pageSize = Constants.QUERY_PAGE_SIZE;
                         int totalPages = responseAPI.getArticles().getTotalResults() / pageSize + 2;
-//                        isLastPage = viewModel.getTopNewsPage() == totalPages;
-//                        if (isLastPage) {
-//                            rvBreakingNews.setPadding(0, 0, 0, 0);
-//                        }
+                        isLastPage = viewModel.getSearchNewsPage() == totalPages;
+                        if (isLastPage) {
+                            searchListView.setPadding(0, 0, 0, 0);
+                        }
                     }
                 } else if (responseAPIResource instanceof Resource.Error) {
                     hideProgressBar();
@@ -233,16 +249,69 @@ public class SearchFragment extends Fragment {
                 }
 
             }
+
+
+            /**
+             * Set the Loading boolean accordingly when scrolling reaches bottom and is laoding
+             */
             private void hideProgressBar() {
                 progressBar.setVisibility(View.INVISIBLE);
+                isLoading = false;
             }
-
             private void showProgressBar() {
                 progressBar.setVisibility(View.VISIBLE);
+                isLoading = true;
             }
 
         });
 
+
+        /**
+         * Setup OnScrollListener for the recycle view to loads news when
+         * it reaches the bottom of the list
+         */
+        searchListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView searchListView, int dx, int dy) {
+                super.onScrolled(searchListView, dx, dy);
+
+                // Get the positions and counts for condition testing
+                LinearLayoutManager layoutManager = (LinearLayoutManager) searchListView.getLayoutManager();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+
+                // Condition testing for pagination
+                boolean isNoErrors = !isError;
+                boolean isNotLoadingAndNotLastPage = !isLoading && !isLastPage;
+                boolean isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount;
+                boolean isNotAtBeginning = firstVisibleItemPosition >= 0;
+                boolean isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE;
+                boolean canPaginate = isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem &&
+                        isNotAtBeginning && isTotalMoreThanVisible && isScrolling;
+
+                // If all conditions checks out, do pagination
+                if (canPaginate) {
+                    viewModel.searchNews(editText_search.getText().toString());
+                    isScrolling = false;
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView searchListView, int newState) {
+                super.onScrollStateChanged(searchListView, newState);
+
+                // Set the scrolling to true if scrolling. Use for pagination
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    isScrolling = true;
+                }
+            }
+        });
+
+
+        
 
 //        /**
 //         * Instantiate Swipe refresh Layout
@@ -287,4 +356,6 @@ public class SearchFragment extends Fragment {
         FakeDataSource fakeDataSource = new FakeDataSource();
 //        postsListAdapter.submitList(fakeDataSource.getFakeListNews());
     }
+
+
 }

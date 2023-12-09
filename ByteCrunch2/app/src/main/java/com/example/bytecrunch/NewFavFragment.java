@@ -148,7 +148,7 @@ public class NewFavFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 viewModel.saveArticle(resultsItem);
-                                Snackbar.make(view, "Restored!", Snackbar.LENGTH_LONG);
+                                Snackbar.make(view, "Restored!", Snackbar.LENGTH_SHORT).show();
                             }
                         }).show();
             }

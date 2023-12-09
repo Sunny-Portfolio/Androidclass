@@ -77,7 +77,7 @@
             android:maxLines="1"
             android:textSize="16sp"
             android:text="@{NewsPostText.source.title}"
-            android:textColor="@color/dark_text_color"
+            android:textColor="?attr/source_color"
             android:fontFamily="?attr/source_font"
             app:layout_constraintBottom_toBottomOf="@+id/ID_news_txt_avatar"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,5 +1,8 @@
 package com.example.bytecrunch;
 
+import static com.example.bytecrunch.helper.Constants.COUNTRY_USA;
+import static com.example.bytecrunch.helper.Constants.QUERY_PAGE_SIZE;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -27,6 +31,12 @@ import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.ui.NewsViewModel;
 import com.example.bytecrunch.viewholder.NewsPostCallback;
 import com.example.bytecrunch.viewholder.PostsListAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,11 +55,17 @@ public class NewsListFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    RecyclerView recyclerView;
-    PostsListAdapter postsListAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
-    NewsViewModel viewModel;
-    ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private PostsListAdapter postsListAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private NewsViewModel viewModel;
+    private ProgressBar progressBar;
+
+    // Use for pagination condition
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private boolean isScrolling = false;
+    private boolean isError = false;
 
 
     public NewsListFragment() {
@@ -122,57 +138,6 @@ public class NewsListFragment extends Fragment {
             }
         });
 
-//        {
-//            @Override
-//            public void onPostItemClick(ResultsItem resultsItem) {
-//                Log.d("NEWSLIST", "onPostItemClick: NewsListFragment : ResultItem is : " + resultsItem);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("KEY_ResultItem", resultsItem);
-//                Navigation.findNavController(getActivity(), R.id.action_ID_btm_bar_home_to_newsDetailsFragment)
-//                        .navigate(R.id.action_ID_btm_bar_home_to_newsDetailsFragment, bundle);
-//            }
-//
-//            @Override
-//            public void onPostTextClick() {
-//                Log.d("NEWSLIST", "onPostTextClick: NewsListFragment : ResultItem is : " );
-//
-//            }
-//
-//            @Override
-//            public void onPostImageClick() {
-//                Log.d("NEWSLIST", "onPostImageClick: NewsListFragment : ResultItem is : " );
-//
-//            }
-//
-//            @Override
-//            public void onPostLongClick() {
-//
-//            }
-//        });
-
-
-//
-//        postsListAdapter.setOnNewsPostClickListener(new PostsListAdapter.OnPostItemClickEvent() {
-//            @Override
-//            public void onPostItemClick(ResultsItem resultsItem) {
-//
-//            }
-//
-//            @Override
-//            public void onPostTextClick() {
-//
-//            }
-//
-//            @Override
-//            public void onPostImageClick() {
-//
-//            }
-//
-//            @Override
-//            public void onPostLongClick() {
-//
-//            }
-//        });
 
 
 
@@ -182,25 +147,51 @@ public class NewsListFragment extends Fragment {
             viewModel = ((MainActivity) getActivity()).viewModel;
         }
 
+
+        /**
+         * Setup Observer for LiveData changes from ViewModel and update UI accordingly
+         */
         viewModel.grabTopNews().observe(getViewLifecycleOwner(), new Observer<Resource<ResponseAPI>>() {
             @Override
             public void onChanged(Resource<ResponseAPI> responseAPIResource) {
                 if (responseAPIResource instanceof Resource.Success) {
                     hideProgressBar();
 //                    hideErrorMessage();
+
+                    // Retrieve the actual data from the response
                     ResponseAPI responseAPI = ((Resource.Success<ResponseAPI>) responseAPIResource).getData();
 
                     if (responseAPI != null) {
-                        // TODO: 12/5/23 newsAdapter needs to change, ?to postsListAdapter
-//                        newsAdapter.differ.submitList(responseAPI.getArticles().toList());
-                        postsListAdapter.submitList(responseAPI.getArticles().getResults()); // get the list from API response
+                        // Submit the list of articles to the adapter to be displayed
+                        // There is a bug where the list is not loading more items when scrolled to
+                        // the bottom. Here are some work around.
 
-                        int pageSize = Constants.QUERY_PAGE_SIZE;
+                        // Fix 1 Set and pass new List
+                        List<ResultsItem> resultsItemList = new ArrayList<>(responseAPI.getArticles().getResults()) ;
+                        postsListAdapter.submitList((resultsItemList));
+
+                        // Fix 2 Turn into Json and convert back
+//                        List<ResultsItem> resultsItemList2 = responseAPI.getArticles().getResults();
+//                        Gson gson = new Gson();
+//                        String json = gson.toJson(resultsItemList2);
+//                        Type listType = new TypeToken<List<ResultsItem>>() {}.getType();
+//                        postsListAdapter.submitList(gson.fromJson(json, listType)); // This seem to fix for all
+
+                        // Fix 3 Use Java 8 Stream tool toList(). Must have API34
+//                        postsListAdapter.submitList(responseAPI.getArticles().getResults().stream().toList()); // Bug: this only works with API 34
+
+
+                        // These doesn't work
+//                        postsListAdapter.submitList(responseAPI.getArticles().getResults()); // Bug: this doesn't load more item
+
+
+                        // Last page checking and RecyclerView padding adjustment
+                        int pageSize = QUERY_PAGE_SIZE;
                         int totalPages = responseAPI.getArticles().getTotalResults() / pageSize + 2;
-//                        isLastPage = viewModel.getTopNewsPage() == totalPages;
-//                        if (isLastPage) {
-//                            rvBreakingNews.setPadding(0, 0, 0, 0);
-//                        }
+                        isLastPage = viewModel.getTopNewsPage() == totalPages;
+                        if (isLastPage) {
+                            recyclerView.setPadding(0, 0, 0, 0);
+                        }
                     }
                 } else if (responseAPIResource instanceof Resource.Error) {
                     hideProgressBar();
@@ -210,20 +201,75 @@ public class NewsListFragment extends Fragment {
 //                        showErrorMessage(message);
                     }
                 } else if (responseAPIResource instanceof Resource.Loading) {
+                    // Show the progress bar while loading data
                     showProgressBar();
                 }
 
-
             }
+
+
+            /**
+             * Set the Loading boolean accordingly when scrolling reaches bottom and is laoding
+             */
             private void hideProgressBar() {
                 progressBar.setVisibility(View.INVISIBLE);
+                isLoading = false;
             }
             private void showProgressBar() {
                 progressBar.setVisibility(View.VISIBLE);
+                isLoading = true;
             }
 
+        });
+
+
+
+
+        /**
+         * Setup OnScrollListener for the recycle view to loads news when
+         * it reaches the bottom of the list
+         */
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                // Get the positions and counts for condition testing
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+
+                // Condition testing for pagination
+                boolean isNoErrors = !isError;
+                boolean isNotLoadingAndNotLastPage = !isLoading && !isLastPage;
+                boolean isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount;
+                boolean isNotAtBeginning = firstVisibleItemPosition >= 0;
+                boolean isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE;
+                boolean canPaginate = isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem &&
+                        isNotAtBeginning && isTotalMoreThanVisible && isScrolling;
+
+                // If all conditions checks out, do pagination
+                if (canPaginate) {
+                    viewModel.getTopNews(COUNTRY_USA);
+                    isScrolling = false;
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // Set the scrolling to true if scrolling. Use for pagination
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    isScrolling = true;
+                }
+            }
 
         });
+
 
 
 
@@ -280,5 +326,10 @@ public class NewsListFragment extends Fragment {
         ResultsItem resultsItem = new ResultsItem();
 //        postsListAdapter.submitList(resultsItem.get);
         Log.d("News Fragment", "onViewCreated: sent fake data to adapter");
+
+
     }
+
+
+
 }

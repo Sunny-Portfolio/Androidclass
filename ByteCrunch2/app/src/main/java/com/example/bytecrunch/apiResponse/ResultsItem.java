@@ -36,14 +36,14 @@ public class ResultsItem implements Serializable {
 //	@SerializedName("wgt")
 //	private int wgt;
 
-	@SerializedName("dataType")
-	private String dataType;
-
-	@SerializedName("dateTimePub")
-	private String dateTimePub;
-
-	@SerializedName("videos")
-	private List<Object> videos;
+//	@SerializedName("dataType")
+//	private String dataType;
+//
+//	@SerializedName("dateTimePub")
+//	private String dateTimePub;
+//
+//	@SerializedName("videos")
+//	private List<Object> videos;
 
 	@SerializedName("source")
 	private Source source;
@@ -60,8 +60,8 @@ public class ResultsItem implements Serializable {
 	@SerializedName("url")
 	private String url;
 
-	@SerializedName("relevance")
-	private int relevance;
+//	@SerializedName("relevance")
+//	private int relevance;
 
 //	@SerializedName("sim")
 //	private Object sim;
@@ -69,11 +69,11 @@ public class ResultsItem implements Serializable {
 	@SerializedName("time")
 	private String time;
 
-	@SerializedName("lang")
-	private String lang;
-
-	@SerializedName("isDuplicate")
-	private boolean isDuplicate;
+//	@SerializedName("lang")
+//	private String lang;
+//
+//	@SerializedName("isDuplicate")
+//	private boolean isDuplicate;
 
 	@SerializedName("authors")
 	private List<AuthorsItem> authors;
@@ -131,17 +131,17 @@ public class ResultsItem implements Serializable {
 //		return wgt;
 //	}
 
-	public String getDataType(){
-		return dataType;
-	}
-
-	public String getDateTimePub(){
-		return dateTimePub;
-	}
-
-	public List<Object> getVideos(){
-		return videos;
-	}
+//	public String getDataType(){
+//		return dataType;
+//	}
+//
+//	public String getDateTimePub(){
+//		return dateTimePub;
+//	}
+//
+//	public List<Object> getVideos(){
+//		return videos;
+//	}
 
 	public Source getSource(){
 		return source;
@@ -163,9 +163,9 @@ public class ResultsItem implements Serializable {
 		return url;
 	}
 
-	public int getRelevance(){
-		return relevance;
-	}
+//	public int getRelevance(){
+//		return relevance;
+//	}
 
 //	public Object getSim(){
 //		return sim;
@@ -175,13 +175,13 @@ public class ResultsItem implements Serializable {
 		return time;
 	}
 
-	public String getLang(){
-		return lang;
-	}
-
-	public boolean isIsDuplicate(){
-		return isDuplicate;
-	}
+//	public String getLang(){
+//		return lang;
+//	}
+//
+//	public boolean isIsDuplicate(){
+//		return isDuplicate;
+//	}
 
 	public List<AuthorsItem> getAuthors(){
 		return authors;
@@ -227,17 +227,17 @@ public class ResultsItem implements Serializable {
 //		this.wgt = wgt;
 //	}
 
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
-	}
-
-	public void setDateTimePub(String dateTimePub) {
-		this.dateTimePub = dateTimePub;
-	}
-
-	public void setVideos(List<Object> videos) {
-		this.videos = videos;
-	}
+//	public void setDataType(String dataType) {
+//		this.dataType = dataType;
+//	}
+//
+//	public void setDateTimePub(String dateTimePub) {
+//		this.dateTimePub = dateTimePub;
+//	}
+//
+//	public void setVideos(List<Object> videos) {
+//		this.videos = videos;
+//	}
 
 	public void setSource(Source source) {
 		this.source = source;
@@ -259,9 +259,9 @@ public class ResultsItem implements Serializable {
 		this.url = url;
 	}
 
-	public void setRelevance(int relevance) {
-		this.relevance = relevance;
-	}
+//	public void setRelevance(int relevance) {
+//		this.relevance = relevance;
+//	}
 
 //	public void setSim(Object sim) {
 //		this.sim = sim;
@@ -271,13 +271,13 @@ public class ResultsItem implements Serializable {
 		this.time = time;
 	}
 
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
-
-	public void setDuplicate(boolean duplicate) {
-		isDuplicate = duplicate;
-	}
+//	public void setLang(String lang) {
+//		this.lang = lang;
+//	}
+//
+//	public void setDuplicate(boolean duplicate) {
+//		isDuplicate = duplicate;
+//	}
 
 	public void setAuthors(List<AuthorsItem> authors) {
 		this.authors = authors;
@@ -302,18 +302,18 @@ public class ResultsItem implements Serializable {
 						",dateTime = '" + dateTime + '\'' +
 						",image = '" + image + '\'' +
 //						",eventUri = '" + eventUri + '\'' +
-						",dataType = '" + dataType + '\'' +
-						",dateTimePub = '" + dateTimePub + '\'' +
-						",videos = '" + videos + '\'' +
+//						",dataType = '" + dataType + '\'' +
+//						",dateTimePub = '" + dateTimePub + '\'' +
+//						",videos = '" + videos + '\'' +
 						",source = '" + source + '\'' +
 						",title = '" + title + '\'' +
 						",body = '" + body + '\'' +
 						",uri = '" + uri + '\'' +
 						",url = '" + url + '\'' +
-						",relevance = '" + relevance + '\'' +
+//						",relevance = '" + relevance + '\'' +
 						",time = '" + time + '\'' +
-						",lang = '" + lang + '\'' +
-						",isDuplicate = '" + isDuplicate + '\'' +
+//						",lang = '" + lang + '\'' +
+//						",isDuplicate = '" + isDuplicate + '\'' +
 						",authors = '" + authors + '\'' +
 						"}";
 //		return

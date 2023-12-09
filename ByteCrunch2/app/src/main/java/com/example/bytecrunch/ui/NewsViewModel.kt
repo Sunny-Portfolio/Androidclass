@@ -97,14 +97,16 @@ class NewsViewModel (
     private fun handleTopNewsResponse(response: Response<ResponseAPI>) : Resource<ResponseAPI> {
         if(response.isSuccessful) {
             response.body()?.let { resultResponse ->
-//                topNewsPage++
-//                if(topNewsResponse == null) {
-//                    topNewsResponse = resultResponse
-//                } else {
-//                    val oldArticles = topNewsResponse?.articles
-//                    val newArticles = resultResponse.articles
-//                    oldArticles?.addAll(newArticles)
-//                }
+
+                // Handle loading news
+                topNewsPage++
+                if(topNewsResponse == null) {
+                    topNewsResponse = resultResponse
+                } else {
+                    val oldNews = topNewsResponse?.articles?.results
+                    val newNews = resultResponse.articles?.results
+                    newNews?.let { oldNews?.addAll(it) }
+                }
                 return Resource.Success(topNewsResponse ?: resultResponse)
             }
         }
@@ -133,16 +135,16 @@ class NewsViewModel (
     private fun handleSearchNewsResponse(response: Response<ResponseAPI>) : Resource<ResponseAPI> {
         if(response.isSuccessful) {
             response.body()?.let { resultResponse ->
-//                if(searchNewsResponse == null || newSearchQuery != oldSearchQuery) {
-//                    searchNewsPage = 1
-//                    oldSearchQuery = newSearchQuery
-//                    searchNewsResponse = resultResponse
-//                } else {
-//                    searchNewsPage++
-//                    val oldArticles = searchNewsResponse?.articles
-//                    val newArticles = resultResponse.articles
-//                    oldArticles?.addAll(newArticles)
-//                }
+                if(searchNewsResponse == null || newSearchQuery != oldSearchQuery) {
+                    searchNewsPage = 1
+                    oldSearchQuery = newSearchQuery
+                    searchNewsResponse = resultResponse
+                } else {
+                    searchNewsPage++
+                    val oldNews = searchNewsResponse?.articles?.results
+                    val newNews = resultResponse.articles?.results
+                    newNews?.let { oldNews?.addAll(it) }
+                }
                 return Resource.Success(searchNewsResponse ?: resultResponse)
             }
         }
