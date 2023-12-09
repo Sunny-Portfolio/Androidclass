@@ -27,8 +27,8 @@ public class ResultsItem implements Serializable {
 	@SerializedName("image")
 	private String image;
 
-	@SerializedName("eventUri")
-	private String eventUri;
+//	@SerializedName("eventUri")
+//	private String eventUri;
 
 //	@SerializedName("sentiment")
 //	private Object sentiment;
@@ -85,6 +85,10 @@ public class ResultsItem implements Serializable {
 	@SerializedName("bgColor")
 	private String bgColor = "GREY";
 
+	@SerializedName("isFav")
+	private Boolean fav = false;
+
+
 
 
 
@@ -115,10 +119,10 @@ public class ResultsItem implements Serializable {
 		return image;
 	}
 
-	public String getEventUri(){
-		return eventUri;
-	}
-
+//	public String getEventUri(){
+//		return eventUri;
+//	}
+//
 //	public Object getSentiment(){
 //		return sentiment;
 //	}
@@ -183,11 +187,18 @@ public class ResultsItem implements Serializable {
 		return authors;
 	}
 
+	public Boolean getFav() {
+		return fav;
+	}
+
 
 
 	/**
 	 * Setters
 	 */
+	public void setFav(Boolean fav) {
+		this.fav = fav;
+	}
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -204,9 +215,9 @@ public class ResultsItem implements Serializable {
 		this.image = image;
 	}
 
-	public void setEventUri(String eventUri) {
-		this.eventUri = eventUri;
-	}
+//	public void setEventUri(String eventUri) {
+//		this.eventUri = eventUri;
+//	}
 
 //	public void setSentiment(Object sentiment) {
 //		this.sentiment = sentiment;
@@ -290,7 +301,7 @@ public class ResultsItem implements Serializable {
 						"date = '" + date + '\'' +
 						",dateTime = '" + dateTime + '\'' +
 						",image = '" + image + '\'' +
-						",eventUri = '" + eventUri + '\'' +
+//						",eventUri = '" + eventUri + '\'' +
 						",dataType = '" + dataType + '\'' +
 						",dateTimePub = '" + dateTimePub + '\'' +
 						",videos = '" + videos + '\'' +

@@ -88,6 +88,7 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
         val favFab = view.findViewById<FloatingActionButton>(R.id.ID_webview_fav_btn)
         favFab.setOnClickListener(View.OnClickListener {
             Log.d("webview", "onViewCreated: saved : " + resultsItem)
+            resultsItem.fav = true;
             viewModel.saveArticle(resultsItem)
             Snackbar.make(view, "Saved article!", Snackbar.LENGTH_SHORT).show()
         })

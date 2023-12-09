@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WebViewFragment">
 
+    <data>
+        <variable
+            name="NewsItemData"
+            type="com.example.bytecrunch.apiResponse.ResultsItem" />
+    </data>
 
-    <WebView
-        android:id="@+id/ID_webView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-    </WebView>
+        <WebView
+            android:id="@+id/ID_webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ID_webview_fav_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fav_no_logo_red"
-        app:fabSize="normal"
-        android:layout_marginBottom="26dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Button.Circle"
-        android:layout_marginEnd="26dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        </WebView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ID_webview_fav_btn"
+            fav_check="@{NewsItemData.fav}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fav_no_logo_red"
+            app:fabSize="normal"
+            android:layout_marginBottom="26dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Button.Circle"
+            android:layout_marginEnd="26dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

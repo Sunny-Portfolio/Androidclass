@@ -1,5 +1,6 @@
 package com.example.bytecrunch;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.bytecrunch.apiResponse.ResultsItem;
@@ -18,6 +20,7 @@ import com.example.bytecrunch.databinding.FragmentNewsDetailsBinding;
 import com.example.bytecrunch.news.FakeDataSource;
 import com.example.bytecrunch.news.NewsPost;
 import com.example.bytecrunch.ui.NewsViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +34,7 @@ public class NewsDetailsFragment extends Fragment {
     private NewsDetailsFragmentArgs args;
     private ResultsItem resultsItem;
     private TextView tv_continue;
+    private ImageView iv_fav;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -92,12 +96,7 @@ public class NewsDetailsFragment extends Fragment {
 
 
 
-        // Temp Test to see if the binding works
-        FakeDataSource fakeDataSource = new FakeDataSource();
-        NewsPost post = fakeDataSource.generateRandomNewsItem();
 
-        post.setFav(true);
-//        fragmentNewsDetailsBinding.setNewsItemData(post);
 
         return fragmentNewsDetailsBinding.getRoot();
     }
@@ -132,6 +131,20 @@ public class NewsDetailsFragment extends Fragment {
             }
         });
 //        fragmentNewsDetailsBinding.setNewsItemData(resultsItem);
+
+        /**
+         * Set OnClickListener for fav button
+         */
+        iv_fav = view.findViewById(R.id.ID_newsDetail_fav_btn);
+        iv_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultsItem.setFav(true);
+                viewModel.saveArticle(resultsItem);
+                Snackbar.make(view, "Saved article!", Snackbar.LENGTH_SHORT).show();
+                iv_fav.setImageResource(R.drawable.fav_yes_logo_red);
+            }
+        });
     }
 
 

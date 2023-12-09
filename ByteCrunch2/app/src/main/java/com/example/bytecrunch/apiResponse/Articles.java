@@ -53,6 +53,7 @@ public class Articles{
 
 	public List<ResultsItem> getResults(){
 
+		// set a background color for each resultsitem
 		for (int i = 0; i < results.size(); i++) {
 			ResultsItem resultsItem = results.get(i);
 			resultsItem.setViewType(generateViewType(i));
