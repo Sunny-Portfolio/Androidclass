@@ -1,6 +1,8 @@
 package com.example.bytecrunch;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,9 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +33,10 @@ public class SettingsFragment extends Fragment {
     SettingsPref settingsPref;
     private RadioGroup themeSelection;
     private RadioButton pick_lightTheme, pick_darkTheme, pick_contrastTheme;
-    private Spinner fontSelection;
+    private Spinner fontSelection, feedbackSelection;
+    private Button sendEmail_btn;
+    private String emailSubject;
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,7 +92,7 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         /**
-         * Setup the radio button
+         * Setup the theme selection radio button
          */
         themeSelection = view.findViewById(R.id.ID_theme_selection);
         pick_lightTheme = view.findViewById(R.id.ID_theme_light);
@@ -208,6 +216,94 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
+        });
+
+
+        /**
+         * Setup Feedback selection spinner, and send email to developer)
+         */
+        feedbackSelection = (Spinner) view.findViewById(R.id.ID_settings_feedback_selection);
+
+        // Create an ArrayAdapter using the string array and a custom spinner layout.
+        ArrayAdapter<CharSequence> feedbackAdapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.feedback_list,
+                R.layout.layout_spinner
+        );
+
+        // Specify the custom layout to use when the list of choices appears.
+        feedbackAdapter.setDropDownViewResource(R.layout.layout_spinner_dropdown);
+
+        // Apply the adapter to the spinner.
+        feedbackSelection.setAdapter(feedbackAdapter);
+
+        // Set listener for feecback item selection, then send email with different email subject
+        feedbackSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = parent.getSelectedItem().toString();
+
+                Log.d("TAG", "onItemSelected: selected email : " + selectedItem);
+                switch (selectedItem) {
+                    case "Bug Report":
+                        emailSubject = "==BUG REPORT== ByteCrunch";
+                        break;
+                    case "Feedback":
+                        emailSubject = "==FEEDBACK== ByteCrunch";
+                        break;
+                    case "Business Enquiries":
+                        emailSubject = "==BUSINESS ENQUIRIES== ByteCrunch";
+                        break;
+                    default:
+                        emailSubject = "==BUG REPORT== ByteCrunch";
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                feedbackSelection.setSelection(0);
+            }
+
+
+
+        });
+
+
+        /**
+         * Setup the send email button
+         */
+        sendEmail_btn = view.findViewById(R.id.ID_settings_send_feedback);
+
+        sendEmail_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmailReport(emailSubject);
+            }
+
+            /**
+             * Method to send an email to developer
+             * @param emailSubject
+             */
+            private void sendEmailReport(String emailSubject) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setType("message/rfc822");
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@bytecrunch.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Please provide more details:");
+
+                try {
+//                    if (emailIntent.resolveActivity(getContext().getPackageManager()) != null) {
+
+                        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+//                    }
+
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(getContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         });
 
 
