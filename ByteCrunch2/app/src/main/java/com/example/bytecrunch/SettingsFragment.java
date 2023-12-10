@@ -89,7 +89,7 @@ public class SettingsFragment extends Fragment {
         themeSelection = view.findViewById(R.id.ID_theme_selection);
         pick_lightTheme = view.findViewById(R.id.ID_theme_light);
         pick_darkTheme = view.findViewById(R.id.ID_theme_dark);
-        pick_contrastTheme = view.findViewById(R.id.ID_theme_contrast);
+//        pick_contrastTheme = view.findViewById(R.id.ID_theme_contrast);
 
         /**
          * Shared Preference object to store settings
@@ -106,9 +106,9 @@ public class SettingsFragment extends Fragment {
             case SettingsPref.THEME_DARK:
                 pick_darkTheme.setChecked(true);
                 break;
-            case SettingsPref.THEME_CONTRAST:
-                pick_contrastTheme.setChecked(true);
-                break;
+//            case SettingsPref.THEME_CONTRAST:
+//                pick_contrastTheme.setChecked(true);
+//                break;
             default:
                 pick_lightTheme.setChecked(true);
 
@@ -127,8 +127,8 @@ public class SettingsFragment extends Fragment {
                     settingsPref.setThemeSelection(SettingsPref.THEME_LIGHT);
                 else if (checkedId == R.id.ID_theme_dark)
                     settingsPref.setThemeSelection(SettingsPref.THEME_DARK);
-                else if (checkedId == R.id.ID_theme_contrast)
-                    settingsPref.setThemeSelection(SettingsPref.THEME_CONTRAST);
+//                else if (checkedId == R.id.ID_theme_contrast)
+//                    settingsPref.setThemeSelection(SettingsPref.THEME_CONTRAST);
                 else
                     settingsPref.setThemeSelection(SettingsPref.THEME_LIGHT);
 

@@ -64,13 +64,13 @@
             android:fontFamily="?attr/title_font"
             android:text="@string/Str_dark_theme" />
 
-        <RadioButton
-            android:id="@+id/ID_theme_contrast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="?attr/text_color"
-            android:fontFamily="?attr/title_font"
-            android:text="@string/Str_contrast_theme" />
+<!--        <RadioButton-->
+<!--            android:id="@+id/ID_theme_contrast"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="?attr/text_color"-->
+<!--            android:fontFamily="?attr/title_font"-->
+<!--            android:text="@string/Str_contrast_theme" />-->
     </RadioGroup>
 
     <TextView
