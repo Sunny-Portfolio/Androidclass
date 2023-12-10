@@ -30,8 +30,8 @@
 
 
             <ImageView
-                glide_url="@{NewsItemData.image}"
                 android:id="@+id/imageView5"
+                glide_url="@{NewsItemData.image}"
                 android:layout_width="0dp"
                 android:layout_height="210dp"
                 android:scaleType="centerCrop"
@@ -101,31 +101,38 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ID_newsDetails_title" />
 
+
             <ImageView
                 android:id="@+id/ID_newsDetail_blogName_BG"
                 set_ImgPost_BG="@{NewsItemData.bgColor}"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginBottom="4dp"
                 android:alpha="0.8"
-                app:layout_constraintBottom_toBottomOf="@+id/ID_newsDetail_blogName"
+                app:layout_constraintBottom_toBottomOf="@+id/ID_newsDetail_blogLogo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/ID_newsDetail_blogLogo" />
 
             <TextView
                 android:id="@+id/ID_newsDetail_blogName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="16dp"
-                android:text="@{NewsItemData.source.title}"
-                android:textSize="36sp"
-                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:autoSizeMaxTextSize="36sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="fill_vertical"
                 android:fontFamily="?attr/source_font"
+                android:text="@{NewsItemData.source.title}"
                 android:textColor="@color/dark_text_color"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/ID_newsDetail_blogLogo"
-                app:layout_constraintStart_toEndOf="@+id/ID_newsDetail_blogLogo" />
-
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/ID_newsDetail_blogLogo"
+                app:layout_constraintTop_toTopOf="@+id/ID_newsDetail_blogLogo" />
 
 
             <TextView
@@ -156,6 +163,8 @@
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ID_newsDetail_article" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
