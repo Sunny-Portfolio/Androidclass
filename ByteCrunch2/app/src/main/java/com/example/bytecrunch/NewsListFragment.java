@@ -156,7 +156,7 @@ public class NewsListFragment extends Fragment {
             public void onChanged(Resource<ResponseAPI> responseAPIResource) {
                 if (responseAPIResource instanceof Resource.Success) {
                     hideProgressBar();
-//                    hideErrorMessage();
+                    hideErrorMessage();
 
                     // Retrieve the actual data from the response
                     ResponseAPI responseAPI = ((Resource.Success<ResponseAPI>) responseAPIResource).getData();
@@ -198,7 +198,7 @@ public class NewsListFragment extends Fragment {
                     String message = ((Resource.Error) responseAPIResource).getMessage();
                     if (message != null) {
                         Toast.makeText(getContext(), "An error occurred: " + message, Toast.LENGTH_LONG).show();
-//                        showErrorMessage(message);
+                        showErrorMessage(message);
                     }
                 } else if (responseAPIResource instanceof Resource.Loading) {
                     // Show the progress bar while loading data
@@ -218,6 +218,17 @@ public class NewsListFragment extends Fragment {
             private void showProgressBar() {
                 progressBar.setVisibility(View.VISIBLE);
                 isLoading = true;
+            }
+
+            private void hideErrorMessage() {
+//                itemErrorMessage.visibility = View.INVISIBLE;
+                isError = false;
+            }
+
+            private void showErrorMessage(String message) {
+//                itemErrorMessage.visibility = View.VISIBLE;
+//                tvErrorMessage.text = message;
+                isError = true;
             }
 
         });

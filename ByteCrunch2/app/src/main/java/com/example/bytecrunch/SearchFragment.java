@@ -215,12 +215,15 @@ public class SearchFragment extends Fragment {
         });
 
 
+        /**
+         * Setup Observer for LiveData changes from ViewModel and update UI accordingly
+        */
         viewModel.grabSearchNews().observe(getViewLifecycleOwner(), new Observer<Resource<ResponseAPI>>() {
             @Override
             public void onChanged(Resource<ResponseAPI> responseAPIResource) {
                 if (responseAPIResource instanceof Resource.Success) {
                     hideProgressBar();
-//                    hideErrorMessage();
+                    hideErrorMessage();
                     ResponseAPI responseAPI = ((Resource.Success<ResponseAPI>) responseAPIResource).getData();
 
                     if (responseAPI != null) {
@@ -242,7 +245,7 @@ public class SearchFragment extends Fragment {
                     String message = ((Resource.Error) responseAPIResource).getMessage();
                     if (message != null) {
                         Toast.makeText(getContext(), "An error occurred: " + message, Toast.LENGTH_LONG).show();
-//                        showErrorMessage(message);
+                        showErrorMessage(message);
                     }
                 } else if (responseAPIResource instanceof Resource.Loading) {
                     showProgressBar();
@@ -261,6 +264,18 @@ public class SearchFragment extends Fragment {
             private void showProgressBar() {
                 progressBar.setVisibility(View.VISIBLE);
                 isLoading = true;
+            }
+
+
+            private void hideErrorMessage() {
+//                itemErrorMessage.visibility = View.INVISIBLE;
+                isError = false;
+            }
+
+            private void showErrorMessage(String message) {
+//                itemErrorMessage.visibility = View.VISIBLE;
+//                tvErrorMessage.text = message;
+                isError = true;
             }
 
         });
