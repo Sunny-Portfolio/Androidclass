@@ -78,6 +78,7 @@ class WebViewFragment : Fragment(R.layout.fragment_web_view) {
         val webView = view.findViewById<WebView>(R.id.ID_webView)
         webView.apply {
             webViewClient = WebViewClient()
+            // TODO: here I can use intend instead 
             loadUrl(resultsItem.url)
         }
 
