@@ -168,7 +168,7 @@ public class NewsListFragment extends Fragment {
 
                         // Fix 1 Set and pass new List
                         List<ResultsItem> resultsItemList = new ArrayList<>(responseAPI.getArticles().getResults()) ;
-                        postsListAdapter.submitList((resultsItemList));
+                        postsListAdapter.submitList(resultsItemList);
 
                         // Fix 2 Turn into Json and convert back
 //                        List<ResultsItem> resultsItemList2 = responseAPI.getArticles().getResults();
@@ -291,6 +291,7 @@ public class NewsListFragment extends Fragment {
         /**
          * Instantiate Swipe refresh Layout
          * and setup action when news list is refreshed
+         * Currently not updating list.
          */
         swipeRefreshLayout = view.findViewById(R.id.ID_newsList_swipeLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -305,6 +306,10 @@ public class NewsListFragment extends Fragment {
                         // TODO: 12/3/23 change this, currently no refresh data
 //                        postsListAdapter.submitList(FakeDataSource.getFakeUpdatedStaticListNews());
 //                        postsListAdapter.submitList(responseAPI.getArticles().getResults());
+
+//                        List<ResultsItem> resultsItemList = new ArrayList<>(.getArticles().getResults()) ;
+//                        postsListAdapter.submitList;
+//                        viewModel.getTopNews(COUNTRY_USA);
 
 
                         swipeRefreshLayout.setRefreshing(false);
@@ -328,19 +333,8 @@ public class NewsListFragment extends Fragment {
             }
         });
 
-        /**
-         * fake data
-         */
-//        FakeDataSource fakeDataSource = new FakeDataSource();
-//        postsListAdapter.submitList(fakeDataSource.getFakeListNews());
-//
-        ResultsItem resultsItem = new ResultsItem();
-//        postsListAdapter.submitList(resultsItem.get);
-        Log.d("News Fragment", "onViewCreated: sent fake data to adapter");
-
 
     }
-
 
 
 }
