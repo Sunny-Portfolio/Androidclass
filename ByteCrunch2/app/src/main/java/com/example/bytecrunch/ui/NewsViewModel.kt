@@ -3,9 +3,7 @@ package com.example.bytecrunch.ui
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
-import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +16,7 @@ import com.example.bytecrunch.apiResponse.ResponseAPI
 import com.example.bytecrunch.repository.NewsRepo
 import com.example.bytecrunch.helper.Resource
 import com.example.bytecrunch.helper.Constants.Companion.COUNTRY_USA
-import com.example.bytecrunch.helper.NewsApplication
+import com.example.bytecrunch.NewsApplication
 
 
 class NewsViewModel (
@@ -51,32 +49,40 @@ class NewsViewModel (
      * Function that execute API call
      */
     fun getTopNews(countryCode: String) = viewModelScope.launch {
-//        safeTopNewsCall(countryCode)
+        safeTopNewsCall(countryCode)
 
-        topNews.postValue(Resource.Loading())
-        val response = newsRepo.getTopNews(countryCode, topNewsPage)
-        topNews.postValue(handleTopNewsResponse(response))
+//        topNews.postValue(Resource.Loading())
+//        val response = newsRepo.getTopNews(countryCode, topNewsPage)
+//        topNews.postValue(handleTopNewsResponse(response))
 
     }
 
     fun searchNews(searchQuery: String) = viewModelScope.launch {
-//        safeSearchNewsCall(searchQuery)
+        safeSearchNewsCall(searchQuery)
 
 
-        newSearchQuery = searchQuery
-        searchNews.postValue(Resource.Loading())
-        val response = newsRepo.searchNews(searchQuery, searchNewsPage)
-        searchNews.postValue(handleSearchNewsResponse(response))
+//        newSearchQuery = searchQuery
+//        searchNews.postValue(Resource.Loading())
+//        val response = newsRepo.searchNews(searchQuery, searchNewsPage)
+//        searchNews.postValue(handleSearchNewsResponse(response))
 
     }
 
-
-    private suspend fun safeTopNewsCall(countryCode: String) {
+    private val TAG = "NewsViewModel"
+    /**
+     * Check internet connections and handle news page API response
+     */
+    private suspend fun safeTopNewsCall(countryUrl: String) {
         topNews.postValue(Resource.Loading())
         try {
             if(hasInternetConnection()) {
-                val response = newsRepo.getTopNews(countryCode, topNewsPage)
+                Log.d(TAG, "safeTopNewsCall: pass internet check 1")
+                val response = newsRepo.getTopNews(countryUrl, topNewsPage)
+                Log.d(TAG, "safeTopNewsCall: pass internet check 2")
+
                 topNews.postValue(handleTopNewsResponse(response))
+                Log.d(TAG, "safeTopNewsCall: pass internet check 3")
+
             } else {
                 topNews.postValue(Resource.Error("No internet connection"))
             }
@@ -91,9 +97,7 @@ class NewsViewModel (
         }
     }
 
-    /**
-     * Handle API response and return success state or error state
-     */
+
     private fun handleTopNewsResponse(response: Response<ResponseAPI>) : Resource<ResponseAPI> {
         if(response.isSuccessful) {
             response.body()?.let { resultResponse ->
@@ -114,6 +118,9 @@ class NewsViewModel (
     }
 
 
+    /**
+     * Check internet connections and handle search page API response
+     */
     private suspend fun safeSearchNewsCall(searchQuery: String) {
         newSearchQuery = searchQuery
         searchNews.postValue(Resource.Loading())
@@ -152,9 +159,10 @@ class NewsViewModel (
     }
 
 
-    private val TAG = "NewsViewModel"
+    /**
+     * Define Room database access methods
+     */
     fun saveArticle(resultsItem: ResultsItem) = viewModelScope.launch {
-        Log.d(TAG, "saveArticle: resultItem is : " + resultsItem)
         newsRepo.updateInsert(resultsItem)
     }
 
@@ -164,47 +172,25 @@ class NewsViewModel (
         newsRepo.deleteArticle(resultsItem)
     }
 
-//    // Saves a `ResultsItem` object representing a news article to the local database using the `newsRepo` instance.
-//    fun saveArticle(resultsItem: ResultsItem) = viewModelScope.launch {
-//        newsRepo.updateInsert(resultsItem)
-//    }
-//
-//    // Retrieves all saved news articles from the local database using the `newsRepo` instance and returns the results as a LiveData stream.
-//    fun getSavedNews(): LiveData<List<ResultsItem>> {
-//        return newsRepo.getSavedNews()
-//    }
-//
-//    // Deletes a `ResultsItem` object representing a saved news article from the local database using the `newsRepo` instance.
-//    fun deleteArticle(resultsItem: ResultsItem) = viewModelScope.launch {
-//        newsRepo.deleteArticle(resultsItem)
-//    }
 
 
 
-
-
+    /**
+     * Checks if the user has Internet Connection (works only for API > 23)
+     */
     private fun hasInternetConnection(): Boolean {
+        Log.d(TAG, "hasInternetConnection: service status : " + Context.CONNECTIVITY_SERVICE
+         + " context is : " )
         val connectivityManager = getApplication<NewsApplication>().getSystemService(
-                Context.CONNECTIVITY_SERVICE
-        ) as ConnectivityManager
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val activeNetwork = connectivityManager.activeNetwork ?: return false
-            val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-            return when {
-                capabilities.hasTransport(TRANSPORT_WIFI) -> true
-                capabilities.hasTransport(TRANSPORT_CELLULAR) -> true
-                capabilities.hasTransport(TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            connectivityManager.activeNetworkInfo?.run {
-                return when(type) {
-                    TYPE_WIFI -> true
-                    TYPE_MOBILE -> true
-                    TYPE_ETHERNET -> true
-                    else -> false
-                }
-            }
+            Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val activeNetwork = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
+        return when {
+            capabilities.hasTransport(TRANSPORT_WIFI) -> true
+            capabilities.hasTransport(TRANSPORT_CELLULAR) -> true
+            capabilities.hasTransport(TRANSPORT_ETHERNET) -> true
+            else -> false
         }
         return false
     }
