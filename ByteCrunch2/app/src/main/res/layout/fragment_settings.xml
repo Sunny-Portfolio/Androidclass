@@ -19,6 +19,7 @@
         android:text="@string/Str_settings"
         android:textColor="?attr/text_color"
         android:textSize="40sp"
+        android:fontFamily="?attr/title_font"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +33,7 @@
         android:layout_marginEnd="16dp"
         android:text="@string/Str_themes"
         android:textColor="?attr/source_color"
+        android:fontFamily="?attr/title_font"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/text_color"
+            android:fontFamily="?attr/title_font"
             android:text="@string/Str_light_theme" />
 
         <RadioButton
@@ -58,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/text_color"
+            android:fontFamily="?attr/title_font"
             android:text="@string/Str_dark_theme" />
 
         <RadioButton
@@ -65,6 +69,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="?attr/text_color"
+            android:fontFamily="?attr/title_font"
             android:text="@string/Str_contrast_theme" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/ID_settings_font_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/Str_font"
+        android:textColor="?attr/source_color"
+        android:fontFamily="?attr/title_font"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ID_theme_selection" />
+
+    <Spinner
+        android:id="@+id/ID_settings_font_select"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="?attr/title_font"
+        android:textColor="?attr/text_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ID_settings_font_title" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

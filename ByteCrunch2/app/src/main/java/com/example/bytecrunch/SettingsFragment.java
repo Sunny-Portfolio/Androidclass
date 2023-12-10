@@ -8,11 +8,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +28,7 @@ public class SettingsFragment extends Fragment {
     SettingsPref settingsPref;
     private RadioGroup themeSelection;
     private RadioButton pick_lightTheme, pick_darkTheme, pick_contrastTheme;
+    private Spinner fontSelection;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -86,6 +91,9 @@ public class SettingsFragment extends Fragment {
         pick_darkTheme = view.findViewById(R.id.ID_theme_dark);
         pick_contrastTheme = view.findViewById(R.id.ID_theme_contrast);
 
+        /**
+         * Shared Preference object to store settings
+         */
         settingsPref = new SettingsPref(getContext());
 
         /**
@@ -126,6 +134,79 @@ public class SettingsFragment extends Fragment {
 
                 getActivity().recreate();
 
+            }
+        });
+
+
+        /**
+         * Setup the font selection spinner
+         */
+        fontSelection = (Spinner) view.findViewById(R.id.ID_settings_font_select);
+
+        // Create an ArrayAdapter using the string array and a custom spinner layout.
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.font_list,
+                R.layout.layout_spinner
+        );
+
+        // Specify the custom layout to use when the list of choices appears.
+        adapter.setDropDownViewResource(R.layout.layout_spinner_dropdown);
+
+        // Apply the adapter to the spinner.
+        fontSelection.setAdapter(adapter);
+
+        // Set listener for font item selection
+        fontSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedFont = parent.getSelectedItem().toString();
+                Log.d("TAG", "onItemSelected: spinner item is : " + selectedFont + currentFont);
+
+                switch (selectedFont) {
+                    case "Montserrat":
+                        settingsPref.setFontSelection("montserrat"); refreshActivity("montserrat");
+                        break;
+                    case "Nunito Sans":
+                        settingsPref.setFontSelection("nunito_sans"); refreshActivity("nunito_sans");
+                        break;
+                    case "Playfair Display":
+                        settingsPref.setFontSelection("playfair_display"); refreshActivity("playfair_display");
+                        break;
+                    case "Poppins":
+                        settingsPref.setFontSelection("poppins"); refreshActivity("poppins");
+                        break;
+                    case "Proxima Nova":
+                        settingsPref.setFontSelection("proxima_nova"); refreshActivity("proxima_nova");
+                        break;
+                    case "Roboto":
+                        settingsPref.setFontSelection("roboto"); refreshActivity("roboto");
+                        break;
+                    case "Lato":
+                        settingsPref.setFontSelection("lato"); refreshActivity("lato");
+                        break;
+                    default:
+                        settingsPref.setFontSelection("roboto"); refreshActivity("roboto");
+
+                }
+
+
+
+            }
+
+            /**
+             * Check if the selected font is different from the current font
+             * recreate activity if different
+             */
+            String currentFont = settingsPref.getFontSelection();
+            private void refreshActivity(String newFont) {
+                if (!newFont.equals(currentFont)) {
+                    getActivity().recreate();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 

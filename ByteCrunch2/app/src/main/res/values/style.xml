@@ -36,20 +36,26 @@
     </style>
 
 
-    <!--    here we define dark theme style -->
-<!--    <style name="LightTheme" parent="Theme.AppCompat.Light.NoActionBar" >-->
+    <!-- Font style options -->
+    <style name="SetFont_playfair_display" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="source_font">@font/nunito_sans</item>
+        <item name="title_font">@font/playfair_display</item>
+        <item name="body_font">@font/playfair_display</item>
+    </style>
 
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="text_color" >@color/light_text_color</item>-->
-<!--        <item name="background_color">@color/light_bg_color</item>-->
-<!--        <item name="hint_color" >@color/grey60</item>-->
+    <style name="SetFont_montserrat" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="source_font">@font/nunito_sans</item>
+        <item name="title_font">@font/montserrat</item>
+        <item name="body_font">@font/montserrat</item>
+    </style>
 
-<!--        <item name="source_font">@font/nunito_sans</item>-->
-<!--        <item name="title_font">@font/roboto</item>-->
-<!--        <item name="body_font">@font/roboto</item>-->
-<!--    </style>-->
+    <style name="SetFont_roboto" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="source_font">@font/nunito_sans</item>
+        <item name="title_font">@font/roboto</item>
+        <item name="body_font">@font/roboto</item>
+    </style>
+
+
 </resources>
 
 
