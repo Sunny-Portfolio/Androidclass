@@ -84,6 +84,7 @@ class NewsViewModel (
                 Log.d(TAG, "safeTopNewsCall: pass internet check 3")
 
             } else {
+                Log.d(TAG, "safeTopNewsCall: No internet")
                 topNews.postValue(Resource.Error("No internet connection"))
             }
         } catch(t: Throwable) {
