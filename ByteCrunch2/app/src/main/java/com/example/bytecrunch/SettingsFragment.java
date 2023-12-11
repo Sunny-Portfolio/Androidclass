@@ -164,7 +164,34 @@ public class SettingsFragment extends Fragment {
         // Apply the adapter to the spinner.
         fontSelection.setAdapter(adapter);
 
-        // Set listener for font item selection
+
+        switch (settingsPref.getFontSelection()) {
+            case "montserrat":
+                fontSelection.setSelection(0);
+                break;
+            case "nunito_sans":
+                fontSelection.setSelection(1);
+                break;
+            case "playfair_display":
+                fontSelection.setSelection(2);
+                break;
+            case "poppins":
+                fontSelection.setSelection(3);
+                break;
+            case "proxima_nova":
+                fontSelection.setSelection(4);
+                break;
+            case "roboto":
+                fontSelection.setSelection(5);
+                break;
+            case "lato":
+                fontSelection.setSelection(6);
+                break;
+            default:
+                fontSelection.setSelection(5);
+        }
+
+                // Set listener for font item selection
         fontSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

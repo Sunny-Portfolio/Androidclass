@@ -6,6 +6,9 @@
         <attr name="text_color" format="color" />
         <attr name="hint_color" format="color" />
         <attr name="source_color" format="color" />
+        <attr name="nav_btn_color" format="color" />
+        <attr name="nav_btn_color_rev" format="color" />
+
 
         <attr name="body_font" format="string" />
         <attr name="title_font" format="string" />

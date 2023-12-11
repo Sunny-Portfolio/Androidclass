@@ -10,6 +10,8 @@
         <item name="background_color">@color/light_bg_color</item>
         <item name="hint_color" >@color/grey60</item>
         <item name="source_color">@color/grey90</item>
+        <item name="nav_btn_color">@color/light_text_color</item>
+        <item name="nav_btn_color_rev">@color/dark_text_color</item>
 
         <item name="source_font">@font/nunito_sans</item>
         <item name="title_font">@font/roboto</item>
@@ -30,6 +32,9 @@
         <item name="android:textColorSecondary">@color/dark_icon_tint_color</item>
         <item name="hint_color" >@color/grey30</item>
         <item name="source_color">@color/colorAccent</item>
+        <item name="nav_btn_color">@color/colorPrimary</item>
+        <item name="nav_btn_color_rev">@color/dark_text_color</item>
+
 
 
         <item name="source_font">@font/nunito_sans</item>
