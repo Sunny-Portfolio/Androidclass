@@ -9,11 +9,14 @@ public class SettingsPref {
     private int themeSelection;
     private static final String KEY_OF_THEME = "key_theme";
     private static final String KEY_OF_FONT = "key_font";
+    private static final String KEY_OF_DIS_COUNT = "key_disclaimer";
+
 
     public static final int THEME_LIGHT = 0;
     public static final int THEME_DARK = 1;
     public static final int THEME_CONTRAST = 2;
     private String fontSelection;
+    private int disclaimerCount = 0;
 
 
     /**
@@ -24,7 +27,7 @@ public class SettingsPref {
         saveSettings = context.getSharedPreferences("APP_Settings", Context.MODE_PRIVATE);
         themeSelection = saveSettings.getInt(KEY_OF_THEME, 0);
         fontSelection = saveSettings.getString(KEY_OF_FONT, "roboto");
-
+        disclaimerCount = saveSettings.getInt(KEY_OF_DIS_COUNT, 0);
     }
 
 
@@ -38,6 +41,11 @@ public class SettingsPref {
 
     public String getFontSelection() {
         return fontSelection;
+    }
+
+
+    public int getDisclaimerCount() {
+        return disclaimerCount;
     }
 
 
@@ -62,5 +70,16 @@ public class SettingsPref {
         SharedPreferences.Editor editor = saveSettings.edit();
         editor.putString(KEY_OF_FONT, font);
         editor.commit();
+    }
+
+    /**
+     * Set and save disclaimer count
+     */
+    public void setDisclaimerCount() {
+        if (this.disclaimerCount == 0) {
+            SharedPreferences.Editor editor = saveSettings.edit();
+            editor.putInt(KEY_OF_DIS_COUNT, 1);
+            editor.commit();
+        }
     }
 }
