@@ -3,6 +3,8 @@ package com.example.bytecrunch;
 import static com.example.bytecrunch.helper.Constants.COUNTRY_USA;
 import static com.example.bytecrunch.helper.Constants.QUERY_PAGE_SIZE;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.bytecrunch.apiResponse.ResponseAPI;
 import com.example.bytecrunch.helper.Constants;
+import com.example.bytecrunch.helper.NetworkChangeReceiver;
 import com.example.bytecrunch.helper.Resource;
 import com.example.bytecrunch.apiResponse.ResultsItem;
 import com.example.bytecrunch.ui.NewsViewModel;
@@ -44,7 +47,7 @@ import java.util.List;
  * Use the {@link NewsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewsListFragment extends Fragment {
+public class NewsListFragment extends Fragment implements NetworkChangeReceiver.NetworkChangeListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,6 +69,7 @@ public class NewsListFragment extends Fragment {
     private boolean isLastPage = false;
     private boolean isScrolling = false;
     private boolean isError = false;
+    private NetworkChangeReceiver networkChangeReceiver;
 
 
     public NewsListFragment() {
@@ -122,6 +126,13 @@ public class NewsListFragment extends Fragment {
         recyclerView.setAdapter(postsListAdapter);
 
         progressBar = view.findViewById(R.id.ID_newsList_progressBar);
+
+        // Initialize and register the Network change BroadcastReceiver
+        networkChangeReceiver = new NetworkChangeReceiver(this);
+        // This is depreciated, but use it anyway as  I need to have a broadcast receiver for the project
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        getActivity().registerReceiver(networkChangeReceiver, filter);
 
 
         /**
@@ -231,6 +242,10 @@ public class NewsListFragment extends Fragment {
                 isError = true;
             }
 
+            private void refreshNews() {
+
+            }
+
         });
 
 
@@ -309,10 +324,13 @@ public class NewsListFragment extends Fragment {
 
 //                        List<ResultsItem> resultsItemList = new ArrayList<>(.getArticles().getResults()) ;
 //                        postsListAdapter.submitList;
-//                        viewModel.getTopNews(COUNTRY_USA);
+                        viewModel.getTopNews(COUNTRY_USA);
 
 
                         swipeRefreshLayout.setRefreshing(false);
+                        swipeRefreshLayout.stopNestedScroll();
+                        recyclerView.stopScroll();
+
 
 
                         /**
@@ -336,5 +354,27 @@ public class NewsListFragment extends Fragment {
 
     }
 
+    private static final String TAG = "NewsListFragment";
 
+    /**
+     * Implementation of the Custom Broadcast receiver interface
+     * If the internet is back on, load the new
+     */
+    @Override
+    public void onNetworkAvailable() {
+        if(viewModel != null){
+            Log.d(TAG, "onNetworkAvailable: 1");
+            viewModel.getTopNews(COUNTRY_USA);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // Unregister the BroadcastReceiver
+        if (networkChangeReceiver != null) {
+            getActivity().unregisterReceiver(networkChangeReceiver);
+        }
+    }
 }
